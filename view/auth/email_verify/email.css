@@ -1,0 +1,169 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: dosis;
+}
+
+@font-face {
+  font-family: "dosis";
+  src: url("../../assets/font/Dosis-VariableFont_wght.ttf");
+}
+
+#topS {
+  padding: 30px 30px;
+  color: rgb(14, 115, 231);
+  background-image: linear-gradient(to right, white, rgb(144, 189, 240));
+  animation: slide 5s infinite alternate;
+  background-size: 200%;
+  height: 20vh;
+  > div {
+    display: flex;
+    gap: 10px;
+    > img {
+      width: 30px;
+    }
+  }
+}
+
+#bottomS {
+  width: 100%;
+  background-color: whitesmoke;
+  height: 70vh;
+}
+
+#email-box {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: absolute;
+  top: 20%;
+  right: 30%;
+  background-color: white;
+  box-shadow: 1px 1px 10px black;
+  border-radius: 10px;
+  width: 60vh;
+  height: 70vh;
+  gap: 20px;
+  > div {
+    width: 80%;
+    > * {
+      color: rgb(14, 115, 231);
+    }
+  }
+  #img-ctnr {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > img {
+      width: 100px;
+    }
+  }
+  > form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 80%;
+    > input {
+      padding: 10px 5px;
+      width: 96%;
+      border-radius: 10px;
+      border: 1.5px solid black;
+    }
+    > input:focus {
+      outline: none;
+      border: 1px solid rgb(14, 115, 231);
+    }
+    > button {
+      border-radius: 10px;
+      border: none;
+      color: white;
+      padding: 10px 0px;
+      width: 100%;
+      background-color: rgb(14, 115, 231);
+    }
+    > button:hover {
+      cursor: pointer;
+      background-color: rgb(12, 91, 182);
+    }
+  }
+}
+
+@keyframes slide {
+  0% {
+    background-position: left;
+  }
+  100% {
+    background-position: right;
+  }
+}
+
+/* Alert */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay2 {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style for the alert box */
+.alert-box {
+  background: rgba(14, 115, 231, 0.5);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  position: relative;
+  width: 300px;
+}
+
+/* Style for the close icon */
+.alert-box .close-icon {
+  font-size: 50px;
+  color: red;
+  margin-bottom: 20px;
+}
+
+/* Style for the OK button */
+.alert-box button {
+  margin-top: 5px;
+  background: white;
+  color: rgb(14, 115, 231);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Show overlay and alert box */
+.overlay.show {
+  display: flex;
+}
+
+.overlay2.show {
+  display: flex;
+}
+
+#ceklis-icon {
+  color: green;
+}

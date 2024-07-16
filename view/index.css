@@ -1,0 +1,331 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family:dosis;
+}
+
+@font-face {
+    font-family: "dosis";
+    src: url("./assets/font/Dosis-VariableFont_wght.ttf");
+}
+
+header{
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 2;
+}
+
+button{
+    color:white;
+    border-radius:20px;
+    border:none;
+    background-color:rgb(14, 115, 231);
+}
+
+button:hover{
+    background-color:rgb(12, 91, 182);
+    cursor: pointer;
+}
+
+header{
+    display: flex;
+    padding: 40px 30px;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 5px 0px 8px black;
+    flex-wrap: wrap;
+    >div{
+        display: flex;
+        align-items: center;
+    }
+}
+
+.side-bar{
+    position: fixed;
+    width: 300px;
+    background-color: rgba(00, 00, 00, .9);
+    top: 0;
+    left: -300px;
+    bottom: 0;
+    z-index: 3;
+    transition: .5s;
+}
+
+#check:checked ~ .side-bar{
+    left:0;
+    transition: .5s;
+}
+
+#burger div:nth-child(3){
+    transform-origin: 0 0;
+}
+
+#burger div:nth-child(5){
+    transform-origin: 0 100%;
+}
+
+#check:checked ~ div:nth-child(3){
+    transform:scale(0);
+}
+
+#check:checked ~ div:nth-child(4){
+    transform: rotate(45deg) translate(-4px,-1px);
+}
+
+#check:checked ~ div:nth-child(5){
+    transform: rotate(-45deg) translate(3px,-1px);
+}
+
+#check{
+    display: none;
+}
+
+.side-bar ul{
+    margin-top: 40px;
+}
+
+.side-bar ul a{
+    border: none;
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+    padding: 10px 50px;
+    color: white;
+    text-decoration: none;
+    >button{
+        padding: 10px 30px;
+    }
+}
+
+.side-bar ul a li:hover{
+    transition: 5s;
+    background-color:rgb(12, 91, 182); 
+    text-decoration: underline;
+}
+
+#burger{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 0;
+    width: fit-content;
+    height: fit-content;
+}
+
+#burger:hover{
+    cursor: pointer;
+}
+
+#burger>div{
+    display: none;
+    width: 20px;
+    height: 20px;
+}
+
+.line{
+    border-top: 3px solid rgb(14, 115, 231);
+    border-radius: 5px;
+    margin: 3px 0;
+    transition: .5s;
+}
+
+#logo-klinik{
+    display: flex;
+    gap: 10px;
+}
+
+#cLog>img{
+    width: 50px;
+    height: 60px;
+}
+
+#cLog>#jud{
+    margin-left: 10px;
+    color: white;
+    font-size: 20pt;
+}
+
+#cLog{
+    display: flex;
+   align-items: center;
+   justify-content: center;
+   padding: 10px;
+   border-bottom: 1px solid white;
+}
+
+#logo-gigi{
+    width: 30px;
+}
+
+
+#klinikLogo{
+    >p{
+        font-size: 25px;
+        color: rgb(14, 115, 231);
+    }
+}
+
+#navigasi{
+    >#nav{
+        >ul{
+            display: flex;
+            justify-content:center;
+            align-items: center;
+            gap:50px;
+            >li{
+                >a{
+                >button{
+                    padding: 10px 40px;
+                }
+                }
+            }
+        }
+    }
+}
+
+/* Main */
+main{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    >section{
+        width: 25%;
+        padding: 100px 0px;
+    }
+}
+
+#sb{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    align-items: center;
+    >div{
+        >button{
+            padding: 20px 30px;
+        }
+    }
+}
+
+
+#slogan{
+    >p{
+        font-size: 25px;
+        color:rgb(14, 115, 231);
+    }
+    >#klinik{
+        font-size: 60px;
+        color:rgb(14, 115, 231);
+    }
+}
+
+#right{
+    margin-top: 30px;
+    height: 200px;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+#docter-photos{
+    z-index: 1;
+    position: absolute;
+    top: 1,1%;
+    right: 24%;
+    >img{
+        width: 300px;
+    }
+}
+
+.cashew-container {
+    z-index: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: -5px;
+    right: 24%;
+    >#square{
+        background-color:rgb(14, 115, 231);
+        border-radius:100% 50%;
+        width:300px;
+        height:400px;
+    }
+}
+
+
+/* Footer */
+footer{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#line1{
+    border-bottom: 2px solid rgb(14, 115, 231);
+    width: 50px;
+}
+
+#sosmedInfo{
+    display: flex;
+    gap: 10px;
+    >a{
+        >img{
+            width: 30px;
+        }
+    }
+}
+
+#line2{
+    border-bottom: 2px solid rgb(14, 115, 231);
+    width: 100%;
+}
+
+@media(max-width:721px){
+    #right{
+        width: 100%;
+    }
+
+    #sb{
+        width: 100%;
+    }
+
+    #btnRgstN{
+        width: 250px;
+    }
+
+    footer{
+        margin-top: 8px;
+    }
+
+    section{
+        padding: 50px 90px;
+    }
+}
+
+@media(max-width:555px){
+    #burger>div{
+        display: block;
+    }
+    #nav{
+        display: none;
+    }
+}
+
+@media(max-width:508px){
+    .cashew-container{
+        right: 5%;
+    }
+
+    #docter-photos{
+        right: 5%;
+    }
+}
+
+@media(max-width:412px){
+    footer{
+        margin-top: 30px;
+    }
+}

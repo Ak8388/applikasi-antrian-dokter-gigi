@@ -1,0 +1,299 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: dosis;
+}
+
+@font-face {
+  font-family: "dosis";
+  src: url("../../assets/font/Dosis-VariableFont_wght.ttf");
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  display: flex;
+}
+
+.sidebar {
+  left: 0;
+  background-color: #007bff;
+  color: white;
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  transition: width 0.8s;
+}
+
+.sidebar h2 {
+  text-align: center;
+  padding: 20px;
+  margin: 0;
+  background-color: #0056b3;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar ul li {
+  padding: 15px;
+  text-align: center;
+}
+
+.sidebar ul li a {
+  color: black;
+  text-decoration: none;
+  display: block;
+}
+
+.sidebar ul li a:hover {
+  background-color: #0056b3;
+}
+
+.content {
+  margin-left: 230px;
+  padding: 20px;
+  width: calc(100% - 230px);
+  transition: margin-left 0.3s, width 0.3s;
+}
+
+.content .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f0f0f0;
+  padding: 10px 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.content .header h1 {
+  margin: 0;
+}
+
+.content .header button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.disable-pass-inp{
+    pointer-events: none;
+    opacity: 0.5;
+    background-color: #0056b3;
+}
+
+.section {
+  display: none;
+}
+
+.section:target {
+  display: block;
+}
+
+table{
+    width:  200vh;
+    >thead{
+        background-color: #007bff;
+    }
+}
+
+tr>td{
+    padding: 10px;
+}
+
+#patients{
+    overflow-y: scroll;
+}
+
+tr:nth-child(even){
+    background-color: rgb(230, 227, 227);
+}
+
+#btn-del{
+    padding: 10px;
+    background-size: cover;
+    border: none;
+    background-image: url("../../assets/icons/delete.png");
+}
+
+#btn-edit{
+    padding: 10px;
+    margin-left: 5px;
+    background-size: cover;
+    border: none;
+    background-image: url("../../assets/icons/edit.png");
+}
+
+#doctors{
+  overflow-y: scroll;
+}
+
+#add-doctors-cntr
+{
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    padding: 0px 30px;
+    gap: 10px;
+    margin-bottom: 10px;
+    >img{
+        width: 30px;
+    }
+    >img:hover{
+        cursor: pointer;
+    }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    left: -300px;
+  }
+
+  .content {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* Alert */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style for the alert box */
+.alert-box {
+  background: rgba(14, 115, 231, 0.5);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  position: relative;
+  width: 300px;
+}
+
+/* Style for the close icon */
+.alert-box .close-icon {
+  font-size: 50px;
+  color: red;
+  margin-bottom: 20px;
+}
+
+/* Style for the OK button */
+.alert-box button {
+  margin-top: 5px;
+  background: white;
+  color: rgb(14, 115, 231);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Show overlay and alert box */
+.overlay.show {
+  display: flex;
+}
+
+/* Form Registration */
+.card-regist {
+    position: absolute;
+    top: 50%;
+    left: -300px;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+.sld-crd{
+  left: 50%;
+}
+
+.card-regist h2 {
+    margin-top: 0;
+    text-align: center;
+}
+
+.card-regist form {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-regist label {
+    margin-top: 10px;
+}
+
+.card-regist input, .card-regist select {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.card-regist button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.card-regist button:hover {
+    background-color: #0056b3;
+}
+
+/* Alert Delete */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+  text-align: center;
+}
+.modal-button {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+.modal-button.yes {
+  background-color: #4CAF50;
+  color: white;
+}
+.modal-button.no {
+  background-color: #f44336;
+  color: white;
+}

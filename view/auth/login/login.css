@@ -1,0 +1,248 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: dosis;
+}
+
+@font-face {
+  font-family: "dosis";
+  src: url("../../assets/font/Dosis-VariableFont_wght.ttf");
+}
+
+body {
+  background-color: whitesmoke;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: auto;
+}
+
+section {
+  padding: 10px 20px;
+  width: 50%;
+  height: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#left {
+  background-image: linear-gradient(to right, white, rgb(144, 189, 240));
+  animation: slide 5s infinite alternate;
+  background-size: 200%;
+}
+
+#cntr-logo {
+  > img {
+    width: 50px;
+  }
+  > p {
+    color: rgb(14, 115, 231);
+    font-size: 30px;
+  }
+  > h2 {
+    font-size: 40px;
+    color: rgb(14, 115, 231);
+  }
+}
+
+#ctr-text {
+  > p {
+    color: rgb(14, 115, 231);
+    font-size: 20px;
+  }
+}
+
+/* efek mengkilap */
+.efek-mengkilap {
+  position: relative;
+  display: inline-block;
+  width: fit-content;
+  height: fit-content;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.efek-mengkilap img {
+  display: block;
+  width: 50px;
+  height: auto;
+}
+
+.efek-mengkilap::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -130%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0)
+  );
+  transform: skewX(-25deg);
+  animation: shinyEffect 2s infinite;
+}
+
+#right {
+  display: flex;
+  align-items: center;
+}
+
+#text-login {
+  width: auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 50px;
+  > p {
+    color: rgb(14, 115, 231);
+  }
+  > .log {
+    font-weight: bold;
+    font-size: 30px;
+  }
+}
+
+.form-login {
+  width: 80%;
+  padding: 0px 90px;
+  > form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    > input {
+      padding: 10px 0px;
+      width: 100%;
+      border-radius: 10px;
+      border:1.5px solid black;
+    }
+    >input:focus{
+        outline: none;
+        border:1px solid rgb(14, 115, 231);
+    }
+    > button {
+      padding: 10px 0px;
+      width: 100%;
+      border: none;
+      color: white;
+      font-size: 20px;
+      background-color: rgb(14, 115, 231);
+      border-radius: 10px;
+    }
+    > button:hover {
+      background-color: rgb(12, 91, 182);
+      cursor: pointer;
+    }
+    > div {
+      width: 98%;
+      text-align: right;
+      > a {
+        text-decoration: none;
+        color: black;
+      }
+    }
+  }
+}
+
+#reg-cntr {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  > a {
+    color: black;
+    text-decoration: none;
+  }
+}
+
+@keyframes shinyEffect {
+  0% {
+    left: -150%;
+  }
+  50% {
+    left: 100%;
+  }
+  100% {
+    left: 150%;
+  }
+}
+
+@keyframes slide {
+  0% {
+    background-position: left;
+  }
+  100% {
+    background-position: right;
+  }
+}
+
+@media (max-width: 852px) {
+  #left {
+    display: none;
+  }
+  #right {
+    height: 70%;
+    width: 70vh;
+    box-shadow: 1px 1px 10px black;
+    border-radius: 10px;
+  }
+  main {
+    width: auto;
+    height: 140vh;
+  }
+}
+
+/* Alert */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style for the alert box */
+.alert-box {
+  background: rgba(14, 115, 231, 0.5);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  position: relative;
+  width: 300px;
+}
+
+/* Style for the close icon */
+.alert-box .close-icon {
+  font-size: 50px;
+  color: red;
+  margin-bottom: 20px;
+}
+
+/* Style for the OK button */
+.alert-box button {
+  margin-top: 5px;
+  background: white;
+  color: rgb(14, 115, 231);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Show overlay and alert box */
+.overlay.show {
+  display: flex;
+}

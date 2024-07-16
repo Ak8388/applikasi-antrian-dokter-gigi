@@ -1,0 +1,311 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: dosis;
+}
+
+@font-face {
+  font-family: "dosis";
+  src: url("../../../assets/font/Dosis-VariableFont_wght.ttf");
+}
+
+header {
+  width: 100%;
+  height: 40vh;
+  background-color: ;
+  background: linear-gradient(
+    to right,
+    rgb(14, 115, 231) 60%,
+    rgb(0, 183, 255)
+  );
+}
+
+main {
+  width: 60vh;
+  height: 70vh;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  position: absolute;
+  top: 20%;
+  left: 30%;
+  box-shadow: 1px 1px 10px black;
+  padding: 10px 30px;
+  transition: 0.8s;
+}
+
+#ctr-list-dr{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: scroll;
+  background-color: rgb(236, 234, 234);
+  padding: 10px 10px;
+  height: 88.3%;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.dr-cntr {
+  display: flex;
+  gap: 5px;
+  background-color: rgb(102, 191, 250);
+  border-radius: 10px;
+  > .ctr-img {
+    display: flex;
+    align-items:center;
+    .dr-photo {
+      width: 100px;
+    }
+  }
+  > .ctr-det {
+    >.dr-name{
+      color: white;
+      font-size: 20px;
+      font-weight:bold;
+    }
+    >.dr-degree{
+      color:white;
+      font-size:15px;
+    }
+  }
+}
+
+.dr-cntr:hover{
+  cursor: pointer;
+}
+
+.rmv-mn{
+  left: -500px;
+}
+
+/* Alert */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style for the alert box */
+.alert-box {
+  background: rgba(14, 115, 231, 0.5);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  position: relative;
+  width: 300px;
+}
+
+/* Style for the close icon */
+.alert-box .close-icon {
+  font-size: 50px;
+  color: red;
+  margin-bottom: 20px;
+}
+
+/* Style for the OK button */
+.alert-box button {
+  margin-top: 5px;
+  background: white;
+  color: rgb(14, 115, 231);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Show overlay and alert box */
+.overlay.show {
+  display: flex;
+}
+
+
+/* Doctor Detail */
+.cntr{  
+  width: fit-content;
+  height: fit-content;
+  position: absolute;
+  left: -500px;
+  top: 20%;
+  transition: 0.8s;
+  height: 75vh;
+  overflow-y: scroll;
+}
+
+.add-card{
+  left: 35%;
+}
+
+.card {
+    width: 350px;
+    background-color: #efefef;
+    border: none;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.image img {
+    transition: all 0.5s
+}
+
+.card:hover .image img {
+    transform: scale(1.5)
+}
+
+.btn {
+    height: 140px;
+    width: 140px;
+    border-radius: 50%
+}
+
+
+.name {
+  font-size: 22px;
+  font-weight: bold
+}
+
+
+#cntr-addr{
+  width: 75%;
+}
+
+.idd {
+  font-size: 14px;
+  font-weight: 600
+}
+
+.idd1 {
+  font-size: 12px
+}
+
+.btn1 {
+    height: 40px;
+    width: 150px;
+    border: none;
+    background-color: #000;
+    color: #aeaeae;
+    font-size: 15px
+}
+
+.text span {
+    font-size: 13px;
+    color: #545454;
+    font-weight: 500
+}
+
+hr .new1 {
+    border: 1px solid
+}
+
+#table tr{
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+tr:nth-child(even){
+  background-color: rgb(230, 227, 227);
+
+}
+
+tr{
+  >td{
+  padding: 10px;
+  }
+}
+
+#des-cntr{
+  width: 75%;
+}
+
+#nxt-btn{
+  position: sticky;
+  bottom: 0;
+  padding: 10px 0px;
+  width: 100%;
+  border: none;
+  color: white;
+  border-radius: 10px;
+  background-color: rgb(14, 115, 231);
+}
+
+/* Date Input */
+.card-date {
+  position: absolute;
+  top: 30%;
+  left: -300px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 300px;
+  padding: 20px;
+  transition: 0.8s;
+  text-align: center;
+}
+
+.add-date{
+  left:40%;
+}
+
+.card-date h2 {
+  margin-top: 0;
+}
+
+.card-date input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.card-date button {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.card-date button:hover {
+  background-color: #0056b3;
+}
+
+.practice-time{
+  width: 50px;
+  background-color: whitesmoke;
+}
+
+.opt-time{
+  /* opacity: 0; */
+}
+
+@media (max-width: 574px) {
+  #mn {
+    left: 20%;
+  }
+}
+
+@media (max-width: 497px) {
+  #mn {
+    left: 3%;
+  }
+}
+
+@media (max-width: 387px) {
+  #mn {
+    left: 3%;
+    width: 80%;
+    padding: 10px 20px;
+  }
+}

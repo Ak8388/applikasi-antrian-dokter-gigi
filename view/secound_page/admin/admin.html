@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./admin.css">
+    <title>Admin Page</title>
+</head>
+
+<body id="bod">
+    <div class="sidebar">
+        <h2>Klinik Gigi</h2>
+        <ul>
+            <li><a href="#dashboard">Dashboard</a></li>
+            <li id="patient-page"><a href="#patients">Patients</a></li>
+            <li><a href="#appointments">Appointments</a></li>
+            <li id="doctors-page"><a href="#doctors">Doctors</a></li>
+            <li><a href="#settings">Settings</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="header">
+            <h1>Admin Dashboard</h1>
+            <button onclick="toggleSidebar()">☰</button>
+        </div>
+        <div id="dashboard" class="section">
+            <h2>Dashboard</h2>
+            <p>Welcome to the admin dashboard of the dental clinic.</p>
+        </div>
+        <div id="patients" class="section">
+        </div>
+        <div id="appointments" class="section">
+            <h2>Appointments</h2>
+            <p>View and manage appointments.</p>
+        </div>
+        <div id="doctors" class="section">
+
+        </div>
+        <div id="settings" class="section">
+            <h2>Settings</h2>
+            <p>Manage clinic settings here.</p>
+        </div>
+    </div>
+
+
+    <div id="form-reg" class="card-regist">
+        <h2>Registration Form</h2>
+        <form id="form-rgistri">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required>
+
+            <label for="role">Role:</label>
+            <select id="role" name="role" required>
+                <option value="Doctor">Doctor</option>
+                <option value="Patient">Patient</option>
+            </select>
+
+            <button type="submit">Create</button>
+        </form>
+    </div>
+
+    <!-- Dialog konfirmasi -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <p>Apakah Anda yakin ingin menghapus data ini?</p>
+            <button class="modal-button yes" id="confirmYes">Ya</button>
+            <button class="modal-button no" id="confirmNo">Batal</button>
+        </div>
+    </div>
+
+    <!-- Alert -->
+    <div id="overlay" class="overlay">
+        <div class="alert-box">
+            <div class="close-icon">X</div>
+            <div id="text-alert"></div>
+            <button onclick="closeAlert()">OK</button>
+        </div>
+    </div>
+    <script src="./admin.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./login.css">
+    <title>Login</title>
+</head>
+<body>
+    <main>
+        <section id="left">
+            <div class="efek-mengkilap">
+                <img src="../../assets/photos/home/GikuLogo.png" alt="">
+            </div>
+            <div id="cntr-logo">
+                <h2>Wellcome To</h2>
+                <p>GIGIKU</p>
+            </div>
+            <div id="ctr-text">
+                <p>Masukan email dan password yang sudah terdaftar.</p>
+            </div>
+        </section>
+        <section id="right">
+            <div class="form-login">
+                <div id="text-login">
+                    <p class="log">LOGIN</p>
+                    <p>login ke akun mu dan daftar antrian sekarang untuk priksa kesehatan GIGIMU</p>
+                </div>
+                <form action="" id="login-form">
+                    <label for="email">Email</label>
+                    <input id="email" type="email" required>
+                    <label for="pass">Password</label>
+                    <input id="pass" type="password" required>
+                    <div>
+                        <a href="./forgot_pass/forget_pass.html">lupa kata sandi?</a>
+                    </div>
+                    <button type="submit">Masuk</button>
+                </form>
+                <div id="reg-cntr">
+                    <a href="../regist/regist.html">Belum punya akun?</a>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="overlay" class="overlay">
+        <div class="alert-box">
+            <div class="close-icon">X</div>
+            <div id="text-alert"></div>
+            <button onclick="closeAlert()">OK</button>
+        </div>
+    </div>
+    <script src="./login.js"></script>
+</body>
+</html>
