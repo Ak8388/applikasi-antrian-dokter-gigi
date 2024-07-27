@@ -1,0 +1,286 @@
+@font-face {
+  font-family: "dosis";
+  src: url("../../../assets/font/Dosis-VariableFont_wght.ttf");
+}
+
+/* styles.css */
+body {
+  font-family: "dosis";
+  background-color: #f2f2f2;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 1.5em;
+  color: #333;
+}
+
+.filter-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+label {
+  font-size: 1em;
+  color: #333;
+}
+
+select {
+  padding: 5px;
+  font-size: 1em;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.queue-section {
+  margin-top: 20px;
+  overflow-x: scroll;
+}
+
+h2 {
+  font-size: 1.25em;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+table {
+  width: 200vh;
+  border-collapse: collapse;
+  overflow: scroll;
+}
+
+table,
+th,
+td {
+  border: 1px solid #ddd;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.action-data {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  > img {
+    width: 20px;
+  }
+  > img:hover {
+    cursor: pointer;
+  }
+}
+
+/* Alert Confirm */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+  text-align: center;
+}
+.modal-button {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+.modal-button.yes {
+  background-color: #4caf50;
+  color: white;
+}
+.modal-button.no {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Date input */
+.card-date {
+  position: absolute;
+  top: 30%;
+  left: -500px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 300px;
+  padding: 20px;
+  transition: 0.8s;
+  text-align: center;
+}
+
+.add-date {
+  left: 40%;
+}
+
+.card-date h2 {
+  margin-top: 0;
+}
+
+.card-date input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.card-date button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+#time-reservation-cntr {
+  margin-top: 10px;
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-date button:hover {
+  background-color: #0056b3;
+}
+
+.practice-time {
+  width: 50px;
+  background-color: whitesmoke;
+  position: relative;
+}
+
+.practice-time {
+  cursor: pointer;
+}
+
+.practice-time.active {
+  background-color: lightgreen;
+}
+
+.opt-time {
+  position: absolute;
+  transform: scale(2);
+  top: 12%;
+  left: 40%;
+  opacity: 0;
+}
+
+.opt-time:hover {
+  cursor: pointer;
+}
+
+/* Alert */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Style for the alert box */
+  .alert-box {
+    background: rgba(14, 115, 231, 0.5);
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    position: relative;
+    width: 300px;
+  }
+  
+  /* Style for the close icon */
+  .alert-box .close-icon {
+    font-size: 50px;
+    color: red;
+    margin-bottom: 20px;
+  }
+  
+  /* Style for the OK button */
+  .alert-box button {
+    margin-top: 5px;
+    background: white;
+    color: rgb(14, 115, 231);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  /* Show overlay and alert box */
+  .overlay.show {
+    display: flex;
+  }
+
+@media (max-width: 600px) {
+  th,
+  td {
+    font-size: 0.875em;
+    padding: 8px;
+  }
+
+  label,
+  select {
+    font-size: 0.875em;
+  }
+
+  h1,
+  h2 {
+    font-size: 1.125em;
+  }
+}

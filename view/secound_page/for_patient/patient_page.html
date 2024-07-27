@@ -24,6 +24,8 @@
                 <ul type="none">
                     <li><a href="../../../view/index.html">Home</a></li>
                     <li><a href="./reservasi/reservasi.html">DaftarOnline</a></li>
+                    <li><a href="./queue/myQue.html">Antrianku</a></li>
+                    <li><a href="./myPayment/my-payment.html">PemabayaranKu</a></li>
                     <li><a href="">TentangKami</a></li>
                     <li><a href="">ProfilKu</a></li>
                 </ul>
@@ -34,15 +36,18 @@
                         <input type="checkbox" id="check">
                         <div class="side-bar">
                             <div id="cLog">
-                                <img src="./assets/photos/home/GikuLogo.png" alt="">
+                                <img src="../../assets/photos/home/GikuLogo.png" alt="">
                                 <p id="jud">GIGIKU</p>
                             </div>
                             <ul type="none">
-                                <a href="">
+                                <a href="../../index.html">
                                     <li>Home</li>
                                 </a>
-                                <a href="">
+                                <a href="./reservasi/reservasi.html">
                                     <li>Daftar Online</li>
+                                </a>
+                                <a href="./queue/myQue.html">
+                                    <li>Antrianku</li>
                                 </a>
                                 <a href="../Cuaca/project.html">
                                     <li>Tentang Kami</li>
@@ -60,6 +65,35 @@
             </label>
         </nav>
     </header>
+    <section id="main">
+        <div class="slider-container">
+            <div class="slider">
+                <div class="slide">
+                    <!-- <div id="doctorname">
+                        <h1>Vony Nur Shanti</h1>
+                    </div> -->
+                    <!-- <div>
+                        <img src="../../assets/photos/home/twitter.png" alt="">
+                    </div> -->
+                </div>
+                <div class="slide">Slide 2</div>
+                <div class="slide">Slide 3</div>
+            </div>
+        </div>
+        <div id="right-content">
+
+        </div>
+    </section>
+    
+    <!-- Alert -->
+    <div id="overlay" class="overlay">
+        <div class="alert-box">
+            <div class="close-icon">X</div>
+            <div id="text-alert"></div>
+            <button onclick="closeAlert()">OK</button>
+        </div>
+    </div>
+    <script src="patient_page.js"></script>
 </body>
 
 </html>

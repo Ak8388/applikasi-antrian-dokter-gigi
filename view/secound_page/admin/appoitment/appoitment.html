@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Antrian Klinik</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Daftar Antrian Klinik</h1>
+        <div class="filter">
+            <select id="statusFilter" onchange="filterQueue()">
+                <option value="">Semua Status</option>
+                <option value="created">Menunggu</option>
+                <option value="process">Sedang Dilayani</option>
+                <option value="cancel">Batal</option>
+                <option value="reschedule">Ganti jadwal</option>
+                <option value="finish">Selesai</option>
+            </select>
+        </div>
+        <table class="queue-list" id="queueList">
+            <thead>
+                <tr>
+                    <th>No Antrian</th>
+                    <th>Nama Pasien</th>
+                    <th>Nama Dokter</th>
+                    <th>Keluhan</th>
+                    <th>Tanggal Reservasi</th>
+                    <th>Jam Reservasi</th>
+                    <th>Status Atrian</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+            </tbody>
+            <!-- Tambahkan item antrian sesuai kebutuhan -->
+        </table>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+</html>

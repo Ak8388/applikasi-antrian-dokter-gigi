@@ -172,3 +172,105 @@ header {
 #logo-gigi {
   width: 30px;
 }
+
+#main {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f0f0f0;
+}
+
+#right-content{
+  width: 50%;
+}
+
+.slider-container {
+  width: 50%;
+  max-width: 600px;
+  overflow: hidden;
+  border: 2px solid #333;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.slider {
+  display: flex;
+  width: 100%;
+  animation: slide 20s infinite;
+}
+.slide {
+  width: 100%;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  background-color: #fff;
+  color: #333;
+  font-size: 2em;
+}
+.slide:nth-child(1) { background-color: #ff6666; }
+.slide:nth-child(2) { background-color: #66b3ff; }
+.slide:nth-child(3) { background-color: #99ff99; }
+
+/* Alert */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style for the alert box */
+.alert-box {
+  background: rgba(14, 115, 231, 0.5);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  position: relative;
+  width: 300px;
+}
+
+/* Style for the OK button */
+.alert-box button {
+  margin-top: 5px;
+  background: white;
+  color: rgb(14, 115, 231);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Show overlay and alert box */
+.overlay.show {
+  display: flex;
+}
+
+
+@keyframes slide {
+  0% { transform: translateX(0); }
+  33% { transform: translateX(-100%); }
+  66% { transform: translateX(-200%); }
+  100% { transform: translateX(0); }
+}
+
+
+@media(max-width:555px){
+  #burger>div{
+      display: block;
+  }
+  #nav{
+      display: none;
+  }
+}

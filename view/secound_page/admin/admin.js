@@ -14,9 +14,12 @@ function toggleSidebar() {
 }
 
 document.getElementById("patient-page").addEventListener("click", (e) => {
-    console.log('hall')
     const token = localStorage.getItem("token");
     const patient = document.getElementById("patients");
+    const appPage = document.getElementById('appointments');
+    const doctrorPage = document.getElementById('doctors');
+    doctrorPage.innerHTML = "";
+    appPage.innerHTML = "";
     patient.innerHTML = " ";
 
     const table = document.createElement("table");
@@ -161,7 +164,11 @@ document.getElementById("patient-page").addEventListener("click", (e) => {
 
 document.getElementById("doctors-page").addEventListener("click", (e) => {
     const token = localStorage.getItem("token");
+    const appPage = document.getElementById('appointments');
+    const patientPage = document.getElementById('patients');
     const doctors = document.getElementById("doctors");
+    patientPage.innerHTML = "";
+    appPage.innerHTML = "";
     doctors.innerHTML = " ";
 
     const addCntr = document.createElement("div");
@@ -312,14 +319,14 @@ document.getElementById("doctors-page").addEventListener("click", (e) => {
                     }
                 })
 
-                btnDel.addEventListener("click",(e)=>{
-                    localStorage.setItem('email',trows.getAttribute('email'));
+                btnDel.addEventListener("click", (e) => {
+                    localStorage.setItem('email', trows.getAttribute('email'));
                     document.getElementById("confirmModal").style.display = "block";
                 })
             })
         })
 
-        addCntr.addEventListener("click", e => {
+    addCntr.addEventListener("click", e => {
         let crdReg = document.getElementById('form-reg');
         localStorage.setItem("rOu", "regist");
 
@@ -328,17 +335,17 @@ document.getElementById("doctors-page").addEventListener("click", (e) => {
         const email = document.getElementById('email')
         const passInp = document.getElementById("password");
         const role = document.getElementById('role')
-        
-        name.setAttribute('required','true');
-        address.setAttribute('required','true');
-        email.setAttribute('required','true');
-        passInp.setAttribute('required','true');
-        role.setAttribute('required','true');
-        
+
+        name.setAttribute('required', 'true');
+        address.setAttribute('required', 'true');
+        email.setAttribute('required', 'true');
+        passInp.setAttribute('required', 'true');
+        role.setAttribute('required', 'true');
+
         name.value = '';
         address.value = '';
         passInp.value = '';
-        email.value='';
+        email.value = '';
         role.value = 'Doctor';
 
         if (window.getComputedStyle(crdReg).left === '-300px') {
@@ -404,7 +411,7 @@ document.getElementById("form-rgistri").addEventListener("submit", e => {
                     doc.click();
                     crdReg.classList.remove("sld-crd");
                 })
-        } catch (error){
+        } catch (error) {
             console.log(error)
         }
 
@@ -426,7 +433,7 @@ document.getElementById("form-rgistri").addEventListener("submit", e => {
             })
             .then(res => {
                 const identifikasi = localStorage.getItem('identity');
-                
+
                 if (identifikasi == 'doctor') {
                     const doc = document.getElementById('doctors');
                     if (doc) {
@@ -441,6 +448,52 @@ document.getElementById("form-rgistri").addEventListener("submit", e => {
                 crdReg.classList.remove("sld-crd");
             })
     }
+})
+
+document.getElementById('appoitments-page').addEventListener('click', e => {
+    const token = localStorage.getItem('token');
+    tokenVerify(token);
+
+    fetch("http://localhost:8888/api-klinik-gigi-vony-nur-santy/users/doctors", {
+        headers: {
+            "Authorization": "Bearer " + token
+        }
+    })
+        .then(res => {
+            if (!res.ok) {
+                return showAlert('mohon maaf sepertinya ada kesalahan dari sisi server');
+            } else {
+                return res.json()
+            }
+        })
+        .then(data => {
+            const appPage = document.getElementById('appointments');
+            const doctrorPage = document.getElementById('doctors');
+            const patientPage = document.getElementById('patients');
+            patientPage.innerHTML = "";
+            doctrorPage.innerHTML = "";
+            appPage.innerHTML = "";
+            data.Data.map(dataRes => {
+                console.log(dataRes);
+                const drCard = document.createElement('div');
+                drCard.className = 'card-dr';
+                appPage.appendChild(drCard);
+
+                const drPhoto = document.createElement('img');
+                drPhoto.src = dataRes.photos;
+                drPhoto.alt = 'doctor photos';
+                drCard.appendChild(drPhoto);
+
+                const drName = document.createElement('h2');
+                drName.innerText = dataRes.name;
+                drCard.appendChild(drName);
+
+                drCard.addEventListener('click',cardElement=>{
+                    localStorage.setItem('doc-id',dataRes.doctorId)
+                    location.href = './appoitment/appoitment.html'
+                })
+            })
+        })
 })
 
 // Script Alert
@@ -477,42 +530,60 @@ function convertPxToPercent(pxValue, parentSize) {
 }
 
 // Dialog Alert
-document.getElementById("confirmYes").addEventListener("click", function() {
+document.getElementById("confirmYes").addEventListener("click", function () {
     const token = localStorage.getItem('token');
     const email = localStorage.getItem('email');
     // Lakukan tindakan penghapusan
-    fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/users?email=${email}`,{
-        method:'DELETE',
-        headers:{
-            'Authorization':token,
-        },  
+    fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/users?email=${email}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': token,
+        },
     })
-    .then(res=>{
-        if(res.status>299){
-            showAlert('mohon maaf sepertinya ada kesalahan dari sisi server');
-            return
-        }else{
-            return res.json();
-        }
-    })
-    .then(res=>{
-        localStorage.removeItem('email');
-        alert("Data telah berhasil dihapus");
-    })
+        .then(res => {
+            if (res.status > 299) {
+                showAlert('mohon maaf sepertinya ada kesalahan dari sisi server');
+                return
+            } else {
+                return res.json();
+            }
+        })
+        .then(res => {
+            localStorage.removeItem('email');
+            alert("Data telah berhasil dihapus");
+        })
 
 
     document.getElementById("confirmModal").style.display = "none";
 });
 
-document.getElementById("confirmNo").addEventListener("click", function() {
+document.getElementById("confirmNo").addEventListener("click", function () {
     // Batalkan tindakan
     alert("Penghapusan dibatalkan");
     document.getElementById("confirmModal").style.display = "none";
 });
 
 // Menutup modal jika pengguna mengklik di luar modal
-window.onclick = function(event) {
+window.onclick = function (event) {
     if (event.target == document.getElementById("confirmModal")) {
         document.getElementById("confirmModal").style.display = "none";
     }
+}
+
+function tokenVerify(token) {
+    fetch("http://localhost:8888/api-klinik-gigi-vony-nur-santy/auth/verify", {
+        headers: {
+            "Authorization": "Bearer " + token,
+        }
+    })
+        .then(res => {
+            if (res.ok) {
+                return res.json()
+            } else {
+                showAlert("maaf sesi anda sudah habis");
+                setTimeout(() => {
+                    window.location.href = "../../index.html";
+                }, 5000)
+            }
+        })
 }

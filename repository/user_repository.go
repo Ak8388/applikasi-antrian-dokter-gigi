@@ -3,7 +3,6 @@ package repository
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	"strconv"
 	"time"
 
@@ -19,6 +18,7 @@ type UserRepository interface {
 	GetUserByRole(role string) ([]model.Resgist, error)
 	DeleteUser(email string) (dto.ResponseFindUser, error)
 	GetDoctor() ([]dto.DcotorDto, error)
+	GetUserByID(id string) (dto.ResponseFindUser, error)
 }
 
 type userRepository struct {
@@ -52,7 +52,7 @@ func (u *userRepository) DeleteUser(email string) (data dto.ResponseFindUser, er
 		err = errors.Join(errors.New("failed select role from users"), err)
 		return
 	}
-	fmt.Println("ROLE =", data.Role)
+
 	if data.Role == "Doctor" {
 		qry = "Delete From doctor_detail Where doctor_id IN(select id from users Where email=$1)"
 
@@ -191,6 +191,14 @@ func (u *userRepository) UpdatePasswordUser(newPass, email string) error {
 	_, err := u.db.Exec(qry, newPass, time.Now(), email)
 
 	return err
+}
+
+func (u *userRepository) GetUserByID(id string) (res dto.ResponseFindUser, err error) {
+	qry := "Select name,email,address,role From users Where id=$1"
+
+	err = u.db.QueryRow(qry, id).Scan(&res.Name, &res.Email, &res.Address, &res.Role)
+
+	return
 }
 
 func NewUserRepository(db *sql.DB) UserRepository {

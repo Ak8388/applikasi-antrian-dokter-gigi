@@ -17,6 +17,7 @@ type UserUsecase interface {
 	FindUserByRole(role string) ([]model.Resgist, error)
 	ChangeDataUser(data dto.DtoUpdateUser, email string) (dto.DtoUpdateUser, error)
 	GetDoctor() ([]dto.DcotorDto, error)
+	GetUserByID(id string) (dto.ResponseFindUser, error)
 }
 
 type userUsecase struct {
@@ -129,6 +130,10 @@ func (u *userUsecase) FindPasswordUser(email string) string {
 
 func (u *userUsecase) GetDoctor() ([]dto.DcotorDto, error) {
 	return u.userRepo.GetDoctor()
+}
+
+func (u *userUsecase) GetUserByID(id string) (dto.ResponseFindUser, error) {
+	return u.userRepo.GetUserByID(id)
 }
 
 func NewUserUsecase(userRepo repository.UserRepository) UserUsecase {

@@ -10,7 +10,7 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: dosis;
   margin: 0;
   display: flex;
 }
@@ -80,6 +80,32 @@ body {
   padding: 10px;
   cursor: pointer;
   font-size: 18px;
+}
+
+#appointments{
+  padding: 0px 20px;
+  display: flex;
+  gap:10px;
+  width: 100%;
+  flex-wrap: wrap;
+  color: white;
+  margin-top: 30px;
+  >.card-dr{
+    border-radius: 10px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    height: 200px;
+    background-color: #0056b3;
+    width:200px;
+    >img{
+      width: 100px;
+    }
+  }
+
+  >.card-dr:hover{
+    cursor: pointer;
+  }
 }
 
 .disable-pass-inp{
@@ -184,13 +210,6 @@ tr:nth-child(even){
   text-align: center;
   position: relative;
   width: 300px;
-}
-
-/* Style for the close icon */
-.alert-box .close-icon {
-  font-size: 50px;
-  color: red;
-  margin-bottom: 20px;
 }
 
 /* Style for the OK button */

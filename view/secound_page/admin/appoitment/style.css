@@ -1,0 +1,129 @@
+@font-face {
+  font-family: "dosis";
+  src: url("../../../assets/font/Dosis-VariableFont_wght.ttf");
+}
+
+body {
+  font-family: dosis;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+table {
+  width: 200vh;
+  border-collapse: collapse;
+  overflow: scroll;
+}
+
+button {
+  color: white;
+  border-radius: 20px;
+  border: none;
+  background-color: rgb(14, 115, 231);
+  width: 100px;
+  height: 30px;
+}
+
+button:hover{
+  cursor: pointer;
+}
+
+table,
+th,
+td {
+  border: 1px solid #ddd;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.filter {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.filter select {
+  padding: 10px;
+  font-size: 16px;
+}
+
+.status-waiting {
+  color: white;
+  font-weight: bold;
+  background-color: #f39c12;
+}
+
+.status-inprogress {
+  font-weight: bold;
+  color: white;
+  background-color: #3498db;
+}
+
+.status-cancel {
+  font-weight: bold;
+  color: white;
+  background-color: red;
+}
+
+.status-completed {
+  font-weight: bold;
+  color: white;
+  background-color: #2ecc71;
+}
+
+.action-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  > div {
+    display: flex;
+    gap:10px;
+    > img {
+      width: 25px;
+    }
+    > img:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .queue-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .queue-status {
+    margin-top: 10px;
+  }
+}

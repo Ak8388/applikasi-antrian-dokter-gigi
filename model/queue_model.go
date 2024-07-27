@@ -18,5 +18,5 @@ type Queue struct {
 }
 
 func (q *Queue) StatusValidate() bool {
-	return q.Status == "Created" || q.Status == "Process" || q.Status == "Re Schedule" || q.Status == "Cancel" || q.Status == "Finish"
+	return q.Status == "Created" || q.Status == "Process" || q.Status == "Reschedule" || q.Status == "Cancel" || q.Status == "Finish"
 }

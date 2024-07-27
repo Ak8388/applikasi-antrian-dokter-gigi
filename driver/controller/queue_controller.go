@@ -2,6 +2,7 @@ package controller
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/Ak8388/applikasi-antrian-dokter-gigi/driver/middleware"
@@ -16,7 +17,7 @@ type queueController struct {
 	rg           *gin.RouterGroup
 }
 
-func (q *queueController) switchingQueue(c *gin.Context) {
+func (q *queueController) rescheduleQueue(c *gin.Context) {
 	var data dto.QueueDto
 
 	if err := c.ShouldBind(&data); err != nil {
@@ -25,15 +26,16 @@ func (q *queueController) switchingQueue(c *gin.Context) {
 		return
 	}
 
-	err := q.queueUsecase.SwitchingQueue(data)
+	err := q.queueUsecase.Reschedule(data)
 
+	fmt.Println(err, data.Doctor, " ", data.QueueDate, " ", data.QueueTime, " ", data.Patient)
 	if err != nil {
 		err = errors.Join(err, errors.New("make sure you fill in the data correctly"))
 		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"Message": "Success Switching Queue"})
+	c.JSON(http.StatusCreated, gin.H{"Message": "Success Reschedule Queue"})
 }
 
 func (q *queueController) createNewQueue(c *gin.Context) {
@@ -44,9 +46,6 @@ func (q *queueController) createNewQueue(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 		return
 	}
-
-	userID, _ := c.Get("userID")
-	payloadQueue.Patient = userID.(string)
 
 	res, err := q.queueUsecase.CreateNewQueue(payloadQueue)
 
@@ -63,9 +62,14 @@ func (q *queueController) createNewQueue(c *gin.Context) {
 }
 
 func (q *queueController) viewAllQueue(c *gin.Context) {
-	res, err := q.queueUsecase.ViewAllQueue()
+	period := c.Query("period")
+	status := c.Query("status")
+	id := c.Param("id")
+
+	res, err := q.queueUsecase.ViewAllQueue(id, status, period)
 
 	if err != nil {
+		fmt.Println(err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
 		return
 	}
@@ -95,9 +99,19 @@ func (q *queueController) removeQueue(c *gin.Context) {
 }
 
 func (q *queueController) viewQueueByPatientId(c *gin.Context) {
-	userId, _ := c.Get("userId")
+	var userId, status string
+	var id interface{}
 
-	res, err := q.queueUsecase.ViewQueueByPatientId(userId.(string))
+	id = c.Query("userId")
+
+	if id == "" {
+		id, _ = c.Get("userID")
+		userId = id.(string)
+	}
+
+	status = c.Query("status")
+
+	res, err := q.queueUsecase.ViewQueueByPatientId(userId, status)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
@@ -110,12 +124,57 @@ func (q *queueController) viewQueueByPatientId(c *gin.Context) {
 	})
 }
 
+func (q *queueController) cancelQueue(c *gin.Context) {
+	var Queue struct {
+		ID string `json:"id"`
+	}
+
+	if err := c.ShouldBindJSON(&Queue); err != nil {
+		fmt.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+		return
+	}
+
+	err := q.queueUsecase.CancelQueue(Queue.ID)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusAccepted, gin.H{"message": "success cancel your queue"})
+}
+
+func (q *queueController) updateStatusQueue(c *gin.Context) {
+	var DataRequired struct {
+		Id     string `json:"id"`
+		Status string `json:"status"`
+	}
+
+	if err := c.ShouldBindJSON(&DataRequired); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+		return
+	}
+
+	err := q.queueUsecase.UpdateStatusQue(DataRequired.Id, DataRequired.Status)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"Message": "success update status queues"})
+}
+
 func (q *queueController) QueueRouter() {
 	r := q.rg.Group("queues")
 
-	r.PUT("", q.authMd.JwtVerify("Doctor", "Patient", "Admin"), q.switchingQueue)
-	r.POST("", q.authMd.JwtVerify("Doctor", "Patient", "Admin"), q.createNewQueue)
-	r.GET("views", q.authMd.JwtVerify("Doctor", "Admin"), q.viewAllQueue)
+	r.PUT("reschedules", q.rescheduleQueue)
+	r.PUT("cancel", q.authMd.JwtVerify("Doctor", "Patient", "Admin"), q.cancelQueue)
+	r.PUT("update-status-queues", q.authMd.JwtVerify("Doctor", "Admin"), q.updateStatusQueue)
+	r.POST("", q.createNewQueue)
+	r.GET("views/:id", q.authMd.JwtVerify("Doctor", "Admin"), q.viewAllQueue)
 	r.GET("view", q.authMd.JwtVerify("Doctor", "Patient", "Admin"), q.viewQueueByPatientId)
 	r.DELETE("", q.authMd.JwtVerify("Doctor", "Patient", "Admin"), q.removeQueue)
 }

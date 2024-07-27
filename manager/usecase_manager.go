@@ -26,7 +26,7 @@ func (um *usecaseManager) UserUsecase() usecase.UserUsecase {
 }
 
 func (um *usecaseManager) QueueUsecase() usecase.QueueUsecase {
-	return usecase.NewQueueUsecase(um.repo.QueueRepo())
+	return usecase.NewQueueUsecase(um.repo.QueueRepo(), um.UserUsecase())
 }
 
 func (um *usecaseManager) ScheduleDoctor() usecase.DoctorScheduleUsecase {
