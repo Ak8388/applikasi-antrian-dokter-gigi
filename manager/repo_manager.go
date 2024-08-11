@@ -10,11 +10,16 @@ type RepoManager interface {
 	UserRepo() repository.UserRepository
 	QueueRepo() repository.QueueRepo
 	ScheduleRepo() repository.DoctorScheduleRepo
+	DcotorRepo() repository.DoctorsRepository
 }
 
 type repoManager struct {
 	infra    InfraManager
 	jwtVerif common.JwtToken
+}
+
+func (rm *repoManager) DcotorRepo() repository.DoctorsRepository {
+	return repository.NewDoctorRepository(rm.infra.Connection())
 }
 
 func (rm *repoManager) AuthRepo() repository.AuthRepository {

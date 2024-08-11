@@ -44,7 +44,7 @@ func (am *authMiddleware) JwtVerify(role ...string) gin.HandlerFunc {
 		}
 
 		if !validateRole {
-			ctx.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "can't akses this page. invalid role"})
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "can't akses this page. invalid role"})
 			return
 		}
 

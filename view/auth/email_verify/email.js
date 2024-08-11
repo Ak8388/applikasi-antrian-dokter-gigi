@@ -22,14 +22,17 @@ function updateCountdown() {
 
     // Hentikan interval ketika waktu habis
     if (timeInSeconds < 0) {
-        showAlert("waktu verifikasi email sudah habis silahkan verifikasi kembali")
+        showAlert("waktu verifikasi email sudah habis silahkan verifikasi kembali");
+        localStorage.setItem('act','discharged');
         localStorage.setItem("verifyCode", "")
+        clearInterval(countdownInterval);
+        countdownInterval=null; 
         return
     }
 }
 
 // Panggil fungsi updateCountdown setiap detik
-const countdownInterval = setInterval(updateCountdown, 1000);
+let countdownInterval = setInterval(updateCountdown, 1000);
 
 // Panggil fungsi updateCountdown sekali untuk menampilkan waktu awal
 
@@ -75,56 +78,91 @@ function Main(e) {
 
 Main()
 
-document.getElementById("form-email").addEventListener("submit", (e) => {
+document.getElementById("form-email").addEventListener("submit", async (e) => {
     e.preventDefault()
 
     // Get Verify Code
     const vC = document.getElementById("vC").value;
     const verifyC = localStorage.getItem("verifyCode");
     const ky = localStorage.getItem("key");
-
+    
     if (verifyC == "") {
-        showAlert("mohon maaf sepertinya waktu anda untuk verifikasi email sudah habis, mohon untuk mengulang kembali proses verifikasi");
         if (ky == "regist") {
             localStorage.removeItem("verifyCode")
             localStorage.removeItem("key")
             localStorage.removeItem("data")
-
+            
             location.href = "../regist/regist.html"
-        } else {
+        } else if(ky == "change email"){
+            localStorage.removeItem("verifyCode")
+            localStorage.removeItem("key")
+            localStorage.removeItem("data")
+
+            location.href = "../change_email/email.html"
+        }else {
             localStorage.removeItem("verifyCode")
             localStorage.removeItem("key")
 
             location.href = "../login/forgot_pass/forget_pass.html"
         }
     }
-
-
+    
+    
     if (vC == verifyC) {
         if (ky == "regist") {
             // Get Data Registration
             const data = localStorage.getItem("data");
             const obj = JSON.parse(data);
-
-            fetch("http://localhost:8888/api-klinik-gigi-vony-nur-santy/auth/regist", {
-                method: "POST",
-                body: JSON.stringify(obj),
-            })
-                .then(response => {
-                    if (response.status > 299) {
-                        showAlert("pastikan data yang anda input benar dan email yang anda daftarkan belum terdaftar.")
-                        return
-                    } else {
-                        return response.json()
+            try{
+                await fetch("http://localhost:8888/api-klinik-gigi-vony-nur-santy/auth/regist", {
+                    method: "POST",
+                    body: JSON.stringify(obj),
+                })
+                    .then(response => {
+                        if (response.status > 299) {
+                            throw new Error("pastikan data yang anda input benar dan email yang anda daftarkan belum terdaftar.");
+                        } else {
+                            return response.json();
+                        }
+                    })
+                    .then(response => {
+                        showAlert2("Verifikasi akun telah berhasil, halaman akan otomatis di alihkan ke halaman login setelah 5 detik")
+                        setTimeout(() => {
+                            location.href = "../login/login.html"
+                        }, 4000)
+                    })
+            }catch(error){
+                showAlert(error)
+            }
+            
+        } else if(ky == "change email") {
+            const token = localStorage.getItem('token');
+            const data = localStorage.getItem("data");
+            const obj = JSON.parse(data);
+            try{
+                await fetch("http://localhost:8888/api-klinik-gigi-vony-nur-santy/users/emails", {
+                    method: "PUT",
+                    body: JSON.stringify(obj),
+                    headers:{
+                        "Authorization":"Bearer "+token
                     }
+
                 })
-                .then(response => {
-                    showAlert2("Verifikasi akun telah berhasil, halaman akan otomatis di alihkan ke halaman login setelah 5 detik")
-                    setTimeout(() => {
-                        location.href = "../login/login.html"
-                    }, 4000)
-                })
-        } else {
+                    .then(response => {
+                        if (response.status > 299) {
+                            throw new Error("pastikan data yang anda input benar dan email yang anda daftarkan belum terdaftar.");
+                        } else {
+                            return response.json();
+                        }
+                    })
+                    .then(response => {
+                        localStorage.setItem('act','changeEmail');
+                        showAlert2("perubahan email berhasil, mohon untuk login ulang");
+                    })
+            }catch(error){
+                showAlert(error)
+            }
+        }else{
 
         }
     }
@@ -142,9 +180,22 @@ function showAlert2(text) {
 
 // Function to close the alert
 function closeAlert() {
+    const act = localStorage.getItem('act');
+    localStorage.removeItem('act');
+
+    if(act == "discharged"){
+        location.href='../login/login.html';
+    }
     document.getElementById('overlay').classList.remove('show');
 }
 
 function closeAlert2() {
+    const act = localStorage.getItem('act');
+    localStorage.removeItem('act');
+    if(act == "changeEmail"){
+        localStorage.removeItem('token');
+        location.href = '../../index.html';
+    }
+
     document.getElementById('overlay2').classList.remove('show');
 }

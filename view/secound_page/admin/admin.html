@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Admin Page</title>
 </head>
 
@@ -13,11 +14,11 @@
     <div class="sidebar">
         <h2>Klinik Gigi</h2>
         <ul>
-            <li><a href="#dashboard">Dashboard</a></li>
+            <li id="dashboard-page"><a href="#dashboard">Dashboard</a></li>
             <li id="patient-page"><a href="#patients">Patients</a></li>
             <li id="appoitments-page"><a href="#appointments">Appointments</a></li>
             <li id="doctors-page"><a href="#doctors">Doctors</a></li>
-            <li><a href="#settings">Settings</a></li>
+            <li id="setting"><a href="#settings">Settings</a></li>
         </ul>
     </div>
 
@@ -27,19 +28,12 @@
             <button onclick="toggleSidebar()">☰</button>
         </div>
         <div id="dashboard" class="section">
-            <h2>Dashboard</h2>
-            <p>Welcome to the admin dashboard of the dental clinic.</p>
         </div>
         <div id="patients" class="section">
         </div>
         <div id="appointments" class="section">
         </div>
         <div id="doctors" class="section">
-
-        </div>
-        <div id="settings" class="section">
-            <h2>Settings</h2>
-            <p>Manage clinic settings here.</p>
         </div>
     </div>
 
@@ -67,6 +61,27 @@
 
             <button type="submit">Create</button>
         </form>
+    </div>
+
+    <div id="settings" class="section">
+        <div id="seting-card" class="card-setting">
+            <div class="card-header">
+                <button id="close-btn" id="btn" onclick="closeCardSetting()">×</button>
+            </div>
+            <button class="menu-item" onclick="changePassword()">
+                <img src="https://img.icons8.com/ios-filled/50/000000/lock.png" alt="Change Password Icon" />
+                Change Password
+            </button>
+            <button class="menu-item" onclick="changeEmail()">
+                <img src="https://img.icons8.com/ios-filled/50/000000/email.png" alt="Change Email Icon" />
+                Change Email
+            </button>
+            <button class="menu-item" onclick="logOut()">
+                <img src="https://img.icons8.com/ios-filled/50/000000/logout-rounded-left.png" alt="Log Out Icon" />
+                Log Out
+            </button>
+        </div>
+    </div>
     </div>
 
     <!-- Dialog konfirmasi -->

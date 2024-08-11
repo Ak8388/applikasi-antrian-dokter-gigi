@@ -18,6 +18,7 @@ type UserUsecase interface {
 	ChangeDataUser(data dto.DtoUpdateUser, email string) (dto.DtoUpdateUser, error)
 	GetDoctor() ([]dto.DcotorDto, error)
 	GetUserByID(id string) (dto.ResponseFindUser, error)
+	ChangeEmailUser(newEmail string, id string) error
 }
 
 type userUsecase struct {
@@ -134,6 +135,16 @@ func (u *userUsecase) GetDoctor() ([]dto.DcotorDto, error) {
 
 func (u *userUsecase) GetUserByID(id string) (dto.ResponseFindUser, error) {
 	return u.userRepo.GetUserByID(id)
+}
+
+func (u *userUsecase) ChangeEmailUser(newEmail string, id string) error {
+	res, err := u.userRepo.FindUserByEmail(newEmail)
+
+	if err == nil || res.ID != "" {
+		return errors.New("sory but, email already exist")
+	}
+
+	return u.userRepo.ChangeEmailUser(newEmail, id)
 }
 
 func NewUserUsecase(userRepo repository.UserRepository) UserUsecase {

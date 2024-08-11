@@ -127,6 +127,7 @@ document.getElementById("confirmYes").addEventListener("click", function () {
         })
         .then(dataRes => {
             alert("pembatalan pembayaran berhasil");
+            document.getElementById("confirmModal").style.display = "none";
         })
 
     localStorage.removeItem('obj');

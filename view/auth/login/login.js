@@ -24,10 +24,10 @@ document.getElementById('login-form').addEventListener('submit', function (event
         )
         .then(response => {
             localStorage.setItem("token", response.Data.token)
-            
+            localStorage.setItem('role',response.role)
             if (response.role == "Patient") {
                 window.location.href = "../../secound_page/for_patient/patient_page.html"
-            } else if (response.role == "Doctors") {
+            } else if (response.role == "Doctor") {
                 window.location.href = "../../secound_page/doctor/doctor.html"
             }else{
                 window.location.href = "../../secound_page/admin/admin.html"

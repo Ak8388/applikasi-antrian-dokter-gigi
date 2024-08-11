@@ -8,6 +8,7 @@ type Queue struct {
 	ID          string    `json:"ID"`
 	Doctor      string    `json:"doctorId"`
 	Patient     string    `json:"patientId"`
+	Schedule    string    `json:"scheduleId"`
 	QueueDate   time.Time `json:"queueDate"`
 	QueueTime   time.Time `json:"queueTime"`
 	QueueNumber int       `json:"queueNumber"`

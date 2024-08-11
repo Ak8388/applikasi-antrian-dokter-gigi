@@ -1,16 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Antrian Klinik</title>
     <link rel="stylesheet" href="./style.css">
+    <style>
+        button:disabled {
+            background-color: #ccc;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        .time-filter {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .time-filter label {
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Daftar Antrian Klinik</h1>
-        <div class="filter">
-            <select id="statusFilter" onchange="filterQueue()">
+        <div id="filter">
+            <div class="time-filter">
+                <label>
+                    Start Time:
+                    <input type="date" id="startTime" name="startTime">
+                </label>
+                <label>
+                    End Time:
+                    <input type="date" id="endTime" name="endTime">
+                </label>
+            </div>
+            <select id="statusFilter">
                 <option value="">Semua Status</option>
                 <option value="created">Menunggu</option>
                 <option value="process">Sedang Dilayani</option>
@@ -18,26 +48,106 @@
                 <option value="reschedule">Ganti jadwal</option>
                 <option value="finish">Selesai</option>
             </select>
+            <button onclick="setFilter()">Set filter</button>
         </div>
-        <table class="queue-list" id="queueList">
-            <thead>
-                <tr>
-                    <th>No Antrian</th>
-                    <th>Nama Pasien</th>
-                    <th>Nama Dokter</th>
-                    <th>Keluhan</th>
-                    <th>Tanggal Reservasi</th>
-                    <th>Jam Reservasi</th>
-                    <th>Status Atrian</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="table-body">
-            </tbody>
-            <!-- Tambahkan item antrian sesuai kebutuhan -->
-        </table>
+    </div>
+    <table class="queue-list" id="queueList">
+        <thead>
+            <tr>
+                <th>No Antrian</th>
+                <th>Nama Pasien</th>
+                <th>Nama Dokter</th>
+                <th>Keluhan</th>
+                <th>Tanggal Reservasi</th>
+                <th>Jam Reservasi</th>
+                <th>Status Atrian</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+        </tbody>
+        <!-- Tambahkan item antrian sesuai kebutuhan -->
+    </table>
     </div>
 
-    <script src="./script.js"></script>
+    <div id="date-card" class="card-date">
+        <h2>Pilih Tanggal</h2>
+        <div>
+            <input type="date" id="dateInput">
+        </div>
+        <div id="time-reservation-cntr">
+
+        </div>
+        <button id="dateBtn" disabled>Submit</button>
+        <button id="cancel-btn">Cancel</button>
+    </div>
+
+    <!-- Alert -->
+    <div id="overlay" class="overlay">
+        <div class="alert-box">
+            <div class="close-icon">X</div>
+            <div id="text-alert"></div>
+            <button onclick="closeAlert()">OK</button>
+        </div>
+    </div>
+
+    <!-- Dialog konfirmasi -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <p id="text-warn"></p>
+            <button class="modal-button yes" id="confirmYes">Ya</button>
+            <button class="modal-button no" id="confirmNo">Batal</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const now = new Date();
+
+            document.getElementById('startTime').value = formatDateToLocalISO(now);
+            document.getElementById('endTime').value = formatDateToLocalISO(now);
+        });
+
+        function formatDateToLocalISO(date) {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function applyFilter() {
+            const startTime = document.getElementById('startTime').value;
+            const endTime = document.getElementById('endTime').value;
+
+            console.log('Start Time:', startTime);
+            console.log('End Time:', endTime);
+            // Add your filtering logic here
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const dateInput = document.getElementById('dateInput');
+            const theDay = new Date();
+            const maxDate = new Date();
+            maxDate.setDate(theDay.getDate() + 30);
+
+            // Format tanggal menjadi YYYY-MM-DD
+            const maxDateString = maxDate.toISOString().split('T')[0];
+            dateInput.setAttribute('max', maxDateString);
+
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = today.getFullYear();
+
+            today = yyyy + '-' + mm + '-' + dd;
+            dateInput.setAttribute("min", today);
+
+        });
+    </script>
+    <script src="./script.js">
+
+    </script>
 </body>
+
 </html>

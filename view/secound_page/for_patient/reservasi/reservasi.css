@@ -74,7 +74,7 @@ main {
 }
 
 .rmv-mn{
-  left: -500px;
+  display: none;
 }
 
 /* Alert */

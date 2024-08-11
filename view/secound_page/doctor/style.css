@@ -15,6 +15,25 @@ body {
   display: flex;
 }
 
+#btn-add {
+  color: white;
+  border-radius: 0px 20px 0px 20px;
+  border: none;
+  background-color: rgb(14, 115, 231);
+  width: 100px;
+  height: 30px;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: rgb(12, 91, 182);
+  cursor: pointer;
+}
+
+#ctr-btn{
+  margin-bottom: 5px;
+}
+
 .sidebar {
   left: 0;
   background-color: #007bff;
@@ -82,38 +101,36 @@ body {
   font-size: 18px;
 }
 
-#appointments{
+#appointments {
   padding: 0px 20px;
   display: flex;
-  gap:10px;
+  gap: 10px;
   width: 100%;
   flex-wrap: wrap;
   color: white;
   margin-top: 30px;
-  >.card-dr{
+  > .card-dr {
     border-radius: 10px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     height: 200px;
     background-color: #0056b3;
-    width:200px;
-    >img{
-      width: 100%;
-      border-radius: 20px;
-      height: 150px;
+    width: 200px;
+    > img {
+      width: 100px;
     }
   }
 
-  >.card-dr:hover{
+  > .card-dr:hover {
     cursor: pointer;
   }
 }
 
-.disable-pass-inp{
-    pointer-events: none;
-    opacity: 0.5;
-    background-color: #0056b3;
+.disable-pass-inp {
+  pointer-events: none;
+  opacity: 0.5;
+  background-color: #0056b3;
 }
 
 .section {
@@ -124,59 +141,42 @@ body {
   display: block;
 }
 
-table{
-    width:  200vh;
-    >thead{
-        background-color: #007bff;
-    }
+table {
+  width: 200vh;
+  > thead {
+    background-color: #007bff;
+  }
 }
 
-tr>td{
-    padding: 10px;
+tr > td {
+  padding: 10px;
 }
 
-#patients{
-    overflow-y: scroll;
-    margin-top: 10px;
+#title-page {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
-tr:nth-child(even){
-    background-color: rgb(230, 227, 227);
+#day-filter {
+  width: 100%;
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  justify-content: center;
 }
 
-#btn-del{
-    padding: 10px;
-    background-size: cover;
-    border: none;
-    background-image: url("../../assets/icons/delete.png");
-}
-
-#btn-edit{
-    padding: 10px;
-    margin-left: 5px;
-    background-size: cover;
-    border: none;
-    background-image: url("../../assets/icons/edit.png");
-}
-
-#doctors{
-  overflow-y: scroll;
-}
-
-#add-doctors-cntr
-{
-    margin-top: 2px;
-    display: flex;
-    align-items: center;
-    padding: 0px 30px;
-    gap: 10px;
-    margin-bottom: 10px;
-    >img{
-        width: 30px;
-    }
-    >img:hover{
-        cursor: pointer;
-    }
+.action-data {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  > img {
+    width: 20px;
+  }
+  > img:hover {
+    cursor: pointer;
+  }
 }
 
 @media (max-width: 768px) {
@@ -234,54 +234,55 @@ tr:nth-child(even){
 
 /* Form Registration */
 .card-regist {
-    position: absolute;
-    top: 50%;
-    left: -300px;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 300px;
+  position: absolute;
+  top: 50%;
+  left: -300px;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
 }
 
-.sld-crd{
+.sld-crd {
   left: 50%;
 }
 
 .card-regist h2 {
-    margin-top: 0;
-    text-align: center;
+  margin-top: 0;
+  text-align: center;
 }
 
 .card-regist form {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .card-regist label {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
-.card-regist input, .card-regist select {
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.card-regist input,
+.card-regist select {
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .card-regist button {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .card-regist button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 /* Alert Delete */
@@ -294,8 +295,8 @@ tr:nth-child(even){
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 .modal-content {
   background-color: #fefefe;
@@ -312,7 +313,7 @@ tr:nth-child(even){
   cursor: pointer;
 }
 .modal-button.yes {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
 }
 .modal-button.no {
@@ -320,51 +321,68 @@ tr:nth-child(even){
   color: white;
 }
 
-#dashboard {
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-}
-
+/* Card input */
 .card {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.5);
+  position: absolute;
   padding: 20px;
-  height: 50%;
+  width: 300px;
+  display: none;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  top: 30%;
+  left: 30%;
+}
+
+.card h2 {
+  margin-bottom: 20px;
+}
+
+.card label {
+  display: block;
+  text-align: left;
+  margin: 10px 0 5px;
+}
+
+.card select,
+.card input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.button-group {
   display: flex;
-  align-items: center;
-  gap: 15px;
+  justify-content: space-between;
 }
 
-.card:hover{
+.button-group button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
 }
 
-.card .icon {
-  font-size: 40px;
-  color: #4CAF50;
+#cancelBtn {
+  background-color: #f44336;
+  color: white;
 }
 
-.card .details {
-  text-align: right;
+#cancelBtn:hover {
+  background-color: #d32f2f;
 }
 
-.card .details h3 {
-  margin: 0;
-  font-size: 24px;
+#add-btn {
+  background-color: #4CAF50;
+  color: white;
 }
 
-.card .details p {
-  margin: 5px 0 0;
-  color: #666;
-}
-
-/* Setting */
-#setting:hover{
-  cursor: pointer;
+button[type="submit"]:hover {
+  background-color: #45a049;
 }
 
 .card-setting {

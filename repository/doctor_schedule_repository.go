@@ -10,11 +10,12 @@ import (
 
 type DoctorScheduleRepo interface {
 	InsertNewSchedule(schedule model.ScheduleDoctors) (model.ScheduleDoctors, error)
-	UpdateNewSchedule(schedule model.ScheduleDoctors) (model.ScheduleDoctors, error)
+	UpdateSchedule(schedule model.ScheduleDoctors) (model.ScheduleDoctors, error)
 	DeleteDoctorSchedule(idSchedule string) error
 	GetAllSchedule() ([]model.ScheduleDoctors, error)
 	GetScheduleByDoctor(doctorId string) ([]model.ScheduleDoctors, error)
 	GetScheduleTimeByDayAndDocter(doctorId, day string) ([]time.Time, error)
+	SelectScheduleID(day, openingHours string) (id string, err error)
 }
 
 type doctorScheduleRepo struct {
@@ -33,19 +34,66 @@ func (ds doctorScheduleRepo) InsertNewSchedule(schedule model.ScheduleDoctors) (
 	return schedule, nil
 }
 
-func (ds doctorScheduleRepo) UpdateNewSchedule(schedule model.ScheduleDoctors) (model.ScheduleDoctors, error) {
-	return model.ScheduleDoctors{}, nil
+func (ds doctorScheduleRepo) UpdateSchedule(schedule model.ScheduleDoctors) (model.ScheduleDoctors, error) {
+	qry := "Update doctor_scedules Set day=$1, opening_hours=$2, closing_hours=$3 Where id=$4"
+
+	_, err := ds.db.Exec(qry, schedule.Day, schedule.OpeningHours, schedule.ClosingHours, schedule.ID)
+
+	if err != nil {
+		return model.ScheduleDoctors{}, err
+	}
+
+	return schedule, nil
 }
 
 func (ds doctorScheduleRepo) DeleteDoctorSchedule(idSchedule string) error {
 	qry := "Delete From doctor_scedules Where id=$1"
-	_, err := ds.db.Exec(qry, idSchedule)
+	qryDel2 := "Delete From queues Where id_schedule=$1"
+	selQry := "Select Count(id) As total_data From doctor_scedules Where id IN(select id_schedule From queues Where id_schedule=$1 AND status=$2 OR status=$3)"
+	tx, err := ds.db.Begin()
+	totalData := 0
 
 	if err != nil {
+		return err
+	}
+
+	err = tx.QueryRow(selQry, idSchedule, "created", "reschedule").Scan(&totalData)
+
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	if totalData > 0 {
+		tx.Rollback()
+		return errors.New("there are queues that have not been resolved")
+	}
+
+	_, err = tx.Exec(qryDel2, idSchedule)
+
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	_, err = tx.Exec(qry, idSchedule)
+
+	if err != nil {
+		tx.Rollback()
 		return errors.Join(errors.New("failed delete doctor schedule because "), err)
 	}
 
+	tx.Commit()
+
 	return nil
+}
+
+func (ds doctorScheduleRepo) SelectScheduleID(day, openingHours string) (id string, err error) {
+	qry := "Select id from doctor_scedules Where day=$1 AND opening_hours=$2"
+
+	err = ds.db.QueryRow(qry, day, openingHours).Scan(&id)
+
+	return
 }
 
 func (ds doctorScheduleRepo) GetAllSchedule() (data []model.ScheduleDoctors, err error) {

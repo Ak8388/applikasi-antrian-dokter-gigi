@@ -15,12 +15,15 @@ function toggleSidebar() {
 
 document.getElementById("patient-page").addEventListener("click", (e) => {
     const token = localStorage.getItem("token");
-    const patient = document.getElementById("patients");
     const appPage = document.getElementById('appointments');
     const doctrorPage = document.getElementById('doctors');
+    const patientPage = document.getElementById('patients');
+    const dashPage = document.getElementById('dashboard');
+    dashPage.style.height='0';
+    dashPage.innerHTML = "";
+    patientPage.innerHTML = "";
     doctrorPage.innerHTML = "";
     appPage.innerHTML = "";
-    patient.innerHTML = " ";
 
     const table = document.createElement("table");
     const thead = document.createElement("thead");
@@ -47,7 +50,7 @@ document.getElementById("patient-page").addEventListener("click", (e) => {
     const th7 = document.createElement("th");
     th7.innerText = "#";
 
-    patient.appendChild(table);
+    patientPage.appendChild(table);
     table.appendChild(thead);
     thead.appendChild(trowsH);
     trowsH.appendChild(th1);
@@ -157,6 +160,11 @@ document.getElementById("patient-page").addEventListener("click", (e) => {
                     }
 
                 })
+
+                btnDel.addEventListener("click", (e) => {
+                    localStorage.setItem('email', trows.getAttribute('email'));
+                    document.getElementById("confirmModal").style.display = "block";
+                })
             })
         })
 }
@@ -165,11 +173,14 @@ document.getElementById("patient-page").addEventListener("click", (e) => {
 document.getElementById("doctors-page").addEventListener("click", (e) => {
     const token = localStorage.getItem("token");
     const appPage = document.getElementById('appointments');
+    const doctrorPage = document.getElementById('doctors');
     const patientPage = document.getElementById('patients');
-    const doctors = document.getElementById("doctors");
+    const dashPage = document.getElementById('dashboard');
+    dashPage.style.height='0';
+    dashPage.innerHTML = "";
     patientPage.innerHTML = "";
+    doctrorPage.innerHTML = "";
     appPage.innerHTML = "";
-    doctors.innerHTML = " ";
 
     const addCntr = document.createElement("div");
     addCntr.id = "add-doctors-cntr";
@@ -470,6 +481,9 @@ document.getElementById('appoitments-page').addEventListener('click', e => {
             const appPage = document.getElementById('appointments');
             const doctrorPage = document.getElementById('doctors');
             const patientPage = document.getElementById('patients');
+            const dashPage = document.getElementById('dashboard');
+            dashPage.style.height='0';
+            dashPage.innerHTML = "";
             patientPage.innerHTML = "";
             doctrorPage.innerHTML = "";
             appPage.innerHTML = "";
@@ -480,7 +494,7 @@ document.getElementById('appoitments-page').addEventListener('click', e => {
                 appPage.appendChild(drCard);
 
                 const drPhoto = document.createElement('img');
-                drPhoto.src = dataRes.photos;
+                drPhoto.src = "../../../"+dataRes.photos;
                 drPhoto.alt = 'doctor photos';
                 drCard.appendChild(drPhoto);
 
@@ -488,13 +502,128 @@ document.getElementById('appoitments-page').addEventListener('click', e => {
                 drName.innerText = dataRes.name;
                 drCard.appendChild(drName);
 
-                drCard.addEventListener('click',cardElement=>{
-                    localStorage.setItem('doc-id',dataRes.doctorId)
+                drCard.addEventListener('click', cardElement => {
+                    localStorage.setItem('doc-id', dataRes.doctorId)
                     location.href = './appoitment/appoitment.html'
                 })
             })
         })
 })
+
+document.getElementById('dashboard-page').addEventListener('click',e=>{
+    Main();
+})
+
+function Main() {
+    const dash = document.getElementById('dashboard');
+    const appPage = document.getElementById('appointments');
+    const doctrorPage = document.getElementById('doctors');
+    const patientPage = document.getElementById('patients');
+    dash.innerHTML = "";
+    patientPage.innerHTML = "";
+    doctrorPage.innerHTML = "";
+    appPage.innerHTML = "";
+    dash.style.height ='100%';
+
+    // Card Pasien
+    const cardUser = document.createElement('div');
+    cardUser.className = 'card';
+
+    const cardUserIcon = document.createElement('div');
+    cardUserIcon.className = 'icon';
+    const iconUser = document.createElement('i');
+    iconUser.className = 'fas fa-user';
+    cardUserIcon.appendChild(iconUser);
+
+    const detailsUser = document.createElement('div');
+    detailsUser.className = 'details';
+    const countUser = document.createElement('h3');
+    countUser.id = 'userCount';
+    const desUser = document.createElement('p');
+    desUser.innerText = 'Jumlah Pasien';
+
+    detailsUser.appendChild(countUser);
+    detailsUser.appendChild(desUser);
+
+    cardUser.appendChild(cardUserIcon);
+    cardUser.appendChild(detailsUser);
+
+    // Card Doctor
+    const cardDoctor = document.createElement('div');
+    cardDoctor.className = 'card';
+
+    const cardDocIcon = document.createElement('div');
+    cardDocIcon.className = 'icon';
+    const iconDoc = document.createElement('i');
+    iconDoc.className = 'fas fa-user-md';
+    cardDocIcon.appendChild(iconDoc);
+
+    const detailsDoctor = document.createElement('div');
+    detailsDoctor.className = 'details';
+    const countDoc = document.createElement('h3');
+    countDoc.id = 'doctorCount';
+    const desDoc = document.createElement('p');
+    desDoc.innerText = 'Jumlah Dokter';
+
+    detailsDoctor.appendChild(countDoc);
+    detailsDoctor.appendChild(desDoc);
+
+    cardDoctor.appendChild(cardDocIcon);
+    cardDoctor.appendChild(detailsDoctor);
+
+    // Card Que
+    const cardQueue = document.createElement('div');
+    cardQueue.className = 'card';
+
+    const cardQueueIcon = document.createElement('div');
+    cardQueueIcon.className = 'icon';
+    const iconQueue = document.createElement('i');
+    iconQueue.className = 'fas fa-clipboard-list';
+
+    cardQueueIcon.appendChild(iconQueue);
+
+    const detailsQue = document.createElement('div');
+    detailsQue.className = 'details';
+    const countQue = document.createElement('h3');
+    countQue.id = 'queueCount';
+    const desQue = document.createElement('p');
+    desQue.innerText = 'Jumlah Antrian';
+
+    detailsQue.appendChild(countQue);
+    detailsQue.appendChild(desQue);
+
+    cardQueue.appendChild(cardQueueIcon);
+    cardQueue.appendChild(detailsQue);
+
+    dash.appendChild(cardUser);
+    dash.appendChild(cardDoctor);
+    dash.appendChild(cardQueue);
+
+    cardUser.addEventListener('click',e=>{
+        document.getElementById('patient-page').click();
+        location.href = '#patients';
+    })
+
+    cardDoctor.addEventListener('click',e=>{
+        document.getElementById('doctors-page').click();
+        location.href = '#doctors';
+    })
+
+    cardQueue.addEventListener('click',e=>{
+        document.getElementById('appoitments-page').click();
+    })
+
+    // Placeholder data, replace with real data fetching logic
+    const data = {
+        users: 150,
+        doctors: 20,
+        queues: 45
+    };
+
+    countUser.textContent = data.users;
+    countDoc.textContent = data.doctors;
+    countQue.textContent = data.queues;
+}
 
 // Script Alert
 function showAlert(text) {
@@ -529,29 +658,41 @@ function convertPxToPercent(pxValue, parentSize) {
     return (pxValue / parentSize) * 100;
 }
 
+
+document.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('token');
+    tokenVerify(token);
+    Main();
+});
+
 // Dialog Alert
-document.getElementById("confirmYes").addEventListener("click", function () {
+document.getElementById("confirmYes").addEventListener("click", async function () {
     const token = localStorage.getItem('token');
     const email = localStorage.getItem('email');
     // Lakukan tindakan penghapusan
-    fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/users?email=${email}`, {
-        method: 'DELETE',
-        headers: {
-            'Authorization': token,
-        },
-    })
-        .then(res => {
-            if (res.status > 299) {
-                showAlert('mohon maaf sepertinya ada kesalahan dari sisi server');
-                return
-            } else {
-                return res.json();
-            }
+    try {
+        await fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/users?email=${email}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': "Bearer " + token,
+            },
         })
-        .then(res => {
-            localStorage.removeItem('email');
-            alert("Data telah berhasil dihapus");
-        })
+            .then(res => {
+                if (res.status > 299) {
+                    throw new Error("error");
+                } else {
+                    return res.json();
+                }
+            })
+            .then(res => {
+                localStorage.removeItem('email');
+                alert("Data telah berhasil dihapus");
+            })
+    } catch (error) {
+        document.getElementById("confirmModal").style.display = "none";
+        showAlert('mohon maaf sepertinya ada kesalahan dari sisi server');
+        return
+    }
 
 
     document.getElementById("confirmModal").style.display = "none";
@@ -586,4 +727,29 @@ function tokenVerify(token) {
                 }, 5000)
             }
         })
+}
+
+document.getElementById('setting').addEventListener('click',e=>{
+    document.querySelector('.card-setting').style.display = 'block';
+})
+
+function closeCardSetting() {
+    // Implementasi untuk menutup card-setting
+    document.querySelector('.card-setting').style.display = 'none';
+}
+
+function changePassword() {
+    // Implementasi untuk mengubah kata sandi
+    location.href='../../auth/reset_password/reset_password.html';
+    localStorage.setItem('start-page','../../secound_page/doctor/doctor.html');
+}
+
+function changeEmail(){
+    location.href = '../../auth/change_email/email.html';
+}
+
+function logOut() {
+    // Implementasi untuk log out
+    localStorage.removeItem('token');
+    location.href='../../index.html';
 }

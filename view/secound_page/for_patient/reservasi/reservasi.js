@@ -28,7 +28,7 @@ function main() {
                 let newpath2 = "../../../../" + newpath;
                 const drCntr = document.createElement("div");
                 drCntr.className = "dr-cntr";
-                drCntr.setAttribute("dr-id", e.doctorId);
+                drCntr.setAttribute("dr-id", e.id);
                 drCntr.setAttribute("dr-photo", newpath2);
                 drCntr.setAttribute("dr-des", e.description);
                 drCntr.setAttribute("dr-name", e.name);
@@ -87,7 +87,7 @@ function main() {
 
                     const DrTable = document.getElementById("table");
 
-                    fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/schedules/${idDoctor}`, {
+                    fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/schedules/dr-schedules?drId=${idDoctor}`, {
                         headers: {
                             "Authorization": token,
                         }

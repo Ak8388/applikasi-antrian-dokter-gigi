@@ -36,8 +36,15 @@ button {
   height: 30px;
 }
 
-button:hover{
+button:hover {
   cursor: pointer;
+}
+
+#filter{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 table,
@@ -107,7 +114,7 @@ tbody tr:hover {
 
   > div {
     display: flex;
-    gap:10px;
+    gap: 10px;
     > img {
       width: 25px;
     }
@@ -115,6 +122,162 @@ tbody tr:hover {
       cursor: pointer;
     }
   }
+}
+
+/* Date Card */
+.card-date {
+  position: absolute;
+  top: 30%;
+  left: -500px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 300px;
+  padding: 20px;
+  transition: 0.8s;
+  text-align: center;
+}
+
+.add-date {
+  left: 40%;
+}
+
+.card-date h2 {
+  margin-top: 0;
+}
+
+.card-date input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.card-date button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+#time-reservation-cntr {
+  margin-top: 10px;
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-date button:hover {
+  background-color: #0056b3;
+}
+
+.practice-time {
+  width: 50px;
+  background-color: whitesmoke;
+  position: relative;
+}
+
+.practice-time {
+  cursor: pointer;
+}
+
+.practice-time.active {
+  background-color: lightgreen;
+}
+
+.opt-time {
+  position: absolute;
+  transform: scale(2);
+  top: 12%;
+  left: 40%;
+  opacity: 0;
+}
+
+.opt-time:hover {
+  cursor: pointer;
+}
+
+/* Alert */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style for the alert box */
+.alert-box {
+  background: rgba(14, 115, 231, 0.5);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  position: relative;
+  width: 300px;
+}
+
+/* Style for the OK button */
+.alert-box button {
+  margin-top: 5px;
+  background: white;
+  color: rgb(14, 115, 231);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Show overlay and alert box */
+.overlay.show {
+  display: flex;
+}
+
+/* model */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+  text-align: center;
+}
+.modal-button {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+.modal-button.yes {
+  background-color: #4caf50;
+  color: white;
+}
+.modal-button.no {
+  background-color: #f44336;
+  color: white;
 }
 
 @media (max-width: 768px) {

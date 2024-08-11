@@ -20,7 +20,7 @@ type queueController struct {
 func (q *queueController) rescheduleQueue(c *gin.Context) {
 	var data dto.QueueDto
 
-	if err := c.ShouldBind(&data); err != nil {
+	if err := c.ShouldBindJSON(&data); err != nil {
 		err = errors.Join(err, errors.New("make sure you fill in the data correctly"))
 		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 		return
@@ -28,7 +28,6 @@ func (q *queueController) rescheduleQueue(c *gin.Context) {
 
 	err := q.queueUsecase.Reschedule(data)
 
-	fmt.Println(err, data.Doctor, " ", data.QueueDate, " ", data.QueueTime, " ", data.Patient)
 	if err != nil {
 		err = errors.Join(err, errors.New("make sure you fill in the data correctly"))
 		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
@@ -64,7 +63,14 @@ func (q *queueController) createNewQueue(c *gin.Context) {
 func (q *queueController) viewAllQueue(c *gin.Context) {
 	period := c.Query("period")
 	status := c.Query("status")
-	id := c.Param("id")
+	id := c.Query("id")
+
+	if id == "null" {
+		getId, exist := c.Get("userID")
+		if exist {
+			id = getId.(string)
+		}
+	}
 
 	res, err := q.queueUsecase.ViewAllQueue(id, status, period)
 
@@ -114,6 +120,7 @@ func (q *queueController) viewQueueByPatientId(c *gin.Context) {
 	res, err := q.queueUsecase.ViewQueueByPatientId(userId, status)
 
 	if err != nil {
+		fmt.Println(err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
 		return
 	}
@@ -153,18 +160,40 @@ func (q *queueController) updateStatusQueue(c *gin.Context) {
 	}
 
 	if err := c.ShouldBindJSON(&DataRequired); err != nil {
+		fmt.Println(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 		return
 	}
 
+	fmt.Println(DataRequired)
+
 	err := q.queueUsecase.UpdateStatusQue(DataRequired.Id, DataRequired.Status)
 
 	if err != nil {
+		fmt.Println(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{"Message": "success update status queues"})
+}
+
+func (q *queueController) validateQueue(c *gin.Context) {
+	var validateReq dto.ValidateQueue
+
+	if err := c.ShouldBindJSON(&validateReq); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+		return
+	}
+	fmt.Println(validateReq)
+	valid := q.queueUsecase.ValidateQueue(validateReq.DoctorId, validateReq.OpenTime, validateReq.Date)
+
+	if !valid {
+		c.JSON(http.StatusBadRequest, gin.H{"Error": "queue is full"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "ok"})
 }
 
 func (q *queueController) QueueRouter() {
@@ -174,9 +203,10 @@ func (q *queueController) QueueRouter() {
 	r.PUT("cancel", q.authMd.JwtVerify("Doctor", "Patient", "Admin"), q.cancelQueue)
 	r.PUT("update-status-queues", q.authMd.JwtVerify("Doctor", "Admin"), q.updateStatusQueue)
 	r.POST("", q.createNewQueue)
-	r.GET("views/:id", q.authMd.JwtVerify("Doctor", "Admin"), q.viewAllQueue)
+	r.GET("views", q.authMd.JwtVerify("Doctor", "Admin"), q.viewAllQueue)
 	r.GET("view", q.authMd.JwtVerify("Doctor", "Patient", "Admin"), q.viewQueueByPatientId)
 	r.DELETE("", q.authMd.JwtVerify("Doctor", "Patient", "Admin"), q.removeQueue)
+	r.POST("validate", q.validateQueue)
 }
 
 func NewQueueController(queueUsecase usecase.QueueUsecase, authMd middleware.AuthMiddleware, rg *gin.RouterGroup) *queueController {

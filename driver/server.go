@@ -29,7 +29,9 @@ func (sr *serverRequirment) setUpController() {
 	// queue controller
 	controller.NewQueueController(sr.manager.QueueUsecase(), am, rg).QueueRouter()
 	// schedule controller
-	controller.NewScheduleDoctor(sr.manager.ScheduleDoctor(), rg, am).ScheduleRouter()
+	controller.NewScheduleDoctor(sr.manager.ScheduleDoctor(), am, rg).ScheduleRouter()
+	// doctor controller
+	controller.NewDoctorController(sr.manager.Doctor(), am, rg).DoctorsRouter()
 }
 
 func (sr *serverRequirment) Run() {

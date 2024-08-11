@@ -6,11 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./patient_page.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>patient</title>
 </head>
 
 <body>
-    <header>
+    <!-- <header>
         <div id="logo-klinik">
             <div>
                 <img id="logo-gigi" src="../../assets/photos/home/GikuLogo.png" alt="LogoGigiku">
@@ -22,12 +23,11 @@
         <nav id="navigasi">
             <div id="nav">
                 <ul type="none">
-                    <li><a href="../../../view/index.html">Home</a></li>
                     <li><a href="./reservasi/reservasi.html">DaftarOnline</a></li>
                     <li><a href="./queue/myQue.html">Antrianku</a></li>
                     <li><a href="./myPayment/my-payment.html">PemabayaranKu</a></li>
                     <li><a href="">TentangKami</a></li>
-                    <li><a href="">ProfilKu</a></li>
+                    <li id="setclick"><a>ProfilKu</a></li>
                 </ul>
             </div>
             <label for="check">
@@ -40,18 +40,17 @@
                                 <p id="jud">GIGIKU</p>
                             </div>
                             <ul type="none">
-                                <a href="../../index.html">
-                                    <li>Home</li>
-                                </a>
                                 <a href="./reservasi/reservasi.html">
                                     <li>Daftar Online</li>
                                 </a>
                                 <a href="./queue/myQue.html">
                                     <li>Antrianku</li>
                                 </a>
+                                <li><a href="./myPayment/my-payment.html">PemabayaranKu</a></li>
                                 <a href="../Cuaca/project.html">
                                     <li>Tentang Kami</li>
                                 </a>
+                                <li id="setClick2"><a>ProfilKu</a></li>
                                 <a href="">
                                     <button>Keluar</button>
                                 </a>
@@ -64,36 +63,69 @@
                 </div>
             </label>
         </nav>
-    </header>
+    </header> -->
     <section id="main">
-        <div class="slider-container">
-            <div class="slider">
-                <div class="slide">
-                    <!-- <div id="doctorname">
-                        <h1>Vony Nur Shanti</h1>
-                    </div> -->
-                    <!-- <div>
-                        <img src="../../assets/photos/home/twitter.png" alt="">
-                    </div> -->
-                </div>
-                <div class="slide">Slide 2</div>
-                <div class="slide">Slide 3</div>
+        <div id="wellcome">
+            <div id="name-patient">
+                <h2 id="patient-name-text"></h2>
             </div>
         </div>
-        <div id="right-content">
+        <nav>
+            <div id="cardMenu" class="card-menu"></div>
+        </nav>
+        <main id="mid-content">
+            <div class="slider-container">
+                <div class="slider" id="slider">
+                   
+                </div>
+            </div>
+        </main>
+        <!-- Setting -->
+        <div id="settings" class="section">
+            <div id="seting-card" class="card-setting">
+                <div class="card-header">
+                    <button id="close-btn" id="btn" onclick="closeCardSetting()">×</button>
+                </div>
+                <button class="menu-item" onclick="changePassword()">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/lock.png" alt="Change Password Icon" />
+                    Change Password
+                </button>
+                <button class="menu-item" onclick="changeEmail()">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/email.png" alt="Change Email Icon" />
+                    Change Email
+                </button>
+                <button class="menu-item" onclick="updateProfile()">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/user.png" alt="Update Profile Icon" />
+                    Update Profile
+                </button>
+                <button class="menu-item" onclick="logOut()">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/logout-rounded-left.png" alt="Log Out Icon" />
+                    Log Out
+                </button>
+            </div>
+        </div>
 
+        <!-- News Dental -->
+        <div class="sliderr-container">
+            <button class="slider-btn prev" disabled><i class="fas fa-chevron-left"></i></button>
+            <div class="sliderr" id="sliderr">
+                <!-- News Cards will be inserted here by JavaScript -->
+            </div>
+            <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+        </div>
+
+        <!-- Alert -->
+        <div id="overlay" class="overlay">
+            <div class="alert-box">
+                <div class="close-icon">X</div>
+                <div id="text-alert"></div>
+                <button onclick="closeAlert()">OK</button>
+            </div>
         </div>
     </section>
-    
-    <!-- Alert -->
-    <div id="overlay" class="overlay">
-        <div class="alert-box">
-            <div class="close-icon">X</div>
-            <div id="text-alert"></div>
-            <button onclick="closeAlert()">OK</button>
-        </div>
-    </div>
-    <script src="patient_page.js"></script>
+
+    <script src="patient_page.js">
+    </script>
 </body>
 
 </html>

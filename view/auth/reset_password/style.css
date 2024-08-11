@@ -1,0 +1,154 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: dosis;
+}
+
+@font-face {
+  font-family: "dosis";
+  src: url("../../assets/font/Dosis-VariableFont_wght.ttf");
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #f4f4f4;
+}
+
+.card {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+.form-group {
+  margin-bottom: 15px;
+  position: relative;
+}
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+input[type="password"],
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 70%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.toggle-password img {
+  width: 20px;
+  height: 20px;
+}
+.btn {
+  width: 48%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.btn-confirm {
+  background-color: #28a745;
+  color: white;
+}
+.btn-cancel {
+  background-color: #dc3545;
+  color: white;
+}
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Alert */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style for the alert box */
+.alert-box {
+  background: rgba(14, 115, 231, 0.5);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  position: relative;
+  width: 300px;
+}
+
+/* Style for the OK button */
+.alert-box button {
+  margin-top: 5px;
+  background: white;
+  color: rgb(14, 115, 231);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Show overlay and alert box */
+.overlay.show {
+  display: flex;
+}
+
+/* Dialog Alert */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+  text-align: center;
+}
+.modal-button {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+.modal-button.yes {
+  background-color: #4caf50;
+  color: white;
+}
+.modal-button.no {
+  background-color: #f44336;
+  color: white;
+}
+

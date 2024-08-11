@@ -1,26 +1,28 @@
-document.getElementById("form-email").addEventListener("submit", async (e) => {
+document.getElementById("form-email").addEventListener("click", async (e) => {
     e.preventDefault()
-
+    
     let em = document.getElementById("email").value;
+    const obj = {'newEmail':em}
 
     try{
         await fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/users/find-email?email=${em}`)
         .then(res=>{
-            if(!res.ok){
-                throw new Error('error');
-            }else{
+            if(res.ok){
                 return res.json();
+            }else{
+                throw new Error('error');
             }
         })
         .then(resData=>{
-            if (em !== "") {
-               localStorage.setItem("email",em)
-               localStorage.setItem("key","not regist")
-               location.href="../.././email_verify/email.html"
-            }
+            showAlert('mohon maaf sepertinya email anda sudah terdaftar');
         })
     }catch(error){
-        showAlert('mohon maaf sepertinya email anda belum terdaftar');
+        if (em !== "") {
+           localStorage.setItem("email",em)
+           localStorage.setItem("data",JSON.stringify(obj));
+           localStorage.setItem("key","change email");
+           location.href ='../email_verify/email.html';
+        }
     }
 
 

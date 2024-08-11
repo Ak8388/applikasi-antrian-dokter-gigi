@@ -19,6 +19,7 @@ type UserRepository interface {
 	DeleteUser(email string) (dto.ResponseFindUser, error)
 	GetDoctor() ([]dto.DcotorDto, error)
 	GetUserByID(id string) (dto.ResponseFindUser, error)
+	ChangeEmailUser(newEmail string, id string) error
 }
 
 type userRepository struct {
@@ -88,16 +89,6 @@ func (u *userRepository) UpdateDataUser(data dto.DtoUpdateUser, email string) (d
 	if data.Name != "" {
 		qry += "name=$" + strconv.Itoa(index)
 		dataUpdate = append(dataUpdate, data.Name)
-		index++
-	}
-
-	if data.Email != "" {
-		dataUpdate = append(dataUpdate, data.Email)
-		if index > 1 {
-			qry += " ,email=$" + strconv.Itoa(index)
-		} else {
-			qry += "email=$" + strconv.Itoa(index)
-		}
 		index++
 	}
 
@@ -199,6 +190,17 @@ func (u *userRepository) GetUserByID(id string) (res dto.ResponseFindUser, err e
 	err = u.db.QueryRow(qry, id).Scan(&res.Name, &res.Email, &res.Address, &res.Role)
 
 	return
+}
+
+func (u *userRepository) ChangeEmailUser(newEmail string, id string) error {
+	qry := "Update users Set email=$1 Where id=$2"
+	_, err := u.db.Exec(qry, newEmail, id)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func NewUserRepository(db *sql.DB) UserRepository {

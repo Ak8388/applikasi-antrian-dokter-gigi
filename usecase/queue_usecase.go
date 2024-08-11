@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"errors"
+	"fmt"
 	"strings"
 	"time"
 
@@ -18,11 +19,13 @@ type QueueUsecase interface {
 	ViewQueueByPatientId(patientId, status string) ([]dto.QueueDtoResponse, error)
 	CancelQueue(id string) error
 	UpdateStatusQue(id, status string) error
+	ValidateQueue(id, open, date string) bool
 }
 
 type queueUsecase struct {
-	queueRepo repository.QueueRepo
-	userUC    UserUsecase
+	queueRepo       repository.QueueRepo
+	userUC          UserUsecase
+	scheduleUsecase DoctorScheduleUsecase
 }
 
 func (q *queueUsecase) Reschedule(dataDto dto.QueueDto) error {
@@ -33,8 +36,12 @@ func (q *queueUsecase) Reschedule(dataDto dto.QueueDto) error {
 		return err
 	}
 
-	if res.Status != "created" || res.QueueDate.Before(time.Now()) {
+	if res.Status != "created" && res.Status != "reschedule" || res.QueueDate.Before(time.Now()) {
 		return errors.New("cannot reschedule your queue is invalid")
+	}
+
+	if q.queueRepo.GetQueueByDateAndPatientID(dataDto.Patient, dataDto.QueueDate) {
+		return errors.New("cannot reschedule your queue is invalid because")
 	}
 
 	qDate, err := time.Parse(layout, dataDto.QueueDate)
@@ -49,13 +56,19 @@ func (q *queueUsecase) Reschedule(dataDto dto.QueueDto) error {
 		return err
 	}
 
+	weekDay := qDate.Weekday()
+	idSchedule, _ := q.scheduleUsecase.FindScheduleID(weekDay.String(), qTime.String())
+
 	data := model.Queue{
 		ID:          dataDto.ID,
 		QueueDate:   qDate,
 		QueueTime:   qTime,
-		QueueNumber: int(q.queueRepo.CountDataReservasi(dataDto.Doctor, dataDto.QueueDate, dataDto.QueueTime)) + 1,
+		QueueNumber: int(q.queueRepo.CountDataReservasi(res.Doctor, dataDto.QueueDate, dataDto.QueueTime)) + 1,
 		Status:      "Reschedule",
+		Schedule:    idSchedule,
 	}
+
+	fmt.Println("This Schedule ID= ", idSchedule)
 
 	if !data.StatusValidate() {
 		return errors.New("please fill the status correctly")
@@ -100,6 +113,8 @@ func (q *queueUsecase) CreateNewQueue(dataDto dto.QueueDto) (model.Queue, error)
 		return model.Queue{}, err
 	}
 
+	weekDay := qDate.Weekday()
+	idSchedule, _ := q.scheduleUsecase.FindScheduleID(weekDay.String(), qTime.String())
 	data := model.Queue{
 		Doctor:      dataDto.Doctor,
 		Patient:     dataDto.Patient,
@@ -108,6 +123,7 @@ func (q *queueUsecase) CreateNewQueue(dataDto dto.QueueDto) (model.Queue, error)
 		QueueNumber: int(q.queueRepo.CountDataReservasi(dataDto.Doctor, dataDto.QueueDate, dataDto.QueueTime)) + 1,
 		Note:        dataDto.Note,
 		Status:      "Created",
+		Schedule:    idSchedule,
 	}
 
 	if data.Doctor == "" {
@@ -238,9 +254,17 @@ func (q *queueUsecase) UpdateStatusQue(id, status string) error {
 		return errors.New("not valid reservation")
 	}
 
+	if status != "process" && status != "finish" {
+		return errors.New("not valid reservation status")
+	}
+
 	return q.queueRepo.UpdateStatusQue(id, status)
 }
 
-func NewQueueUsecase(queueRepo repository.QueueRepo, userUc UserUsecase) QueueUsecase {
-	return &queueUsecase{queueRepo, userUc}
+func (q *queueUsecase) ValidateQueue(id, open, date string) bool {
+	return q.queueRepo.ValidateQueue(id, open, date)
+}
+
+func NewQueueUsecase(queueRepo repository.QueueRepo, userUc UserUsecase, scheduleUsecase DoctorScheduleUsecase) QueueUsecase {
+	return &queueUsecase{queueRepo, userUc, scheduleUsecase}
 }

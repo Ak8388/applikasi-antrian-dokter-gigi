@@ -88,14 +88,14 @@ func (a *authUsecase) LoginUser(email, password string) (model.TokenAkses, error
 
 func (a *authUsecase) EmailVerify(email, rOn string) (code string, err error) {
 
-	if rOn != "regist" {
+	if rOn != "regist" && rOn != "change email" {
 		_, err := a.userUc.FindUserByEmail(email)
 		if err != nil {
 			return "", errors.New("sorry, your email is not currently registered")
 		}
-	} else {
-		code, err = a.repoAuth.EmailVerify(email)
 	}
+
+	code, err = a.repoAuth.EmailVerify(email)
 
 	return
 }

@@ -17,7 +17,14 @@ type userController struct {
 }
 
 func (uc *userController) findUserByEmail(c *gin.Context) {
-	email := c.Param("email")
+	email := c.Query("email")
+
+	if email == "" {
+		em, ex := c.Get("userEmail")
+		if ex {
+			email = em.(string)
+		}
+	}
 
 	res, err := uc.userUc.FindUserByEmail(email)
 
@@ -27,8 +34,8 @@ func (uc *userController) findUserByEmail(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, gin.H{
-		"Message": "Succes Find User",
-		"Data":    res,
+		"mesage": "Succes Find User",
+		"data":   res,
 	})
 }
 
@@ -47,6 +54,7 @@ func (uc *userController) deleteUser(c *gin.Context) {
 	res, err := uc.userUc.RemoveUser(value)
 
 	if err != nil {
+		fmt.Println(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -115,6 +123,7 @@ func (uc *userController) changeDataUser(c *gin.Context) {
 	res, err := uc.userUc.ChangeDataUser(payload, email.(string))
 
 	if err != nil {
+		fmt.Println(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -139,15 +148,39 @@ func (uc *userController) getDoctor(c *gin.Context) {
 	})
 }
 
+func (u *userController) changeEmailUser(c *gin.Context) {
+	var NewEmail struct {
+		Email string `json:"newEmail" binding:"required,email"`
+	}
+
+	if err := c.ShouldBindJSON(&NewEmail); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+		return
+	}
+
+	id, _ := c.Get("userID")
+
+	err := u.userUc.ChangeEmailUser(NewEmail.Email, id.(string))
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"Message": "success update your email"})
+}
+
 func (uc *userController) UserRouter() {
 	r := uc.rg.Group("users")
 
 	r.POST("", uc.authMiddleware.JwtVerify("Doctor", "Patient", "Admin"), uc.changePasswordUser)
 	r.DELETE("", uc.authMiddleware.JwtVerify("Doctor", "Patient", "Admin"), uc.deleteUser)
-	r.GET("/:email", uc.authMiddleware.JwtVerify("Doctor", "Admin"), uc.findUserByEmail)
+	r.GET("", uc.authMiddleware.JwtVerify("Doctor", "Patient", "Admin"), uc.findUserByEmail)
+	r.GET("find-email", uc.findUserByEmail)
 	r.GET("find-user-by-role/:role", uc.authMiddleware.JwtVerify("Admin"), uc.findUserByRole)
 	r.PUT("", uc.authMiddleware.JwtVerify("Doctor", "Patient", "Admin"), uc.changeDataUser)
 	r.GET("doctors", uc.authMiddleware.JwtVerify("Patient", "Admin"), uc.getDoctor)
+	r.PUT("emails", uc.authMiddleware.JwtVerify("Doctor", "Patient", "Admin"), uc.changeEmailUser)
 }
 
 func NewUserController(userUc usecase.UserUsecase, authMidd middleware.AuthMiddleware, rg *gin.RouterGroup) *userController {

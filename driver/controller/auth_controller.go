@@ -31,7 +31,6 @@ func (ac *authController) createNewUser(c *gin.Context) {
 	res, err := ac.autUC.CreateNewUser(payload)
 
 	if err != nil {
-		fmt.Println("EROR =", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
