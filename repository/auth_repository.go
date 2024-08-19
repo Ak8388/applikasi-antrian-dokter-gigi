@@ -23,6 +23,7 @@ type AuthRepository interface {
 	EmailVerify(email string) (verifyCode string, err error)
 	TokenVerify(tokenModel model.TokenAkses) error
 	InsertNewDokter(dataDoctor model.DoctorDetail) (model.DoctorDetail, error)
+	ResetPasswordForgot(email, newPAssword string) error
 }
 
 type authRepository struct {
@@ -121,6 +122,17 @@ func (a *authRepository) InsertNewDokter(dataDoctor model.DoctorDetail) (model.D
 	}
 
 	return dataDoctor, nil
+}
+
+func (a *authRepository) ResetPasswordForgot(email, newPAsswordEncrypt string) error {
+	qry := "Update users Set password=$1 Where email=$2"
+	_, err := a.db.Exec(qry, newPAsswordEncrypt, email)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func NewAuthRepository(db *sql.DB, jwtVerif common.JwtToken) AuthRepository {

@@ -19,6 +19,7 @@ type UserUsecase interface {
 	GetDoctor() ([]dto.DcotorDto, error)
 	GetUserByID(id string) (dto.ResponseFindUser, error)
 	ChangeEmailUser(newEmail string, id string) error
+	CountUserByRole(role string) (int64, error)
 }
 
 type userUsecase struct {
@@ -145,6 +146,10 @@ func (u *userUsecase) ChangeEmailUser(newEmail string, id string) error {
 	}
 
 	return u.userRepo.ChangeEmailUser(newEmail, id)
+}
+
+func (u *userUsecase) CountUserByRole(role string) (int64, error) {
+	return u.userRepo.CountUserByRole(role)
 }
 
 func NewUserUsecase(userRepo repository.UserRepository) UserUsecase {

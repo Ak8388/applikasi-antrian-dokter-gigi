@@ -29,6 +29,7 @@ func (q *queueController) rescheduleQueue(c *gin.Context) {
 	err := q.queueUsecase.Reschedule(data)
 
 	if err != nil {
+		fmt.Println(err.Error())
 		err = errors.Join(err, errors.New("make sure you fill in the data correctly"))
 		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 		return
@@ -185,8 +186,8 @@ func (q *queueController) validateQueue(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 		return
 	}
-	fmt.Println(validateReq)
-	valid := q.queueUsecase.ValidateQueue(validateReq.DoctorId, validateReq.OpenTime, validateReq.Date)
+
+	valid := q.queueUsecase.ValidateQueue(validateReq.DoctorId, validateReq.OpenTime, validateReq.Date, validateReq.ToStts)
 
 	if !valid {
 		c.JSON(http.StatusBadRequest, gin.H{"Error": "queue is full"})
@@ -194,6 +195,18 @@ func (q *queueController) validateQueue(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "ok"})
+}
+
+func (q *queueController) countDataReservasiOneMounth(c *gin.Context) {
+	res, err := q.queueUsecase.CountDataReservasiOneMounth()
+
+	if err != nil {
+		fmt.Println(err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "success count data reservation", "totalData": res})
 }
 
 func (q *queueController) QueueRouter() {
@@ -207,6 +220,7 @@ func (q *queueController) QueueRouter() {
 	r.GET("view", q.authMd.JwtVerify("Doctor", "Patient", "Admin"), q.viewQueueByPatientId)
 	r.DELETE("", q.authMd.JwtVerify("Doctor", "Patient", "Admin"), q.removeQueue)
 	r.POST("validate", q.validateQueue)
+	r.GET("count-queues", q.authMd.JwtVerify("Admin"), q.countDataReservasiOneMounth)
 }
 
 func NewQueueController(queueUsecase usecase.QueueUsecase, authMd middleware.AuthMiddleware, rg *gin.RouterGroup) *queueController {

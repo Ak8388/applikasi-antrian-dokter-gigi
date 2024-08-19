@@ -79,6 +79,7 @@ func (d *doctorController) findDoctorById(c *gin.Context) {
 	res, err := d.dus.FindDoctorById(id)
 
 	if err != nil {
+		fmt.Println(err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
 		return
 	}
@@ -89,10 +90,22 @@ func (d *doctorController) findDoctorById(c *gin.Context) {
 	})
 }
 
+func (d *doctorController) findAllDoctor(c *gin.Context) {
+	res, err := d.dus.FindAllDoctor()
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "success get data", "data": res})
+}
+
 func (d *doctorController) DoctorsRouter() {
 	r := d.rg.Group("doctors")
 	r.GET("", d.am.JwtVerify("Doctor", "Admin"), d.findDoctorById)
 	r.PUT("profiles", d.am.JwtVerify("Doctor", "Admin"), d.doctorUpdateProfile)
+	r.GET("all", d.findAllDoctor)
 }
 
 func NewDoctorController(dus usecase.DoctorUsecase, am middleware.AuthMiddleware, rg *gin.RouterGroup) *doctorController {

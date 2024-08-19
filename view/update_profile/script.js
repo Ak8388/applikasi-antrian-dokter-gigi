@@ -221,10 +221,11 @@ async function main() {
                         }
                     } else {
                         try {
-                            await fetch("http://localhost:8888/api-klinik-gigi-vony-nur-santy/doctors/profiles", {
+                            const dataJson = {'name':inpName.value,'address':inpAddr.value}
+                            await fetch("http://localhost:8888/api-klinik-gigi-vony-nur-santy/users", {
                                 headers: { "Authorization": "Bearer " + token },
                                 method: "PUT",
-                                body: formData
+                                body: JSON.stringify(dataJson)
                             })
                                 .then(res => {
                                     if (!res.ok) {
@@ -288,6 +289,6 @@ function tokenVerify(token) {
         })
 }
 
-document.getElementById('cancelBtn').addEventListener('click', e => {
-    document.getElementById('card-sche').style.display = 'none';
-})
+// document.getElementById('cancelBtn').addEventListener('click', e => {
+//     document.getElementById('card-sche').style.display = 'none';
+// })

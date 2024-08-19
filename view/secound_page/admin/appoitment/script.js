@@ -23,6 +23,7 @@ main()
 
 async function FilterGet(period, stts, token) {
     const id = localStorage.getItem('doc-id');
+    console.log(id);
     try {
         await fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/queues/views?id=${id}&period=${period}&status=${stts}`, {
             headers: {
@@ -178,7 +179,7 @@ document.getElementById("confirmYes").addEventListener("click", async function (
             document.getElementById('dateInput').addEventListener('change', async e => {
                 const dayString = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
                 const dateValue = document.getElementById('dateInput');
-                const doctorId = localStorage.getItem('doctor-id');
+                const doctorId = localStorage.getItem('doc-id');
                 const cntr = document.getElementById('time-reservation-cntr');
 
                 cntr.innerHTML = "";

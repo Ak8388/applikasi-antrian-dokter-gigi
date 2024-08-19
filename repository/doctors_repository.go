@@ -10,6 +10,7 @@ import (
 type DoctorsRepository interface {
 	DoctorUpdateProfile(data dto.DocterRegister) error
 	FindDoctorById(id string) (data dto.DcotorDto, err error)
+	FindAllDoctor() (data []dto.DcotorDto, err error)
 }
 
 type doctorRepo struct {
@@ -62,6 +63,30 @@ func (d *doctorRepo) FindDoctorById(id string) (data dto.DcotorDto, err error) {
 	qry := "select d.id, d.name, d.email, d.address, dd.photos, dd.age, dd.description,dd.degree From users d Join doctor_detail dd on dd.doctor_id = d.id Where d.id=$1"
 
 	err = d.db.QueryRow(qry, id).Scan(&data.Id, &data.Name, &data.Email, &data.Address, &data.Photos, &data.Age, &data.Description, &data.Degree)
+
+	return
+}
+
+func (d *doctorRepo) FindAllDoctor() (data []dto.DcotorDto, err error) {
+	qry := "Select d.name, dd.degree From users d Join doctor_detail dd on dd.doctor_id = d.id"
+
+	row, err := d.db.Query(qry)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for row.Next() {
+		doctorDto := dto.DcotorDto{}
+
+		err = row.Scan(&doctorDto.Name, &doctorDto.Degree)
+
+		if err != nil {
+			return
+		}
+
+		data = append(data, doctorDto)
+	}
 
 	return
 }

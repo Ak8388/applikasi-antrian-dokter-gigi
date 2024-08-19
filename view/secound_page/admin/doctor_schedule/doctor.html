@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div id="schedule" class="section">
+        <div id="title-page">
+            <h1>Jadwal Praktik Dokter</h1>
+        </div>
+        <div id="day-filter">
+            <label for="days-filter">Filter Hari:</label>
+            <select id="days-filter">
+                <option value="">Semua Hari</option>
+                <option value="Monday">Senin</option>
+                <option value="Tuesday">Selasa</option>
+                <option value="Wednesday">Rabu</option>
+                <option value="Thursday">Kamis</option>
+                <option value="Friday">Jum'at</option>
+                <option value="Saturday">Sabtu</option>
+                <option value="Sunday">Minggu</option>
+            </select>
+        </div>
+
+        <div id="ctr-btn"><button id="btn-add">ADD</button></div>
+
+        <table id="scheduleTable">
+            <thead>
+                <tr>
+                    <th>Nama Dokter</th>
+                    <th>Hari</th>
+                    <th>Jam Praktik</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+
+    <div class="card" id="card-sche">
+        <h2>Add Doctor Schedule</h2>
+        <form id="scheduleForm">
+            <label for="day">Day:</label>
+            <select id="day" name="day" required>
+                <option value="">Select a day</option>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+            </select>
+            <label for="openingHours">Opening Hours:</label>
+            <input type="time" id="openingHours" name="openingHours" required>
+            <label for="closingHours">Closing Hours:</label>
+            <input type="time" id="closingHours" name="closingHours" required>
+            <div class="button-group">
+                <button type="button" id="cancelBtn">Cancel</button>
+                <button id="add-btn">Add</button>
+            </div>
+        </form>
+    </div>
+    <!-- Dialog konfirmasi -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <p>Apakah Anda yakin ingin menghapus data ini?</p>
+            <button class="modal-button yes" id="confirmYes">Ya</button>
+            <button class="modal-button no" id="confirmNo">Batal</button>
+        </div>
+    </div>
+
+    <!-- Alert -->
+    <div id="overlay" class="overlay">
+        <div class="alert-box">
+            <div class="close-icon" id="closeIcons">X</div>
+            <div id="text-alert"></div>
+            <button onclick="closeAlert()">OK</button>
+        </div>
+    </div>
+    <script src="./script.js"></script>
+</body>
+
+</html>

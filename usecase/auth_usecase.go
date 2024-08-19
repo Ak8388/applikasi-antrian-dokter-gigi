@@ -16,6 +16,7 @@ type AuthUsecase interface {
 	EmailVerify(email, rOn string) (verifyCode string, err error)
 	TokenVerify(tokenModel model.TokenAkses) error
 	CreateNewDokter(dataDoctor dto.DocterRegister) (dto.DocterRegister, error)
+	ResetPasswordForgot(email, newPAssword string) error
 }
 
 type authUsecase struct {
@@ -138,6 +139,20 @@ func (u *authUsecase) CreateNewDokter(dataDoctor dto.DocterRegister) (dto.Docter
 	dataDoctor.DoctorDetail = res2
 
 	return dataDoctor, nil
+}
+
+func (a *authUsecase) ResetPasswordForgot(email, newPAssword string) error {
+	if len(newPAssword) < 8 {
+		return errors.New("new password mustbe more than 8")
+	}
+
+	paswordEncrypt, err := bcrypt.GenerateFromPassword([]byte(newPAssword), 10)
+
+	if err != nil {
+		return err
+	}
+
+	return a.repoAuth.ResetPasswordForgot(email, string(paswordEncrypt))
 }
 
 func NewAuthUsecase(repoAuth repository.AuthRepository, t common.JwtToken, userUc UserUsecase) AuthUsecase {

@@ -175,6 +175,8 @@ header{
             gap:50px;
             >li{
                 >a{
+                    text-decoration: none;
+                    color:black;
                 >button{
                     padding: 10px 40px;
                 }

@@ -141,6 +141,26 @@ func (ac *authController) createNewDocter(c *gin.Context) {
 	})
 }
 
+func (ac *authController) resetPasswordForgot(c *gin.Context) {
+	var passwordForget dto.DtoForgetPassword
+
+	if err := c.ShouldBindJSON(&passwordForget); err != nil {
+		fmt.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	err := ac.autUC.ResetPasswordForgot(passwordForget.Email, passwordForget.NewPassword)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "success change your password"})
+}
+
 func (ac *authController) Router() {
 	r := ac.route.Group("auth")
 
@@ -149,6 +169,7 @@ func (ac *authController) Router() {
 	r.POST("verify-email", ac.emailVerify)
 	r.GET("verify", ac.tokenVerify)
 	r.POST("doctors", ac.am.JwtVerify("Admin"), ac.createNewDocter)
+	r.PUT("forget-password", ac.resetPasswordForgot)
 }
 
 func NewAuthController(authUC usecase.AuthUsecase, am middleware.AuthMiddleware, r *gin.RouterGroup) *authController {

@@ -1,12 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tentang Klinik Gigi Sehat</title>
+    <style>
+        @font-face {
+            font-family: "dosis";
+            src: url("../assets/font/Dosis-VariableFont_wght.ttf");
+        }
+
+        body {
+            font-family: dosis;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            color: black;
+        }
+
+        .header {
+            background-color: rgb(14, 115, 231);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+
+            >h1 {
+                color: white;
+            }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1,
+        h2 {
+            color: rgb(14, 115, 231);
+        }
+
+        .service {
+            background-color: white;
+            border: 1px solid rgb(14, 115, 231);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .service:hover {
+            transform: translateY(-5px);
+        }
+
+        .dentist {
+            background-color: white;
+            border: 1px solid rgb(14, 115, 231);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .dentist:hover {
+            transform: translateY(-5px);
+        }
+
+        .dentist h3 {
+            color: rgb(14, 115, 231);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: rgb(14, 115, 231);
+            color: white;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: rgb(10, 90, 180);
+        }
+    </style>
 </head>
+
 <body>
+    <div class="header">
+        <h1>Tentang Klinik Gigi Dokter Vony</h1>
+    </div>
+
+    <div class="container">
+        <p>Klinik Gigi Dokter Vony adalah pusat perawatan gigi terkemuka yang berkomitmen untuk memberikan perawatan
+            gigi berkualitas tinggi dengan pendekatan yang ramah dan profesional. Kami percaya bahwa senyum sehat adalah
+            kunci kepercayaan diri dan kesejahteraan umum.</p>
+
+        <h2>Layanan Kami</h2>
+        <div id="services-container"></div>
+
+        <h2>Tim Dokter Gigi Kami</h2>
+        <div id="dentists-container"></div>
+
+        <h2>Hubungi Kami</h2>
+        <p>Jadwalkan konsultasi atau perawatan gigi Anda hari ini!</p>
+        <a href="#" class="cta-button">Buat Janji Temu</a>
+    </div>
+
+    <script>
+        const services = [
+            { name: 'Pemeriksaan Rutin', description: 'Pemeriksaan gigi dan gusi menyeluruh' },
+            { name: 'Pembersihan Gigi', description: 'Menghilangkan plak dan karang gigi' },
+            { name: 'Perawatan Saluran Akar', description: 'Menangani infeksi dalam gigi' },
+            { name: 'Implan Gigi', description: 'Solusi permanen untuk gigi yang hilang' }
+        ];
+
+        const data = async () => {
+            let data = {}
+            try {
+                await fetch('http://localhost:8888/api-klinik-gigi-vony-nur-santy/doctors/all')
+                    .then(res => {
+                        if (!res.ok) {
+                            throw new Error('error');
+                        } else {
+                            return res.json();
+                        }
+                    })
+                    .then(resData => {
+                        data = resData.data;
+                    })
+            } catch (error) {
+                alert('maaf sepertinya ada kesalahan di sisi server');
+            }
+
+            return data;
+        }
+
+        document.addEventListener('DOMContentLoaded',async e =>{
+            const servicesContainer = document.getElementById('services-container');
+            const dentistsContainer = document.getElementById('dentists-container');
+            const dentists = await data();
+            console.log(dentists);
+            services.forEach(service => {
+                const serviceElement = document.createElement('div');
+                serviceElement.classList.add('service');
+                serviceElement.innerHTML = `
+                    <h3>${service.name}</h3>
+                    <p>${service.description}</p>
+                `;
+                servicesContainer.appendChild(serviceElement);
+            });
     
+            dentists.forEach(dentist => {
+                const dentistElement = document.createElement('div');
+                dentistElement.classList.add('dentist');
+                dentistElement.innerHTML = `
+                    <h3>${dentist.name}</h3>
+                    <p>${dentist.degree}</p>
+                `;
+                dentistsContainer.appendChild(dentistElement);
+            });
+        })
+
+    </script>
 </body>
+
 </html>

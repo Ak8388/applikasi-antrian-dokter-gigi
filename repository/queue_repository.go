@@ -3,6 +3,7 @@ package repository
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"strconv"
 	"strings"
 	"time"
@@ -22,7 +23,9 @@ type QueueRepo interface {
 	CountDataReservasi(id, date, time string) int
 	UpdateStatusQue(id, status string) error
 	GetQueueByDateAndPatientID(id, date string) bool
+	SwitchingQueue(id, date string, qnumber int) error
 	ValidateQueue(id, open, date string) bool
+	CountDataReservasiOneMounth() (int64, error)
 }
 
 type queueRepo struct {
@@ -134,7 +137,7 @@ func (q *queueRepo) GetQueueByPatientId(patientId, status string) (data []model.
 		args = append(args, status)
 	}
 
-	qry += " Order By queue_date"
+	qry += " Order By queue_date DESC"
 
 	rows, err := q.db.Query(qry, args...)
 
@@ -185,9 +188,9 @@ func (q *queueRepo) CountDataReservasi(id, date, t string) (totalData int) {
 }
 
 func (q *queueRepo) GetQueueByID(id string) (data model.Queue, err error) {
-	qry := "Select doctor_id, patient_id, queue_date, queue_time, queue_number, note, status From queues Where id=$1"
+	qry := "Select doctor_id, patient_id, queue_date, queue_time, queue_number, note, status,id_schedule From queues Where id=$1"
 
-	err = q.db.QueryRow(qry, id).Scan(&data.Doctor, &data.Patient, &data.QueueDate, &data.QueueTime, &data.QueueNumber, &data.Note, &data.Status)
+	err = q.db.QueryRow(qry, id).Scan(&data.Doctor, &data.Patient, &data.QueueDate, &data.QueueTime, &data.QueueNumber, &data.Note, &data.Status, &data.Schedule)
 
 	return
 }
@@ -280,6 +283,82 @@ func (q *queueRepo) ValidateQueue(id, open, date string) bool {
 	}
 
 	return true
+}
+
+func (q *queueRepo) SwitchingQueue(id, date string, qnumber int) error {
+	qry1 := "select id,queue_time,queue_number from queues where id_schedule = $1 and queue_date = $2 and (status =$3 or status =$4) order by queue_number offset $5"
+	qry2 := "Update queues Set queue_time=$1, queue_number=$2 Where id=$3"
+	var data = []model.Queue{}
+	tx, err := q.db.Begin()
+
+	if err != nil {
+		return err
+	}
+	tempDate := strings.Split(date, " ")
+	count := 0
+	rows, _ := tx.Query(qry1, id, tempDate[0], "created", "reschedule", qnumber)
+
+	for rows.Next() {
+		count++
+	}
+
+	rows.Close()
+
+	row, err := tx.Query(qry1, id, tempDate[0], "created", "reschedule", qnumber)
+
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	if count > 0 {
+		fmt.Println("Masuk Ga sh 3")
+		for row.Next() {
+			temp := model.Queue{}
+
+			err = row.Scan(&temp.ID, &temp.QueueTime, &temp.QueueNumber)
+			fmt.Println("Masuk Ga sh 2")
+			if err != nil {
+				fmt.Println("Masuk Ga sh ", err.Error())
+				tx.Rollback()
+				return err
+			}
+			data = append(data, temp)
+		}
+
+		row.Close()
+		for _, res := range data {
+			res.QueueNumber -= 1
+
+			qTime := res.QueueTime.Add(-30 * time.Minute)
+			res.QueueTime = qTime
+
+			qtimeS := res.QueueTime.Format("2006-01-02 15:04:05")
+			qtimeSFix := strings.Split(qtimeS, " ")
+
+			_, err = tx.Exec(qry2, qtimeSFix[1], res.QueueNumber, res.ID)
+
+			if err != nil {
+				log.Println("This Error =", err.Error())
+				tx.Rollback()
+				return err
+			}
+
+		}
+	} else {
+		return nil
+	}
+	tx.Commit()
+
+	return nil
+}
+
+func (q *queueRepo) CountDataReservasiOneMounth() (totalData int64, err error) {
+	qry := "Select Count(id) As total_data From queues WHERE EXTRACT(MONTH FROM queue_date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(YEAR FROM queue_date) = EXTRACT(YEAR FROM CURRENT_DATE)"
+
+	err = q.db.QueryRow(qry).Scan(&totalData)
+
+	return
 }
 
 func NewQueueRepository(db *sql.DB) QueueRepo {

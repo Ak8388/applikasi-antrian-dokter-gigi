@@ -19,7 +19,9 @@ document.getElementById("patient-page").addEventListener("click", (e) => {
     const doctrorPage = document.getElementById('doctors');
     const patientPage = document.getElementById('patients');
     const dashPage = document.getElementById('dashboard');
+    const schedulePgae = document.getElementById('schedule');
     dashPage.style.height='0';
+    schedulePgae.innerHTML="";
     dashPage.innerHTML = "";
     patientPage.innerHTML = "";
     doctrorPage.innerHTML = "";
@@ -176,7 +178,9 @@ document.getElementById("doctors-page").addEventListener("click", (e) => {
     const doctrorPage = document.getElementById('doctors');
     const patientPage = document.getElementById('patients');
     const dashPage = document.getElementById('dashboard');
+    const schedulePgae = document.getElementById('schedule');
     dashPage.style.height='0';
+    schedulePgae.innerHTML="";
     dashPage.innerHTML = "";
     patientPage.innerHTML = "";
     doctrorPage.innerHTML = "";
@@ -482,8 +486,10 @@ document.getElementById('appoitments-page').addEventListener('click', e => {
             const doctrorPage = document.getElementById('doctors');
             const patientPage = document.getElementById('patients');
             const dashPage = document.getElementById('dashboard');
+            const schedulePgae = document.getElementById('schedule');
             dashPage.style.height='0';
             dashPage.innerHTML = "";
+            schedulePgae.innerHTML="";
             patientPage.innerHTML = "";
             doctrorPage.innerHTML = "";
             appPage.innerHTML = "";
@@ -503,8 +509,8 @@ document.getElementById('appoitments-page').addEventListener('click', e => {
                 drCard.appendChild(drName);
 
                 drCard.addEventListener('click', cardElement => {
-                    localStorage.setItem('doc-id', dataRes.doctorId)
-                    location.href = './appoitment/appoitment.html'
+                    localStorage.setItem('doc-id', dataRes.id);
+                    location.href = './appoitment/appoitment.html';
                 })
             })
         })
@@ -514,12 +520,68 @@ document.getElementById('dashboard-page').addEventListener('click',e=>{
     Main();
 })
 
-function Main() {
+document.getElementById('schedule-page').addEventListener('click',e=>{
+    const token = localStorage.getItem('token');
+    tokenVerify(token);
+
+    fetch("http://localhost:8888/api-klinik-gigi-vony-nur-santy/users/doctors", {
+        headers: {
+            "Authorization": "Bearer " + token
+        }
+    })
+        .then(res => {
+            if (!res.ok) {
+                return showAlert('mohon maaf sepertinya ada kesalahan dari sisi server');
+            } else {
+                return res.json()
+            }
+        })
+        .then(data => {
+            const appPage = document.getElementById('appointments');
+            const doctrorPage = document.getElementById('doctors');
+            const patientPage = document.getElementById('patients');
+            const dashPage = document.getElementById('dashboard');
+            const schedulePgae = document.getElementById('schedule');
+            dashPage.style.height='0';
+            schedulePgae.innerHTML="";
+            dashPage.innerHTML = "";
+            patientPage.innerHTML = "";
+            doctrorPage.innerHTML = "";
+            appPage.innerHTML = "";
+
+            data.Data.map(dataRes => {
+                console.log(dataRes);
+                const drCard = document.createElement('div');
+                drCard.className = 'card-dr';
+                appPage.appendChild(drCard);
+
+                const drPhoto = document.createElement('img');
+                drPhoto.src = "../../../"+dataRes.photos;
+                drPhoto.alt = 'doctor photos';
+                drCard.appendChild(drPhoto);
+
+                const drName = document.createElement('h2');
+                drName.innerText = dataRes.name;
+                drCard.appendChild(drName);
+
+                drCard.addEventListener('click', cardElement => {
+                    localStorage.setItem('doc-id', dataRes.id);
+                    location.href='./doctor_schedule/doctor.html';
+                })
+            })
+        })
+    
+})
+
+async function Main() {
+    const token = localStorage.getItem('token');
     const dash = document.getElementById('dashboard');
     const appPage = document.getElementById('appointments');
     const doctrorPage = document.getElementById('doctors');
     const patientPage = document.getElementById('patients');
+    const schedulePgae = document.getElementById('schedule');
     dash.innerHTML = "";
+    schedulePgae.innerHTML="";
     patientPage.innerHTML = "";
     doctrorPage.innerHTML = "";
     appPage.innerHTML = "";
@@ -587,7 +649,8 @@ function Main() {
     const countQue = document.createElement('h3');
     countQue.id = 'queueCount';
     const desQue = document.createElement('p');
-    desQue.innerText = 'Jumlah Antrian';
+    desQue.style.width='100px';
+    desQue.innerText = 'Jumlah antrian bulan ini';
 
     detailsQue.appendChild(countQue);
     detailsQue.appendChild(desQue);
@@ -615,14 +678,89 @@ function Main() {
 
     // Placeholder data, replace with real data fetching logic
     const data = {
-        users: 150,
-        doctors: 20,
-        queues: 45
+        users: await CountDataPatient(token),
+        doctors: await CountDataDoctor(token),
+        queues: await CountDataQueue(token)
     };
 
     countUser.textContent = data.users;
     countDoc.textContent = data.doctors;
     countQue.textContent = data.queues;
+}
+
+async function CountDataPatient(token){
+    let totalData=0;
+    try{
+        await fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/users/count-data-user/Patient`,{
+            headers:{
+                "Authorization":"Bearer "+token
+            }
+        })
+        .then(res=>{
+            if(!res.ok){
+                throw new Error('error');
+            }else{
+                return res.json();
+            }
+        })
+        .then(resData=>{
+            totalData = resData.totalData;
+        })
+    }catch(error){
+        showAlert('mohon maaf sepertinya ada kesalahan server');
+    }
+
+    return totalData;
+}
+
+async function CountDataDoctor(token){
+    let totalData=0;
+    try{
+        await fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/users/count-data-user/Doctor`,{
+            headers:{
+                "Authorization":"Bearer "+token
+            }
+        })
+        .then(res=>{
+            if(!res.ok){
+                throw new Error('error');
+            }else{
+                return res.json();
+            }
+        })
+        .then(resData=>{
+            totalData = resData.totalData;
+        })
+    }catch(error){
+        showAlert('mohon maaf sepertinya ada kesalahan server');
+    }
+
+    return totalData;
+}
+
+async function CountDataQueue(token){
+    let totalData=0;
+    try{
+        await fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/queues/count-queues`,{
+            headers:{
+                "Authorization":"Bearer "+token
+            }
+        })
+        .then(res=>{
+            if(!res.ok){
+                throw new Error('error');
+            }else{
+                return res.json();
+            }
+        })
+        .then(resData=>{
+            totalData = resData.totalData;
+        })
+    }catch(error){
+        showAlert('mohon maaf sepertinya ada kesalahan server');
+    }
+
+    return totalData;
 }
 
 // Script Alert

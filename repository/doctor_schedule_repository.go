@@ -49,7 +49,7 @@ func (ds doctorScheduleRepo) UpdateSchedule(schedule model.ScheduleDoctors) (mod
 func (ds doctorScheduleRepo) DeleteDoctorSchedule(idSchedule string) error {
 	qry := "Delete From doctor_scedules Where id=$1"
 	qryDel2 := "Delete From queues Where id_schedule=$1"
-	selQry := "Select Count(id) As total_data From doctor_scedules Where id IN(select id_schedule From queues Where id_schedule=$1 AND status=$2 OR status=$3)"
+	selQry := "Select Count(id) As total_data From doctor_scedules Where id IN(select id_schedule From queues Where id_schedule=$1 AND (status=$2 OR status=$3))"
 	tx, err := ds.db.Begin()
 	totalData := 0
 

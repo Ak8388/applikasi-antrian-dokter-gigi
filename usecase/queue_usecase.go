@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"errors"
-	"fmt"
 	"strings"
 	"time"
 
@@ -19,7 +18,8 @@ type QueueUsecase interface {
 	ViewQueueByPatientId(patientId, status string) ([]dto.QueueDtoResponse, error)
 	CancelQueue(id string) error
 	UpdateStatusQue(id, status string) error
-	ValidateQueue(id, open, date string) bool
+	ValidateQueue(id, open, date, stts string) bool
+	CountDataReservasiOneMounth() (int64, error)
 }
 
 type queueUsecase struct {
@@ -38,6 +38,16 @@ func (q *queueUsecase) Reschedule(dataDto dto.QueueDto) error {
 
 	if res.Status != "created" && res.Status != "reschedule" || res.QueueDate.Before(time.Now()) {
 		return errors.New("cannot reschedule your queue is invalid")
+	}
+
+	today := time.Now().Truncate(24 * time.Hour)
+
+	if !res.QueueDate.Before(today) {
+		err = q.queueRepo.SwitchingQueue(res.Schedule, res.QueueDate.Format(layout), res.QueueNumber)
+
+		if err != nil {
+			return err
+		}
 	}
 
 	if q.queueRepo.GetQueueByDateAndPatientID(dataDto.Patient, dataDto.QueueDate) {
@@ -68,8 +78,6 @@ func (q *queueUsecase) Reschedule(dataDto dto.QueueDto) error {
 		Schedule:    idSchedule,
 	}
 
-	fmt.Println("This Schedule ID= ", idSchedule)
-
 	if !data.StatusValidate() {
 		return errors.New("please fill the status correctly")
 	}
@@ -79,6 +87,13 @@ func (q *queueUsecase) Reschedule(dataDto dto.QueueDto) error {
 	}
 
 	if data.QueueDate.Before(time.Now()) {
+		return errors.New("can't fill queue date before now")
+	}
+
+	year, month, day := data.QueueDate.Date()
+	tnowYear, tnowMonth, tnowDay := time.Now().Date()
+
+	if year == tnowYear && month == tnowMonth && day == tnowDay {
 		return errors.New("can't fill queue date before now")
 	}
 
@@ -139,6 +154,13 @@ func (q *queueUsecase) CreateNewQueue(dataDto dto.QueueDto) (model.Queue, error)
 	}
 
 	if data.QueueDate.Before(time.Now()) {
+		return model.Queue{}, errors.New("can't fill queue date before now")
+	}
+
+	year, month, day := data.QueueDate.Date()
+	tnowYear, tnowMonth, tnowDay := time.Now().Date()
+
+	if year == tnowYear && month == tnowMonth && day == tnowDay {
 		return model.Queue{}, errors.New("can't fill queue date before now")
 	}
 
@@ -231,6 +253,7 @@ func (q *queueUsecase) ViewQueueByPatientId(patientId, status string) (resDto []
 
 func (q *queueUsecase) CancelQueue(id string) error {
 	queue, err := q.queueRepo.GetQueueByID(id)
+	layout := "2006-01-02 15:04:05"
 
 	if err != nil {
 		return err
@@ -238,6 +261,16 @@ func (q *queueUsecase) CancelQueue(id string) error {
 
 	if queue.Status != "created" && queue.Status != "reschedule" {
 		return errors.New("queues not valid for cancel")
+	}
+
+	today := time.Now().Truncate(24 * time.Hour)
+
+	if !queue.QueueDate.Before(today) {
+		err = q.queueRepo.SwitchingQueue(queue.Schedule, queue.QueueDate.Format(layout), queue.QueueNumber)
+
+		if err != nil {
+			return err
+		}
 	}
 
 	return q.queueRepo.CancelQueue(id, "cancel")
@@ -261,8 +294,19 @@ func (q *queueUsecase) UpdateStatusQue(id, status string) error {
 	return q.queueRepo.UpdateStatusQue(id, status)
 }
 
-func (q *queueUsecase) ValidateQueue(id, open, date string) bool {
+func (q *queueUsecase) ValidateQueue(id, open, date, stts string) bool {
+	layout := "2006-01-02 15:04:05"
+	qDate, _ := time.Parse(layout, date)
+
+	if qDate.Before(time.Now()) {
+		return false
+	}
+
 	return q.queueRepo.ValidateQueue(id, open, date)
+}
+
+func (q *queueUsecase) CountDataReservasiOneMounth() (int64, error) {
+	return q.queueRepo.CountDataReservasiOneMounth()
 }
 
 func NewQueueUsecase(queueRepo repository.QueueRepo, userUc UserUsecase, scheduleUsecase DoctorScheduleUsecase) QueueUsecase {

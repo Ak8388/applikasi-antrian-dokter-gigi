@@ -163,8 +163,10 @@ document.getElementById("form-email").addEventListener("submit", async (e) => {
                 showAlert(error)
             }
         }else{
-
+            location.href='../../input_password/pasword.html';
         }
+    }else{
+        showAlert('kode verifikasi tidak valid!')
     }
 })
 

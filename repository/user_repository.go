@@ -20,6 +20,7 @@ type UserRepository interface {
 	GetDoctor() ([]dto.DcotorDto, error)
 	GetUserByID(id string) (dto.ResponseFindUser, error)
 	ChangeEmailUser(newEmail string, id string) error
+	CountUserByRole(role string) (int64, error)
 }
 
 type userRepository struct {
@@ -201,6 +202,14 @@ func (u *userRepository) ChangeEmailUser(newEmail string, id string) error {
 	}
 
 	return nil
+}
+
+func (u *userRepository) CountUserByRole(role string) (totalUser int64, err error) {
+	qry := "Select Count(id) From users Where role=$1"
+
+	err = u.db.QueryRow(qry, role).Scan(&totalUser)
+
+	return
 }
 
 func NewUserRepository(db *sql.DB) UserRepository {

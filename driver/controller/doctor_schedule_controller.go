@@ -88,6 +88,7 @@ func (drSch *doctorSchedule) removeDoctorSchedule(c *gin.Context) {
 	err := drSch.drShUsecase.RemoveDoctorSchedule(id)
 
 	if err != nil {
+		fmt.Println(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 		return
 	}

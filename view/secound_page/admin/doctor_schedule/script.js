@@ -1,23 +1,7 @@
-function toggleSidebar() {
-    const sidebar = document.querySelector('.sidebar');
-    const content = document.querySelector('.content');
-
-    if (sidebar.style.left === '-300px') {
-        sidebar.style.left = '0px';
-        content.style.marginLeft = '230px';
-        content.style.width = 'calc(100% - 230px)';
-    } else {
-        sidebar.style.left = '-300px';
-        content.style.marginLeft = '0';
-        content.style.width = '100%';
-    }
-}
-
 async function main() {
     const data = await jadwalData();
     const name = await drName();
     showSchedule(data, name);
-    localStorage.removeItem('doc-id');
 }
 
 const filterHari = document.getElementById('days-filter');
@@ -26,9 +10,11 @@ const scheduleTable = document.getElementById('tableBody');
 const jadwalData = async (e) => {
     const token = localStorage.getItem('token');
     tokenVerify(token);
+    const id = localStorage.getItem('doc-id');
+    console.log(id);
     let data = {}
     try {
-        await fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/schedules/dr-schedules?drId=`, {
+        await fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/schedules/dr-schedules?drId=${id}`, {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + token
@@ -54,10 +40,10 @@ const jadwalData = async (e) => {
 const drName = async () => {
     const token = localStorage.getItem('token');
     tokenVerify(token);
-
+    const id = localStorage.getItem('doc-id');
     let data = {}
     try {
-        await fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/doctors?id=`, {
+        await fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/doctors?id=${id}`, {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + token
@@ -105,10 +91,10 @@ async function showSchedule(data, name) {
             timeElm.innerText = time;
 
             const imgEdit = document.createElement('img');
-            imgEdit.src = '../../assets/icons/edit.png';
+            imgEdit.src = '../../../assets/icons/edit.png';
 
             const imgDelete = document.createElement('img');
-            imgDelete.src = '../../assets/icons/delete.png';
+            imgDelete.src = '../../../assets/icons/delete.png';
 
             const act = document.createElement('td');
             act.className = 'action-data';
@@ -153,17 +139,9 @@ filterHari.addEventListener('change', async () => {
 
 main()
 
-function showSection(sectionId) {
-    var sections = document.querySelectorAll('.section');
-    sections.forEach(function (section) {
-        section.classList.remove('active');
-    });
-    document.getElementById(sectionId).classList.add('active');
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-    showSection('schedule');
-});
+document.getElementById('cancelBtn').addEventListener('click', e => {
+    document.getElementById('card-sche').style.display = 'none';
+})
 
 document.getElementById('btn-add').addEventListener('click', e => {
     localStorage.setItem('actionSche', 'add');
@@ -181,12 +159,13 @@ document.getElementById('add-btn').addEventListener('click', async e => {
     const closingHours = document.getElementById('closingHours').value;
     const openingTime = timeLayout.replace("08:00", openingHours);
     const closeTime = timeLayout.replace("08:00", closingHours);
+    const docId = localStorage.getItem('doc-id');
 
     if (action == 'edit') {
         const id = localStorage.getItem('id-schedule');
         const obj = { 'id': id, 'days': days, 'openingHours': openingTime, 'closingHours': closeTime }
         try {
-            await fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/schedules?doc-id=`, {
+            await fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/schedules?doc-id=${docId}`, {
                 method: "PUT",
                 headers: {
                     "Authorization": "Bearer " + token
@@ -212,7 +191,7 @@ document.getElementById('add-btn').addEventListener('click', async e => {
     } else {
         try {
             const obj = {'days': days, 'openingHours': openingTime, 'closingHours': closeTime }
-            await fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/schedules`, {
+            await fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/schedules?doc-id=${docId}`, {
                 method: "POST",
                 headers: {
                     "Authorization": "Bearer " + token
@@ -240,28 +219,6 @@ document.getElementById('add-btn').addEventListener('click', async e => {
 
     document.getElementById('card-sche').style.display = 'none';
 })
-
-document.getElementById('cancelBtn').addEventListener('click', e => {
-    document.getElementById('card-sche').style.display = 'none';
-})
-
-function tokenVerify(token) {
-    fetch("http://localhost:8888/api-klinik-gigi-vony-nur-santy/auth/verify", {
-        headers: {
-            "Authorization": "Bearer " + token,
-        }
-    })
-        .then(res => {
-            if (res.ok) {
-                return res.json()
-            } else {
-                showAlert("maaf sesi anda sudah habis")
-                setTimeout(() => {
-                    window.location.href = "../../index.html";
-                }, 5000)
-            }
-        })
-}
 
 document.getElementById("confirmYes").addEventListener("click", async function () {
     const token = localStorage.getItem('token');
@@ -298,8 +255,22 @@ document.getElementById("confirmNo").addEventListener("click", function () {
     document.getElementById("confirmModal").style.display = "none";
 });
 
-function setingClick(){
-    document.getElementById('seting-card').style.display='block';
+function tokenVerify(token) {
+    fetch("http://localhost:8888/api-klinik-gigi-vony-nur-santy/auth/verify", {
+        headers: {
+            "Authorization": "Bearer " + token,
+        }
+    })
+        .then(res => {
+            if (res.ok) {
+                return res.json()
+            } else {
+                showAlert("maaf sesi anda sudah habis")
+                setTimeout(() => {
+                    window.location.href = "../../index.html";
+                }, 5000)
+            }
+        })
 }
 
 function showAlert(text) {
@@ -310,31 +281,4 @@ function showAlert(text) {
 // Function to close the alert
 function closeAlert() {
     document.getElementById('overlay').classList.remove('show');
-}
-
-function closeCardSetting() {
-    // Implementasi untuk menutup card-setting
-    document.querySelector('.card-setting').style.display = 'none';
-}
-
-function changePassword() {
-    // Implementasi untuk mengubah kata sandi
-    location.href='../../auth/reset_password/reset_password.html';
-    localStorage.setItem('start-page','../../secound_page/doctor/doctor.html');
-}
-
-function changeEmail(){
-    location.href = '../../auth/change_email/email.html';
-}
-
-function updateProfile() {
-    // Implementasi untuk memperbarui profil
-    location.href='../../update_profile/update_profile.html';
-    localStorage.setItem('start-page','../secound_page/doctor/doctor.html');
-}
-
-function logOut() {
-    // Implementasi untuk log out
-    localStorage.removeItem('token');
-    location.href='../../index.html';
 }

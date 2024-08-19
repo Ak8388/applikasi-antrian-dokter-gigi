@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 350px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            user-select: none;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            margin-top: 15px;
+            text-align: center;
+            color: #28a745;
+            >a{
+                text-decoration: none;
+                color:blue;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Reset Password</h2>
+        <form id="resetPasswordForm">
+            <div class="input-group">
+                <input type="password" id="newPassword" placeholder="Password Baru" required>
+                <span class="toggle-password" onclick="togglePassword('newPassword')">👁️</span>
+            </div>
+            <div class="input-group">
+                <input type="password" id="confirmPassword" placeholder="Konfirmasi Password" required>
+                <span class="toggle-password" onclick="togglePassword('confirmPassword')">👁️</span>
+            </div>
+            <button type="submit">Ubah Password</button>
+        </form>
+        <div id="message" class="message"></div>
+    </div>
+
+    <script>
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            input.type = input.type === 'password' ? 'text' : 'password';
+        }
+
+        document.getElementById('resetPasswordForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (newPassword !== confirmPassword) {
+                document.getElementById('message').innerText = 'Password tidak cocok. Silakan coba lagi.';
+                document.getElementById('message').style.color = '#dc3545';
+            } else {
+                const em = localStorage.getItem('email');
+                console.log(em);
+                const obj = {'email':em,'newPassword':newPassword}
+                localStorage.removeItem('email');
+                try{
+                    await fetch('http://localhost:8888/api-klinik-gigi-vony-nur-santy/auth/forget-password',{
+                        method:"PUT",
+                        body:JSON.stringify(obj)
+                    })
+                    .then(res=>{
+                        if(!res.ok){
+                            throw new Error('error')
+                        }else{
+                            return res.json()
+                        }
+                    })
+                    .then(resData=>{
+                        document.getElementById('message').innerText = 'Password berhasil diubah!';
+                        document.getElementById('message').style.color = '#28a745';
+                        document.getElementById('newPassword').value = '';
+                        document.getElementById('confirmPassword').value = '';
+                        const login = document.createElement('a');
+                        login.textContent= 'klik disini untuk login';
+                        login.href='../auth/login/login.html';
+                        document.getElementById('message').appendChild(login);
+                    })
+                }catch(error){
+                    document.getElementById('message').innerText = 'Password kurang kuat. Silakan coba lagi.';
+                    document.getElementById('message').style.color = '#dc3545';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

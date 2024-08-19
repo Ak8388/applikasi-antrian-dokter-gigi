@@ -170,6 +170,20 @@ func (u *userController) changeEmailUser(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"Message": "success update your email"})
 }
 
+func (uc *userController) countUserByRole(c *gin.Context) {
+	role := c.Param("role")
+
+	res, err := uc.userUc.CountUserByRole(role)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "success count data users", "totalData": res})
+}
+
 func (uc *userController) UserRouter() {
 	r := uc.rg.Group("users")
 
@@ -181,6 +195,7 @@ func (uc *userController) UserRouter() {
 	r.PUT("", uc.authMiddleware.JwtVerify("Doctor", "Patient", "Admin"), uc.changeDataUser)
 	r.GET("doctors", uc.authMiddleware.JwtVerify("Patient", "Admin"), uc.getDoctor)
 	r.PUT("emails", uc.authMiddleware.JwtVerify("Doctor", "Patient", "Admin"), uc.changeEmailUser)
+	r.GET("count-data-user/:role", uc.authMiddleware.JwtVerify("Admin"), uc.countUserByRole)
 }
 
 func NewUserController(userUc usecase.UserUsecase, authMidd middleware.AuthMiddleware, rg *gin.RouterGroup) *userController {

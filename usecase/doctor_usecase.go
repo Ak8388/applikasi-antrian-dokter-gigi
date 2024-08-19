@@ -8,6 +8,7 @@ import (
 type DoctorUsecase interface {
 	DoctorUpdateProfile(data dto.DocterRegister) error
 	FindDoctorById(id string) (data dto.DcotorDto, err error)
+	FindAllDoctor() (data []dto.DcotorDto, err error)
 }
 
 type doctorUsecase struct {
@@ -21,6 +22,10 @@ func (d *doctorUsecase) DoctorUpdateProfile(data dto.DocterRegister) error {
 
 func (d *doctorUsecase) FindDoctorById(id string) (data dto.DcotorDto, err error) {
 	return d.repoDoctor.FindDoctorById(id)
+}
+
+func (d *doctorUsecase) FindAllDoctor() (data []dto.DcotorDto, err error) {
+	return d.repoDoctor.FindAllDoctor()
 }
 
 func NewDoctorUsecase(userUsecase UserUsecase, repoDoctor repository.DoctorsRepository) DoctorUsecase {

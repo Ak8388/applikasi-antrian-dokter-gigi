@@ -245,7 +245,7 @@ document.getElementById('dateInput').addEventListener('change', e => {
                                 })
                                     .then(res => {
                                         if (!res.ok) {
-                                            showAlert("sepertinya ada pembayaran yang belum anda bayar atau anda sudah mengantri di hari yang sama");
+                                            showAlert("sepertinya ada pembayaran yang belum anda bayar atau anda sudah mengantri di hari yang sama dan kemungkin antrian sudah penuh. coba di hari lain ya!");
                                         }
                                         return res.json();
                                     })

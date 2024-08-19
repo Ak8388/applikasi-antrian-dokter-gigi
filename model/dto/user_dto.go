@@ -38,3 +38,8 @@ type DtoChangePassword struct {
 	OldPassword string `json:"oldPass"`
 	Password    string `json:"newPass"`
 }
+
+type DtoForgetPassword struct {
+	Email       string `json:"email" binding:"required,email"`
+	NewPassword string `json:"newPassword" binding:"required"`
+}
