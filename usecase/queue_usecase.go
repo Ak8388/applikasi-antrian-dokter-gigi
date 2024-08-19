@@ -302,6 +302,13 @@ func (q *queueUsecase) ValidateQueue(id, open, date, stts string) bool {
 		return false
 	}
 
+	year, month, day := qDate.Date()
+	tnowYear, tnowMonth, tnowDay := time.Now().Date()
+
+	if year == tnowYear && month == tnowMonth && day == tnowDay {
+		return false
+	}
+
 	return q.queueRepo.ValidateQueue(id, open, date)
 }
 
