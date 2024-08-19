@@ -131,9 +131,9 @@ func (q *queueRepo) GetQueueByPatientId(patientId, status string) (data []model.
 
 	args = append(args, patientId)
 	if status == "" {
-		qry = "Select * From queues Where patient_id=$1"
+		qry = "Select id, doctor_id, patient_id, queue_date, queue_time, queue_number, note, status, created_at, updated_at, id_schedule From queues Where patient_id=$1"
 	} else {
-		qry = "Select * From queues Where patient_id=$1 AND status=$2"
+		qry = "Select id, doctor_id, patient_id, queue_date, queue_time, queue_number, note, status, created_at, updated_at, id_schedule From queues Where patient_id=$1 AND status=$2"
 		args = append(args, status)
 	}
 

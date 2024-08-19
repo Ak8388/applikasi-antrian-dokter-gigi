@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         { text: 'Pembayaran', icon: 'fas fa-credit-card', link: './myPayment/my-payment.html' },
         { text: 'Buat Reservasi', icon: 'fas fa-calendar-alt', link: './reservasi/reservasi.html' },
         { text: 'Antrian Ku', icon: 'fas fa-clipboard-list', link: './queue/myQue.html' },
-        { text: 'Tentang Klinik', icon: 'fas fa-info-circle' },
+        { text: 'Tentang Klinik', icon: 'fas fa-info-circle', link:'../../about_us_page/about.html'},
         { text: 'Setting', icon: 'fas fa-cog' }
     ];
 
