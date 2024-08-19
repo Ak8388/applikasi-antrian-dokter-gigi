@@ -96,7 +96,10 @@ func (a *authUsecase) EmailVerify(email, rOn string) (code string, err error) {
 		}
 	}
 
-	code, err = a.repoAuth.EmailVerify(email)
+	var em []string
+	em = append(em, email)
+
+	code, err = a.repoAuth.EmailVerify(em)
 
 	return
 }
