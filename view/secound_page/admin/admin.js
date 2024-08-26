@@ -573,6 +573,58 @@ document.getElementById('schedule-page').addEventListener('click',e=>{
     
 })
 
+document.getElementById('holidays-page').addEventListener('click',e=>{
+    const token = localStorage.getItem('token');
+    tokenVerify(token);
+
+    fetch("http://localhost:8888/api-klinik-gigi-vony-nur-santy/users/doctors", {
+        headers: {
+            "Authorization": "Bearer " + token
+        }
+    })
+        .then(res => {
+            if (!res.ok) {
+                return showAlert('mohon maaf sepertinya ada kesalahan dari sisi server');
+            } else {
+                return res.json()
+            }
+        })
+        .then(data => {
+            const appPage = document.getElementById('appointments');
+            const doctrorPage = document.getElementById('doctors');
+            const patientPage = document.getElementById('patients');
+            const dashPage = document.getElementById('dashboard');
+            const schedulePgae = document.getElementById('schedule');
+            dashPage.style.height='0';
+            schedulePgae.innerHTML="";
+            dashPage.innerHTML = "";
+            patientPage.innerHTML = "";
+            doctrorPage.innerHTML = "";
+            appPage.innerHTML = "";
+
+            data.Data.map(dataRes => {
+                console.log(dataRes);
+                const drCard = document.createElement('div');
+                drCard.className = 'card-dr';
+                appPage.appendChild(drCard);
+
+                const drPhoto = document.createElement('img');
+                drPhoto.src = "../../../"+dataRes.photos;
+                drPhoto.alt = 'doctor photos';
+                drCard.appendChild(drPhoto);
+
+                const drName = document.createElement('h2');
+                drName.innerText = dataRes.name;
+                drCard.appendChild(drName);
+
+                drCard.addEventListener('click', cardElement => {
+                    localStorage.setItem('docId', dataRes.id);
+                    location.href='../../day_off/day_off.html';
+                })
+            })
+        })
+})
+
 async function Main() {
     const token = localStorage.getItem('token');
     const dash = document.getElementById('dashboard');

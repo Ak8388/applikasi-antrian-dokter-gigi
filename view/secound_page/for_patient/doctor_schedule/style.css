@@ -1,0 +1,80 @@
+/* Reset some default styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  font-family: dosis;
+  src: url('../../../assets/font/Dosis-VariableFont_wght.ttf');
+}
+
+/* Global styles */
+body {
+  font-family: dosis;
+  background-color: #fff;
+  color: #333;
+}
+
+header {
+  background-color: rgb(17, 174, 236);
+  padding: 20px;
+  text-align: center;
+  color: #fff;
+}
+
+main {
+  padding: 20px;
+}
+
+.doctor-schedule {
+  background-color: rgb(17, 174, 236);
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  padding: 20px;
+  color: #fff;
+}
+
+.doctor-info h2 {
+  margin-bottom: 10px;
+}
+
+.schedule-item {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.doctor-schedule-container {
+  margin-top: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.doctor-schedule {
+  flex-basis: 48%;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 767px) {
+  .doctor-schedule {
+    flex-basis: 100%;
+  }
+}
+
+/* Media query for mobile devices */
+@media (max-width: 767px) {
+  main {
+    padding: 10px;
+  }
+
+  .doctor-schedule {
+    padding: 10px;
+  }
+}

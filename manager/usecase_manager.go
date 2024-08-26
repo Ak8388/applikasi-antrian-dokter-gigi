@@ -11,6 +11,7 @@ type UsecaseManager interface {
 	QueueUsecase() usecase.QueueUsecase
 	ScheduleDoctor() usecase.DoctorScheduleUsecase
 	Doctor() usecase.DoctorUsecase
+	DoctorDayOff() usecase.DayOffDoctorUscase
 }
 
 type usecaseManager struct {
@@ -36,6 +37,10 @@ func (um *usecaseManager) ScheduleDoctor() usecase.DoctorScheduleUsecase {
 
 func (um *usecaseManager) Doctor() usecase.DoctorUsecase {
 	return usecase.NewDoctorUsecase(um.UserUsecase(), um.repo.DcotorRepo())
+}
+
+func (um *usecaseManager) DoctorDayOff() usecase.DayOffDoctorUscase {
+	return usecase.NewDayOffUsecase(um.repo.DoctorDayOff())
 }
 
 func NewUsecaseManager(jwtGenerate common.JwtToken, repo RepoManager) UsecaseManager {

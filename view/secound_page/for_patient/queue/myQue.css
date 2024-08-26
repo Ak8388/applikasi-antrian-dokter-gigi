@@ -220,52 +220,52 @@ tbody tr:hover {
 
 /* Alert */
 .overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  /* Style for the alert box */
-  .alert-box {
-    background: rgba(14, 115, 231, 0.5);
-    color: white;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    position: relative;
-    width: 300px;
-  }
-  
-  /* Style for the close icon */
-  .alert-box .close-icon {
-    font-size: 50px;
-    color: red;
-    margin-bottom: 20px;
-  }
-  
-  /* Style for the OK button */
-  .alert-box button {
-    margin-top: 5px;
-    background: white;
-    color: rgb(14, 115, 231);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  /* Show overlay and alert box */
-  .overlay.show {
-    display: flex;
-  }
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style for the alert box */
+.alert-box {
+  background: rgba(14, 115, 231, 0.5);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  position: relative;
+  width: 300px;
+}
+
+/* Style for the close icon */
+.alert-box .close-icon {
+  font-size: 50px;
+  color: red;
+  margin-bottom: 20px;
+}
+
+/* Style for the OK button */
+.alert-box button {
+  margin-top: 5px;
+  background: white;
+  color: rgb(14, 115, 231);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Show overlay and alert box */
+.overlay.show {
+  display: flex;
+}
 
 @media (max-width: 600px) {
   th,
@@ -283,4 +283,50 @@ tbody tr:hover {
   h2 {
     font-size: 1.125em;
   }
+}
+
+/* Card Refund Style */
+.card-refund {
+  position: absolute;
+  top: 30%;
+  left: 40%;
+  width: 300px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #0056b3;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-refund h2 {
+  margin-top: 0;
+  color: white;
+}
+
+.card-refund input {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.card-refund button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.card-refund button:hover {
+  background-color: #0056b3;
+}
+
+.card-refund button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
 }

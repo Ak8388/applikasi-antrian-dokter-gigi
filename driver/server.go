@@ -32,6 +32,8 @@ func (sr *serverRequirment) setUpController() {
 	controller.NewScheduleDoctor(sr.manager.ScheduleDoctor(), am, rg).ScheduleRouter()
 	// doctor controller
 	controller.NewDoctorController(sr.manager.Doctor(), am, rg).DoctorsRouter()
+	// doctor days off
+	controller.NewDayOffController(am, rg, sr.manager.DoctorDayOff()).DaysOffRouter()
 }
 
 func (sr *serverRequirment) Run() {

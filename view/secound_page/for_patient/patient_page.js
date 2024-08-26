@@ -121,8 +121,9 @@ function newsSlide() {
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token');
     const menuItems = [
-        { text: 'Pembayaran', icon: 'fas fa-credit-card', link: './myPayment/my-payment.html' },
+        { text: 'Jadwal Dokter', icon: 'fas fa-calendar-check', link: '../for_patient/doctor_schedule/doctor_schedule.html' },
         { text: 'Buat Reservasi', icon: 'fas fa-calendar-alt', link: './reservasi/reservasi.html' },
+        { text: 'Pembayaran', icon: 'fas fa-credit-card', link: './myPayment/my-payment.html' },
         { text: 'Antrian Ku', icon: 'fas fa-clipboard-list', link: './queue/myQue.html' },
         { text: 'Tentang Klinik', icon: 'fas fa-info-circle', link:'../../about_us_page/about.html'},
         { text: 'Setting', icon: 'fas fa-cog' }

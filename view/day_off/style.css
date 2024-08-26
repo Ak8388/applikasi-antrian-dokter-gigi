@@ -1,0 +1,296 @@
+@font-face {
+  font-family: "dosis";
+  src: url("../assets/font/Dosis-VariableFont_wght.ttf");
+}
+
+body {
+  font-family: dosis;
+  padding: 20px;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Show Data style */
+.container {
+  max-width: 800px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 12px;
+  text-align: center;
+}
+
+th {
+  background-color: rgb(12, 91, 182);
+  color: white;
+}
+
+td img {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+td img:hover {
+  opacity: 0.7;
+}
+/* End */
+
+h1 {
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+label {
+  margin-bottom: 5px;
+}
+
+#ctr-inp {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+#add-btn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#cncl-btn{
+  background-color: red;
+}
+
+#add-btn:hover {
+  background-color: #45a049;
+}
+
+#btn-add {
+  color: white;
+  border-radius: 0px 20px 0px 20px;
+  border: none;
+  background-color: rgb(13, 99, 197);
+  width: 100px;
+  height: 30px;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: rgb(12, 91, 182);
+  cursor: pointer;
+}
+
+#ctr-add {
+  margin-bottom: 5px;
+}
+
+#ctr-day-off{
+  display: none;
+  background-color: rgb(13, 99, 197);
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 30%;
+  left: 40%;
+  color: white;
+  padding: 10px 10px;
+  border-radius: 10px 10px;
+}
+
+/* Date Input */
+.card-date {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 300px;
+  padding: 20px;
+  transition: 0.8s;
+}
+
+.card-date h2 {
+  margin-top: 0;
+}
+
+.card-date input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn-ctr button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+#dateInput {
+  width: 100px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  text-align: center;
+}
+
+.flatpickr-calendar {
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.flatpickr-day {
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.flatpickr-day:hover {
+  background-color: #b2dfdb;
+}
+
+.flatpickr-day.today {
+  background-color: #80cbc4;
+  color: white;
+}
+
+.flatpickr-day.selected {
+  background-color: #004d40;
+  color: white;
+}
+
+.flatpickr-day.disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+#time-reservation-cntr {
+  margin-top: 10px;
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-date button:hover {
+  background-color: #0056b3;
+}
+
+/* Alert */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style for the alert box */
+.alert-box {
+  background: rgba(14, 115, 231, 0.5);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  position: relative;
+  width: 300px;
+}
+
+/* Style for the OK button */
+.alert-box button {
+  margin-top: 5px;
+  background: white;
+  color: rgb(14, 115, 231);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Show overlay and alert box */
+.overlay.show {
+  display: flex;
+}
+
+/* Dialog Alert */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+  text-align: center;
+}
+#ctr-btn-modal{
+  display: flex;
+  justify-content: center;
+}
+.modal-button {
+  margin: 0px 10px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+.modal-button.yes {
+  background-color: #4caf50;
+  color: white;
+}
+.modal-button.no {
+  background-color: #f44336;
+  color: white;
+}

@@ -11,6 +11,7 @@ type RepoManager interface {
 	QueueRepo() repository.QueueRepo
 	ScheduleRepo() repository.DoctorScheduleRepo
 	DcotorRepo() repository.DoctorsRepository
+	DoctorDayOff() repository.DayOffDoctorRepo
 }
 
 type repoManager struct {
@@ -36,6 +37,10 @@ func (rm *repoManager) QueueRepo() repository.QueueRepo {
 
 func (rm *repoManager) ScheduleRepo() repository.DoctorScheduleRepo {
 	return repository.NewScheduleRepository(rm.infra.Connection())
+}
+
+func (rm *repoManager) DoctorDayOff() repository.DayOffDoctorRepo {
+	return repository.NewDoctorDayOff(rm.infra.Connection())
 }
 
 func NewRepoManager(infra InfraManager, jwtVerif common.JwtToken) RepoManager {

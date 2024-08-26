@@ -7,7 +7,7 @@
     <title>Antrian Pasien</title>
     <link rel="stylesheet" href="myQue.css">
     <style>
-        button:disabled{
+        button:disabled {
             background-color: #ccc;
             color: #666;
             cursor: not-allowed;
@@ -41,6 +41,7 @@
                         <th>Pasien</th>
                         <th>Dokter</th>
                         <th>Tanggal</th>
+                        <th>No Antrian</th>
                         <th>Jam</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -80,8 +81,17 @@
             <button onclick="closeAlert()">OK</button>
         </div>
     </div>
+
+    <div class="card-refund">
+        <h2>Refund Payment</h2>
+        <form>
+            <input type="text" id="bankName" placeholder="Masukan nama Bank" required>
+            <input type="text" id="accountNumber" placeholder="Masukkan nomor rekening" required>
+            <button type="button" id="submitButton" disabled>Submit</button>
+        </form>
+    </div>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const dateInput = document.getElementById('dateInput');
             const theDay = new Date();
             const maxDate = new Date();

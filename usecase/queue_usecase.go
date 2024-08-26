@@ -239,10 +239,11 @@ func (q *queueUsecase) ViewQueueByPatientId(patientId, status string) (resDto []
 				Name:  patient.Name,
 				Email: patient.Email,
 			},
-			QueueDate: data.QueueDate,
-			QueueTime: data.QueueTime,
-			Note:      data.Note,
-			Status:    data.Status,
+			QueueDate:   data.QueueDate,
+			QueueTime:   data.QueueTime,
+			QueueNumber: data.QueueNumber,
+			Note:        data.Note,
+			Status:      data.Status,
 		}
 
 		resDto = append(resDto, queDto)

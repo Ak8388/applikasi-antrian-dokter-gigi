@@ -28,6 +28,9 @@ function main() {
                 let date2 = date1.split("T");
                 date.innerText = date2[0];
 
+                const queueNumber = document.createElement('td');
+                queueNumber.textContent=data.queueNumber;
+
                 const dateTime = document.createElement('td');
                 let dateTime1 = data.queueTime.replace("Z", "");
                 let dateTime2 = dateTime1.split("T");
@@ -41,6 +44,7 @@ function main() {
                 trows.appendChild(name);
                 trows.appendChild(doctor);
                 trows.appendChild(date);
+                trows.appendChild(queueNumber);
                 trows.appendChild(dateTime);
                 trows.appendChild(status);
 
@@ -67,9 +71,20 @@ function main() {
 
                     cancle.addEventListener('click', e => {
                         localStorage.setItem('reserv-id', data.id);
+                        const today = new Date();
+                        const date = data.queueDate.split('T');
+                        const date2 = new Date(date[0]);
+                        date2.setHours(0,0,0,0);
                         localStorage.setItem('act', "cancel");
-                        document.getElementById('text-warn').innerText = "jika anda mengcancel antrian di hari dimana anda antri maka biaya tidak akan di kembalikan. Apakah anda yakin ingin cancel antrian ini?"
-                        document.getElementById("confirmModal").style.display = "block";
+                        
+                        if(today < date2){
+                            document.getElementById('text-warn').innerText = "jika anda mengcancel antrian maka biaya antrian akan di potong sebesar 3%. Apakah anda yakin ingin cancel antrian ini?"
+                            document.getElementById("confirmModal").style.display = "block";
+                        }else{
+                            document.getElementById('text-warn').innerText = "jika anda mengcancel antrian maka biaya tidak akan di kembalikan. Apakah anda yakin ingin cancel antrian ini?"
+                            document.getElementById("confirmModal").style.display = "block";
+                        }
+
                     })
                 }
 
@@ -372,3 +387,19 @@ function tokenVerify(token){
         }
     })
 }
+
+// card refund script
+document.addEventListener('DOMContentLoaded', function() {
+    const bankNameInput = document.getElementById('bankName');
+    const accountNumberInput = document.getElementById('accountNumber');
+    const submitButton = document.getElementById('submitButton');
+
+    accountNumberInput.addEventListener('input', function() {
+        submitButton.disabled = this.value.trim() === '';
+    });
+
+    submitButton.addEventListener('click', function() {
+        alert('Form submitted!');
+        // Di sini Anda bisa menambahkan logika untuk mengirim data
+    });
+});

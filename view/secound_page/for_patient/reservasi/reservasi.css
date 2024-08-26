@@ -277,6 +277,45 @@ tr{
   margin-top: 20px;
 }
 
+#dateInput {
+  width: 100px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  text-align: center;
+}
+
+.flatpickr-calendar {
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.flatpickr-day {
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.flatpickr-day:hover {
+  background-color: #b2dfdb;
+}
+
+.flatpickr-day.today {
+  background-color: #80cbc4;
+  color: white;
+}
+
+.flatpickr-day.selected {
+  background-color: #004d40;
+  color: white;
+}
+
+.flatpickr-day.disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
 #time-reservation-cntr{
   margin-top: 10px;
   display: flex;

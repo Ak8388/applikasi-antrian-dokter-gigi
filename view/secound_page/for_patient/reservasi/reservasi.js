@@ -134,22 +134,67 @@ function main() {
 
 main()
 
-document.getElementById('nxt-btn').addEventListener('click', () => {
+document.getElementById('nxt-btn').addEventListener('click', async () => {
     const cntrCard = document.getElementById("cntr-card");
     const dateCard = document.getElementById("date-card");
+    const doctorId = localStorage.getItem('dr-id');
+    const token = localStorage.getItem('token');
 
     cntrCard.classList.remove('add-card');
     dateCard.classList.add('add-date');
+
+    let disabledDates = [];
+    const url = `http://localhost:8888/api-klinik-gigi-vony-nur-santy/days-off?docId=${doctorId}`
+
+    try {
+        await fetch(url, {
+            headers: { "Authorization": "Bearer " + token }
+        })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('error');
+                } else {
+                    return res.json();
+                }
+            })
+            .then(resData => {
+                console.log(resData);
+                if(resData.data!=null){
+                    resData.data.map(data=>{
+                        const date = data.dayOff.split("T");
+                        
+                        disabledDates.push(date[0]);
+                    })
+                }
+            })
+    } catch (err) {
+        console.log(url);
+        showAlert('mohon maaf sepertinya ada kesalahan dari sisi server');
+    }
+
+    flatpickr("#dateInput", {
+        disable: disabledDates.map(date => new Date(date)),
+        dateFormat: "Y-m-d",
+        minDate: "today",
+        maxDate: new Date().fp_incr(30), // Maksimal 60 hari ke depan
+        defaultDate: "today", // Tanggal default adalah hari ini
+        locale: {
+            firstDayOfWeek: 1 // Setel hari pertama dalam minggu sebagai Senin
+        },
+        theme: "material_blue", // Gunakan tema material green
+        onChange: function (selectedDates, dateStr, instance) {
+            console.log("Tanggal dipilih:", dateStr);
+        }
+    })
 })
 
-document.getElementById('dateInput').addEventListener('change', e => {
+document.getElementById('dateInput').addEventListener('change', async e => {
     const dayString = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     const dateValue = document.getElementById('dateInput');
     const doctorId = localStorage.getItem('dr-id');
     const token = localStorage.getItem('token');
     const cntr = document.getElementById('time-reservation-cntr');
     cntr.innerHTML = "";
-
     let date = new Date(dateValue.value);
 
     fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/schedules/opening-time/${doctorId}/${dayString[date.getDay()]}`, {
@@ -227,7 +272,7 @@ document.getElementById('dateInput').addEventListener('change', e => {
                                                 'reservasi_date': queTime,
                                                 'reservasi_time': queTime,
                                                 'note': txtArea.value,
-                                                'to':'Created',
+                                                'to': 'Created',
                                             }
                                         ],
                                     'customer_detail': {
@@ -239,7 +284,7 @@ document.getElementById('dateInput').addEventListener('change', e => {
                                     method: "POST",
                                     headers: {
                                         "Authorization": "Bearer " + token,
-                                        "Content-Type":"application/json"
+                                        "Content-Type": "application/json"
                                     },
                                     body: JSON.stringify(newObj),
                                 })
@@ -276,20 +321,20 @@ function closeAlert() {
     document.getElementById('overlay').classList.remove('show');
 }
 
-function tokenVerify(token){
-    fetch("http://localhost:8888/api-klinik-gigi-vony-nur-santy/auth/verify",{
-        headers:{
-            "Authorization":"Bearer "+token,
+function tokenVerify(token) {
+    fetch("http://localhost:8888/api-klinik-gigi-vony-nur-santy/auth/verify", {
+        headers: {
+            "Authorization": "Bearer " + token,
         }
     })
-    .then(res=>{
-        if(res.ok){
-            return res.json()
-        }else{
-            showAlert("maaf sesi anda sudah habis") 
-            setTimeout(()=>{
-                window.location.href="../../../index.html";
-            },5000) 
-        }
-    })
+        .then(res => {
+            if (res.ok) {
+                return res.json()
+            } else {
+                showAlert("maaf sesi anda sudah habis")
+                setTimeout(() => {
+                    window.location.href = "../../../index.html";
+                }, 5000)
+            }
+        })
 }
