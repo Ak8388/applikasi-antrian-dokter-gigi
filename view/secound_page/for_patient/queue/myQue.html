@@ -76,18 +76,22 @@
     </div>
     <div id="overlay" class="overlay">
         <div class="alert-box">
-            <div class="close-icon">X</div>
+            <div id="icon-close" class="close-icon">X</div>
             <div id="text-alert"></div>
             <button onclick="closeAlert()">OK</button>
         </div>
     </div>
 
-    <div class="card-refund">
+    <div id="card-refund-pay" class="card-refund">
         <h2>Refund Payment</h2>
+        <p>mohon masukan akun bank anda dengan benar untuk proses refund dana!</p>
         <form>
             <input type="text" id="bankName" placeholder="Masukan nama Bank" required>
-            <input type="text" id="accountNumber" placeholder="Masukkan nomor rekening" required>
-            <button type="button" id="submitButton" disabled>Submit</button>
+            <input type="text" id="accountNumber" placeholder="Masukkan nomor rekening" required disabled>
+            <div id="ctr-btn">
+                <button type="button" id="submitButton" disabled>Submit</button>
+                <button type="button" id="cncl-btn">Cancel</button>
+            </div>
         </form>
     </div>
     <script>

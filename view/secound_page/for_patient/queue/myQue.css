@@ -91,6 +91,11 @@ tbody tr:hover {
   background-color: #f1f1f1;
 }
 
+#ctr-btn{
+  display: flex;
+  gap: 10px;
+}
+
 .action-data {
   display: flex;
   justify-content: center;
@@ -288,6 +293,7 @@ tbody tr:hover {
 /* Card Refund Style */
 .card-refund {
   position: absolute;
+  display: none;
   top: 30%;
   left: 40%;
   width: 300px;
@@ -298,7 +304,11 @@ tbody tr:hover {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.card-refund h2 {
+.card-refund{
+  >h2{
+    margin-top: 0;
+    color: white;
+  }
   margin-top: 0;
   color: white;
 }
@@ -312,10 +322,10 @@ tbody tr:hover {
   box-sizing: border-box;
 }
 
-.card-refund button {
+.card-refund div button {
   width: 100%;
   padding: 10px;
-  background-color: #007bff;
+  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 4px;
@@ -323,10 +333,18 @@ tbody tr:hover {
 }
 
 .card-refund button:hover {
-  background-color: #0056b3;
+  background-color: #349737;
 }
 
 .card-refund button:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
+}
+
+#cncl-btn{
+  background-color: #f44336;
+}
+
+#cncl-btn:hover{
+  background-color: #e42e21;
 }

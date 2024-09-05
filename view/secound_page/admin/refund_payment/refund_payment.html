@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refund Payment</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Refund Payment</h1>
+        <label for="statusFilter">Filter by Status:</label>
+        <select id="statusFilter">
+            <option value="all">All</option>
+            <option value="Created">Dibuat</option>
+            <option value="Approved">Diproses</option>
+            <option value="Finish">Selesai</option>
+        </select>
+
+        <table id="refundTable">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Bank Name</th>
+                    <th>Bank Number</th>
+                    <th>Nominal</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data akan dimasukkan di sini melalui JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    <div id="card-refund-pay" class="card-refund">
+        <h2>Refund Payment</h2>
+        <p>mohon masukan akun bank anda dengan benar untuk proses refund dana!</p>
+        <form>
+            <input type="text" id="bankName" placeholder="Masukan nama Bank" required>
+            <input type="text" id="accountNumber" placeholder="Masukkan nomor rekening" required>
+            <div id="ctr-btn">
+                <button type="button" id="submitButton">Submit</button>
+                <button type="button" id="cncl-btn">Cancel</button>
+            </div>
+        </form>
+    </div>
+    <div id="overlay" class="overlay">
+        <div class="alert-box">
+            <div id="icon-close" class="close-icon">X</div>
+            <div id="text-alert"></div>
+            <button onclick="closeAlert()">OK</button>
+        </div>
+    </div>
+    <!-- Dialog konfirmasi -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <p id="text-warn"></p>
+            <button class="modal-button yes" id="confirmYes">Ya</button>
+            <button class="modal-button no" id="confirmNo">Batal</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

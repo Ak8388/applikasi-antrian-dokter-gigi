@@ -125,8 +125,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         { text: 'Buat Reservasi', icon: 'fas fa-calendar-alt', link: './reservasi/reservasi.html' },
         { text: 'Pembayaran', icon: 'fas fa-credit-card', link: './myPayment/my-payment.html' },
         { text: 'Antrian Ku', icon: 'fas fa-clipboard-list', link: './queue/myQue.html' },
+        { text: 'Refund', icon:'fas fa-undo refund-icon', link:'./refund_payment/refund_payment.html'},
         { text: 'Tentang Klinik', icon: 'fas fa-info-circle', link:'../../about_us_page/about.html'},
-        { text: 'Setting', icon: 'fas fa-cog' }
+        { text: 'Setting', icon: 'fas fa-cog'}
     ];
 
     try {

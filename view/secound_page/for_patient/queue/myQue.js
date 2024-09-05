@@ -29,7 +29,7 @@ function main() {
                 date.innerText = date2[0];
 
                 const queueNumber = document.createElement('td');
-                queueNumber.textContent=data.queueNumber;
+                queueNumber.textContent = data.queueNumber;
 
                 const dateTime = document.createElement('td');
                 let dateTime1 = data.queueTime.replace("Z", "");
@@ -74,14 +74,18 @@ function main() {
                         const today = new Date();
                         const date = data.queueDate.split('T');
                         const date2 = new Date(date[0]);
-                        date2.setHours(0,0,0,0);
-                        localStorage.setItem('act', "cancel");
-                        
-                        if(today < date2){
-                            document.getElementById('text-warn').innerText = "jika anda mengcancel antrian maka biaya antrian akan di potong sebesar 3%. Apakah anda yakin ingin cancel antrian ini?"
+                        date2.setHours(0, 0, 0, 0);
+                        if (today < date2) {
+                            localStorage.setItem('idUser', data.patient.id);
+                            console.log(data.id);
+                            
+                            localStorage.setItem('qDate', date[0]);
+                            localStorage.setItem('act', "cancelBeforeResrv");
+                            document.getElementById('text-warn').innerText = "jika anda mengcancel antrian maka biaya antrian akan di potong sebesar 10%. Apakah anda yakin ingin cancel antrian ini?";
                             document.getElementById("confirmModal").style.display = "block";
-                        }else{
-                            document.getElementById('text-warn').innerText = "jika anda mengcancel antrian maka biaya tidak akan di kembalikan. Apakah anda yakin ingin cancel antrian ini?"
+                        } else {
+                            localStorage.setItem('act', "cancel");
+                            document.getElementById('text-warn').innerText = "jika anda mengcancel antrian maka biaya tidak akan di kembalikan. Apakah anda yakin ingin cancel antrian ini?";
                             document.getElementById("confirmModal").style.display = "block";
                         }
 
@@ -95,9 +99,23 @@ function main() {
 
                     cancle.addEventListener('click', e => {
                         localStorage.setItem('reserv-id', data.id);
-                        localStorage.setItem('act', "cancel");
-                        document.getElementById('text-warn').innerText = "jika anda mengcancel antrian di hari dimana anda antri maka biaya tidak akan di kembalikan. Apakah anda yakin ingin cancel antrian ini?"
-                        document.getElementById("confirmModal").style.display = "block";
+                        const today = new Date();
+                        const date = data.queueDate.split('T');
+                        const date2 = new Date(date[0]);
+                        date2.setHours(0, 0, 0, 0);
+                        if (today < date2) {
+                            console.log(data.id);
+                            
+                            localStorage.setItem('idUser', data.patient.id);
+                            localStorage.setItem('qDate', date[0]);
+                            localStorage.setItem('act', "cancelBeforeResrv");
+                            document.getElementById('text-warn').innerText = "jika anda mengcancel antrian maka biaya antrian akan di potong sebesar 10%. Apakah anda yakin ingin cancel antrian ini?";
+                            document.getElementById("confirmModal").style.display = "block";
+                        } else {
+                            localStorage.setItem('act', "cancel");
+                            document.getElementById('text-warn').innerText = "jika anda mengcancel antrian maka biaya tidak akan di kembalikan. Apakah anda yakin ingin cancel antrian ini?";
+                            document.getElementById("confirmModal").style.display = "block";
+                        }
                     })
                 }
             })
@@ -145,7 +163,6 @@ document.getElementById('status-filter').addEventListener('change', e => {
                 const status = document.createElement('td');
                 status.innerText = data.status;
 
-
                 tBody.appendChild(trows);
                 trows.appendChild(no);
                 trows.appendChild(name);
@@ -178,9 +195,22 @@ document.getElementById('status-filter').addEventListener('change', e => {
 
                     cancle.addEventListener('click', e => {
                         localStorage.setItem('reserv-id', data.id);
-                        localStorage.setItem('act', "cancel");
-                        document.getElementById('text-warn').innerText = "jika anda mengcancel antrian di hari dimana anda antri maka biaya tidak akan di kembalikan. Apakah anda yakin ingin cancel antrian ini?"
-                        document.getElementById("confirmModal").style.display = "block";
+                        const today = new Date();
+                        const date = data.queueDate.split('T');
+                        const date2 = new Date(date[0]);
+                        date2.setHours(0, 0, 0, 0);
+                        if (today < date2) {
+                            console.log(data.id);
+                            localStorage.setItem('idUser', data.patient.id);
+                            localStorage.setItem('qDate', date[0]);
+                            localStorage.setItem('act', "cancelBeforeResrv");
+                            document.getElementById('text-warn').innerText = "jika anda mengcancel antrian maka biaya antrian akan di potong sebesar 10%. Apakah anda yakin ingin cancel antrian ini?";
+                            document.getElementById("confirmModal").style.display = "block";
+                        } else {
+                            localStorage.setItem('act', "cancel");
+                            document.getElementById('text-warn').innerText = "jika anda mengcancel antrian maka biaya tidak akan di kembalikan. Apakah anda yakin ingin cancel antrian ini?";
+                            document.getElementById("confirmModal").style.display = "block";
+                        }
                     })
 
                 }
@@ -192,9 +222,21 @@ document.getElementById('status-filter').addEventListener('change', e => {
 
                     cancle.addEventListener('click', e => {
                         localStorage.setItem('reserv-id', data.id);
-                        localStorage.setItem('act', "cancel");
-                        document.getElementById('text-warn').innerText = "jika anda mengcancel antrian di hari dimana anda antri maka biaya tidak akan di kembalikan. Apakah anda yakin ingin cancel antrian ini?"
-                        document.getElementById("confirmModal").style.display = "block";
+                        const today = new Date();
+                        const date = data.queueDate.split('T');
+                        const date2 = new Date(date[0]);
+                        date2.setHours(0, 0, 0, 0);
+                        if (today < date2) {
+                            localStorage.setItem('idUser', data.patient.id);
+                            localStorage.setItem('qDate', date[0]);
+                            localStorage.setItem('act', "cancelBeforeResrv");
+                            document.getElementById('text-warn').innerText = "jika anda mengcancel antrian maka biaya antrian akan di potong sebesar 10%. Apakah anda yakin ingin cancel antrian ini?";
+                            document.getElementById("confirmModal").style.display = "block";
+                        } else {
+                            localStorage.setItem('act', "cancel");
+                            document.getElementById('text-warn').innerText = "jika anda mengcancel antrian maka biaya tidak akan di kembalikan. Apakah anda yakin ingin cancel antrian ini?";
+                            document.getElementById("confirmModal").style.display = "block";
+                        }
                     })
                 }
             })
@@ -202,7 +244,7 @@ document.getElementById('status-filter').addEventListener('change', e => {
 
 })
 
-document.getElementById("confirmYes").addEventListener("click", function () {
+document.getElementById("confirmYes").addEventListener("click", async function () {
     const act = localStorage.getItem('act')
     const token = localStorage.getItem('token');
     const resrvId = localStorage.getItem('reserv-id');
@@ -320,12 +362,16 @@ document.getElementById("confirmYes").addEventListener("click", function () {
                     })
                 })
         })
+    } else if (act == "cancelBeforeResrv") {
+        localStorage.removeItem('act');
+        document.getElementById("confirmModal").style.display = "none";
+        document.getElementById('card-refund-pay').style.display = 'block';
     } else {
         localStorage.removeItem('act');
         const reqObj = {
             'id': resrvId,
         }
-        fetch("http://localhost:8888/api-klinik-gigi-vony-nur-santy/queues/cancel", {
+        await fetch("http://localhost:8888/api-klinik-gigi-vony-nur-santy/queues/cancel", {
             method: "PUT",
             body: JSON.stringify(reqObj),
             headers: {
@@ -342,10 +388,10 @@ document.getElementById("confirmYes").addEventListener("click", function () {
             })
             .then(data => {
                 document.getElementById("confirmModal").style.display = "none";
+                localStorage.removeItem('reserv-id');
             })
-    }
+        }
 
-    localStorage.removeItem('reserv-id');
 });
 
 document.getElementById("cancel-btn").addEventListener('click', e => {
@@ -370,36 +416,106 @@ function closeAlert() {
     document.getElementById('overlay').classList.remove('show');
 }
 
-function tokenVerify(token){
-    fetch("http://localhost:8888/api-klinik-gigi-vony-nur-santy/auth/verify",{
-        headers:{
-            "Authorization":"Bearer "+token,
+function tokenVerify(token) {
+    fetch("http://localhost:8888/api-klinik-gigi-vony-nur-santy/auth/verify", {
+        headers: {
+            "Authorization": "Bearer " + token,
         }
     })
-    .then(res=>{
-        if(res.ok){
-            return res.json()
-        }else{
-            showAlert("maaf sesi anda sudah habis") 
-            setTimeout(()=>{
-                window.location.href="../../../index.html";
-            },5000) 
-        }
-    })
+        .then(res => {
+            if (res.ok) {
+                return res.json()
+            } else {
+                showAlert("maaf sesi anda sudah habis")
+                setTimeout(() => {
+                    window.location.href = "../../../index.html";
+                }, 5000)
+            }
+        })
 }
 
 // card refund script
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const bankNameInput = document.getElementById('bankName');
     const accountNumberInput = document.getElementById('accountNumber');
     const submitButton = document.getElementById('submitButton');
+    const patId = localStorage.getItem('idUser');
+    const qdate = localStorage.getItem('qDate');
+    const resrvId = localStorage.getItem('reserv-id');
+    const token = localStorage.getItem('token');
 
-    accountNumberInput.addEventListener('input', function() {
+    bankNameInput.addEventListener('input', function () {
+        accountNumberInput.disabled = this.value.trim() === '';
+    });
+
+    accountNumberInput.addEventListener('input', function () {
         submitButton.disabled = this.value.trim() === '';
     });
 
-    submitButton.addEventListener('click', function() {
-        alert('Form submitted!');
-        // Di sini Anda bisa menambahkan logika untuk mengirim data
+    submitButton.addEventListener('click', async function () {
+        const obj = { 
+            'userId': patId, 
+            'date': qdate, 
+            'bankName': bankNameInput.value, 
+            'bankNumber': accountNumberInput.value, 
+            'status':'Created'
+        };
+        console.log('Sending first request...');
+        try {
+            const response = await fetch('http://localhost:8081/api-klinik-gigi-vony-nur-santy/payment-refund', {
+                method: "POST",
+                headers: { 
+                    "Authorization": "Bearer "+token,
+                },
+                body: JSON.stringify(obj)
+            });
+            
+            console.log('First request completed.');
+
+            if (!response.ok) { // Jika response status bukan 2xx
+                const errorData = await response.json();
+                throw new Error(`Error: ${response.status} - ${errorData.message}`);
+            }
+    
+            const result = await response.json();
+            console.log('Payment Refund Result:', result);
+    
+            const reqObj = { 'id': resrvId };
+            console.log('Sending second request...');
+            const cancelResponse = await fetch("http://localhost:8888/api-klinik-gigi-vony-nur-santy/queues/cancel", {
+                method: "PUT",
+                body: JSON.stringify(reqObj),
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token,
+                }
+            });
+            console.log('Second request completed.');
+            if (!cancelResponse.ok) { // Jika response status bukan 2xx
+                const cancelErrorData = await cancelResponse.json();
+                throw new Error(`Error: ${cancelResponse.status} - ${cancelErrorData.message}`);
+            }
+    
+            const cancelData = await cancelResponse.json();
+            console.log('Queue Cancel Result:', cancelData);
+    
+            document.getElementById("card-refund-pay").style.display = "none";
+            document.getElementById("confirmModal").style.display = "none";
+            document.getElementById('icon-close').textContent = '✔';
+            document.getElementById('icon-close').style.color = 'green';
+            showAlert('Cancel payment berhasil! Untuk refund payment maksimal 7 hari setelah cancel antrian.');
+            localStorage.removeItem('idUser');
+            localStorage.removeItem('qDate');
+            localStorage.removeItem('reserv-id');
+    
+        } catch (error) {
+            console.log(error);
+            showAlert(`Terjadi kesalahan:${error.error}`);
+        }
     });
+    
 });
+
+document.getElementById('cncl-btn').addEventListener('click',e=>{
+    document.getElementById('card-refund-pay').style.display='none';
+})
