@@ -1,5 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
+    displayRefundData()
+});
+
+function displayRefundData(){
     const tableBody = document.querySelector("#refundTable tbody");
+    tableBody.innerHTML='';
     const statusFilter = document.getElementById("statusFilter");
     const token = localStorage.getItem('token');
 
@@ -87,7 +92,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                 .then(resData => {
                                     document.getElementById('icon-close').textContent = '✓';
                                     document.getElementById('icon-close').style.color = 'white';
-                                    showAlert('status berhasil di rubah');
+                                    showAlert('status successfully changed');
+                                    displayRefundData()
                                 })
                         } catch (error) {
                             showAlert('sepertinya ada kesalahan dari sisi server');
@@ -118,7 +124,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                 .then(resData => {
                                     document.getElementById('icon-close').textContent = '✓';
                                     document.getElementById('icon-close').style.color = 'white';
-                                    showAlert('status berhasil di rubah');
+                                    showAlert('status successfully changed');
+                                    displayRefundData()
                                 })
                         } catch (error) {
                             console.log(error);
@@ -150,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Initial data load with "all" status
     fetchRefundData("all");
-});
+}
 
 document.getElementById('submitButton').addEventListener('click', async e => {
     const token = localStorage.getItem('token');
@@ -181,7 +188,8 @@ document.getElementById('submitButton').addEventListener('click', async e => {
                 const ci = document.getElementById('icon-close');
                 ci.textContent = '✔';
                 ci.style.color = 'white';
-                showAlert('update data refund payment berhasil');
+                showAlert('update payment refund data successfully');
+                displayRefundData()
             })
     } catch (error) {
         document.getElementById("confirmModal").style.display = "none";
@@ -224,7 +232,9 @@ document.getElementById("confirmYes").addEventListener("click", async function (
             .then(resData => {
                 document.getElementById('icon-close').textContent = '✓';
                 document.getElementById('icon-close').style.color = 'white';
-                showAlert('status berhasil di rubah');
+                showAlert('successfully deleed data');
+                document.getElementById('confirmModal').style.display = 'block';
+                displayRefundData()
             })
     } catch (err) {
         console.log(err);
@@ -234,6 +244,6 @@ document.getElementById("confirmYes").addEventListener("click", async function (
 
 document.getElementById("confirmNo").addEventListener("click", function () {
     // Batalkan tindakan
-    alert("hapus data dibatalkan");
+    alert("deleted cancel");
     document.getElementById("confirmModal").style.display = "none";
 });

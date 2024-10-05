@@ -41,12 +41,12 @@
                 </label>
             </div>
             <select id="statusFilter">
-                <option value="">Semua Status</option>
-                <option value="created">Menunggu</option>
-                <option value="process">Sedang Dilayani</option>
-                <option value="cancel">Batal</option>
-                <option value="reschedule">Ganti jadwal</option>
-                <option value="finish">Selesai</option>
+                <option value="">All</option>
+                <option value="created">Waiting</option>
+                <option value="process">In the examination</option>
+                <option value="cancel">Cancel</option>
+                <option value="reschedule">Reschedule</option>
+                <option value="finish">Finish</option>
             </select>
             <button onclick="setFilter()">Set filter</button>
         </div>
@@ -54,13 +54,13 @@
     <table class="queue-list" id="queueList">
         <thead>
             <tr>
-                <th>No Antrian</th>
-                <th>Nama Pasien</th>
-                <th>Nama Dokter</th>
-                <th>Keluhan</th>
-                <th>Tanggal Reservasi</th>
-                <th>Jam Reservasi</th>
-                <th>Status Atrian</th>
+                <th>No</th>
+                <th>Patient Name</th>
+                <th>Doctor Name</th>
+                <th>Complaint</th>
+                <th>Reservation date</th>
+                <th>Reservation Hours</th>
+                <th>Status</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -71,7 +71,7 @@
     </div>
 
     <div id="date-card" class="card-date">
-        <h2>Pilih Tanggal</h2>
+        <h2>Select a Date</h2>
         <div>
             <input type="date" id="dateInput">
         </div>
@@ -95,8 +95,8 @@
     <div id="confirmModal" class="modal">
         <div class="modal-content">
             <p id="text-warn"></p>
-            <button class="modal-button yes" id="confirmYes">Ya</button>
-            <button class="modal-button no" id="confirmNo">Batal</button>
+            <button class="modal-button yes" id="confirmYes">Yes</button>
+            <button class="modal-button no" id="confirmNo">Cancel</button>
         </div>
     </div>
 

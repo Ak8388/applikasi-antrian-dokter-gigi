@@ -197,21 +197,72 @@ tbody tr:hover {
   background-color: #0056b3;
 }
 
-.practice-time {
+#dateInput {
+  width: 100px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  text-align: center;
+}
+
+.flatpickr-calendar {
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.flatpickr-day {
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.flatpickr-day:hover {
+  background-color: #b2dfdb;
+}
+
+.flatpickr-day.today {
+  background-color: #80cbc4;
+  color: white;
+}
+
+.flatpickr-day.selected {
+  background-color: #004d40;
+  color: white;
+}
+
+.flatpickr-day.disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+#time-reservation-cntr{
+  margin-top: 10px;
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-date button:hover {
+  background-color: #0056b3;
+}
+
+.practice-time{
   width: 50px;
   background-color: whitesmoke;
   position: relative;
 }
 
-.practice-time {
+.practice-time{
   cursor: pointer;
 }
 
 .practice-time.active {
-  background-color: lightgreen;
+  background-color: lightgreen; 
 }
 
-.opt-time {
+.opt-time{
   position: absolute;
   transform: scale(2);
   top: 12%;
@@ -219,7 +270,7 @@ tbody tr:hover {
   opacity: 0;
 }
 
-.opt-time:hover {
+.opt-time:hover{
   cursor: pointer;
 }
 

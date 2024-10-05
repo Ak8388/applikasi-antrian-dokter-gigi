@@ -1,7 +1,12 @@
 document.addEventListener("DOMContentLoaded", async function () {
+    DisplayDayOff()
+});
+
+async function DisplayDayOff(){
     const role = localStorage.getItem('role');
     const token = localStorage.getItem('token');
     const tableBody = document.querySelector('#daysOffTable tbody');
+    tableBody.innerHTML='';
     let disabledDates = [];
     let url = '';
     if (role == 'Admin') {
@@ -95,8 +100,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         }
     })
-
-});
+}
 
 document.getElementById('cncl-btn').addEventListener('click', e => {
     e.preventDefault();
@@ -142,6 +146,7 @@ document.getElementById('add-btn').addEventListener('click', async e => {
                     document.querySelector('.close-icon').textContent = '✓';
                     showAlert('success add doctor holiday');
                     document.getElementById('ctr-day-off').style.display = 'none';
+                    DisplayDayOff()
                 })
         } catch (err) {
             document.querySelector('.close-icon').textContent = '✗';
@@ -170,6 +175,7 @@ document.getElementById('add-btn').addEventListener('click', async e => {
                     document.querySelector('.close-icon').textContent = '✓';
                     showAlert('success edit hari libur dokter');
                     document.getElementById('ctr-day-off').style.display = 'none';
+                    DisplayDayOff()
                 })
         } catch (err) {
             document.querySelector('.close-icon').textContent = '✗';
@@ -197,8 +203,9 @@ document.getElementById("confirmYes").addEventListener("click", async function (
             })
             .then(resData => {
                 document.querySelector('.close-icon').textContent = '✓';
-                showAlert('success hapus hari libur dokter');
+                showAlert(`success removes doctor's day off`);
                 document.getElementById('confirmModal').style.display = 'none';
+                DisplayDayOff()
             })
     } catch (err) {
 

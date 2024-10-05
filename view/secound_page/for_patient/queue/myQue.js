@@ -1,7 +1,132 @@
 function main() {
-    const token = localStorage.getItem('token');
+    DisplayMyQueue("")
+}
+
+main();
+
+function DisplayMyQueue(status){
+    if(status!=""){
+        e.preventDefault()
+        const token = localStorage.getItem('token');
+        fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/queues/view`, {
+            headers: {
+                "Authorization": "Bearer " + token,
+            }
+        })
+            .then(res => res.json())
+            .then(res => {
+                const tBody = document.getElementById('queue-table-body');
+                tBody.innerHTML = "";
+    
+                let index = 0;
+                res.Data.map(data => {
+                    const trows = document.createElement('tr');
+                    index++;
+                    const no = document.createElement('td');
+                    no.innerText = index;
+    
+                    const name = document.createElement('td');
+                    name.innerText = data.patient.name;
+    
+                    const doctor = document.createElement('td');
+                    doctor.innerText = data.doctor.name;
+    
+                    const date = document.createElement('td');
+                    let date1 = data.queueDate;
+                    let date2 = date1.split("T");
+                    date.innerText = date2[0];
+    
+                    const dateTime = document.createElement('td');
+                    let dateTime1 = data.queueTime.replace("Z", "");
+                    let dateTime2 = dateTime1.split("T");
+                    dateTime.innerText = dateTime2[1];
+    
+                    const status = document.createElement('td');
+                    status.innerText = data.status;
+    
+                    tBody.appendChild(trows);
+                    trows.appendChild(no);
+                    trows.appendChild(name);
+                    trows.appendChild(doctor);
+                    trows.appendChild(date);
+                    trows.appendChild(dateTime);
+                    trows.appendChild(status);
+    
+                    const act = document.createElement('td');
+                    act.className = 'action-data';
+                    trows.appendChild(act);
+    
+                    if (data.status == "created") {
+                        const reSchedule = document.createElement('img');
+                        reSchedule.src = "../../../assets/icons/reSchedule.png";
+    
+                        const cancle = document.createElement('img');
+                        cancle.src = "../../../assets/icons/cancle.png";
+    
+                        act.appendChild(reSchedule);
+                        act.appendChild(cancle);
+    
+                        reSchedule.addEventListener('click', e => {
+                            localStorage.setItem('doctor-id', data.doctor.id);
+                            localStorage.setItem('reserv-id', data.id);
+                            localStorage.setItem('act', "reSch");
+                            document.getElementById('text-warn').innerText = "Reschedule jadwal dikenakan biaya 50% dari biaya pendaftaran. Apakah anda yakin ingin Reschedule jadwal?"
+                            document.getElementById("confirmModal").style.display = "block";
+                        })
+    
+                        cancle.addEventListener('click', e => {
+                            localStorage.setItem('reserv-id', data.id);
+                            const today = new Date();
+                            const date = data.queueDate.split('T');
+                            const date2 = new Date(date[0]);
+                            date2.setHours(0, 0, 0, 0);
+                            if (today < date2) {
+                                console.log(data.id);
+                                localStorage.setItem('idUser', data.patient.id);
+                                localStorage.setItem('qDate', date[0]);
+                                localStorage.setItem('act', "cancelBeforeResrv");
+                                document.getElementById('text-warn').innerText = "jika anda mengcancel antrian maka biaya antrian akan di potong sebesar 10%. Apakah anda yakin ingin cancel antrian ini?";
+                                document.getElementById("confirmModal").style.display = "block";
+                            } else {
+                                localStorage.setItem('act', "cancel");
+                                document.getElementById('text-warn').innerText = "jika anda mengcancel antrian maka biaya tidak akan di kembalikan. Apakah anda yakin ingin cancel antrian ini?";
+                                document.getElementById("confirmModal").style.display = "block";
+                            }
+                        })
+    
+                    }
+    
+                    if (data.status == "reschedule") {
+                        const cancle = document.createElement('img');
+                        cancle.src = "../../../assets/icons/cancle.png";
+                        act.appendChild(cancle);
+    
+                        cancle.addEventListener('click', e => {
+                            localStorage.setItem('reserv-id', data.id);
+                            const today = new Date();
+                            const date = data.queueDate.split('T');
+                            const date2 = new Date(date[0]);
+                            date2.setHours(0, 0, 0, 0);
+                            if (today < date2) {
+                                localStorage.setItem('idUser', data.patient.id);
+                                localStorage.setItem('qDate', date[0]);
+                                localStorage.setItem('act', "cancelBeforeResrv");
+                                document.getElementById('text-warn').innerText = "jika anda mengcancel antrian maka biaya antrian akan di potong sebesar 10%. Apakah anda yakin ingin cancel antrian ini?";
+                                document.getElementById("confirmModal").style.display = "block";
+                            } else {
+                                localStorage.setItem('act', "cancel");
+                                document.getElementById('text-warn').innerText = "jika anda mengcancel antrian maka biaya tidak akan di kembalikan. Apakah anda yakin ingin cancel antrian ini?";
+                                document.getElementById("confirmModal").style.display = "block";
+                            }
+                        })
+                    }
+                })
+            })
+    
+    }else{
+        const token = localStorage.getItem('token');
     tokenVerify(token);
-    fetch("http://localhost:8888/api-klinik-gigi-vony-nur-santy/queues/view", {
+    fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/queues/view?status=${status}`, {
         headers: {
             "Authorization": "Bearer " + token,
         }
@@ -9,6 +134,7 @@ function main() {
         .then(res => res.json())
         .then(res => {
             const tBody = document.getElementById('queue-table-body');
+            tBody.innerHTML='';
             let index = 0;
             res.Data.map(data => {
                 console.log(data);
@@ -78,7 +204,7 @@ function main() {
                         if (today < date2) {
                             localStorage.setItem('idUser', data.patient.id);
                             console.log(data.id);
-                            
+
                             localStorage.setItem('qDate', date[0]);
                             localStorage.setItem('act', "cancelBeforeResrv");
                             document.getElementById('text-warn').innerText = "jika anda mengcancel antrian maka biaya antrian akan di potong sebesar 10%. Apakah anda yakin ingin cancel antrian ini?";
@@ -105,7 +231,7 @@ function main() {
                         date2.setHours(0, 0, 0, 0);
                         if (today < date2) {
                             console.log(data.id);
-                            
+
                             localStorage.setItem('idUser', data.patient.id);
                             localStorage.setItem('qDate', date[0]);
                             localStorage.setItem('act', "cancelBeforeResrv");
@@ -120,128 +246,11 @@ function main() {
                 }
             })
         })
+    }
 }
 
-main();
-
 document.getElementById('status-filter').addEventListener('change', e => {
-    e.preventDefault()
-    const token = localStorage.getItem('token');
-    fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/queues/view?status=${e.target.value}`, {
-        headers: {
-            "Authorization": "Bearer " + token,
-        }
-    })
-        .then(res => res.json())
-        .then(res => {
-            const tBody = document.getElementById('queue-table-body');
-            tBody.innerHTML = "";
-
-            let index = 0;
-            res.Data.map(data => {
-                const trows = document.createElement('tr');
-                index++;
-                const no = document.createElement('td');
-                no.innerText = index;
-
-                const name = document.createElement('td');
-                name.innerText = data.patient.name;
-
-                const doctor = document.createElement('td');
-                doctor.innerText = data.doctor.name;
-
-                const date = document.createElement('td');
-                let date1 = data.queueDate;
-                let date2 = date1.split("T");
-                date.innerText = date2[0];
-
-                const dateTime = document.createElement('td');
-                let dateTime1 = data.queueTime.replace("Z", "");
-                let dateTime2 = dateTime1.split("T");
-                dateTime.innerText = dateTime2[1];
-
-                const status = document.createElement('td');
-                status.innerText = data.status;
-
-                tBody.appendChild(trows);
-                trows.appendChild(no);
-                trows.appendChild(name);
-                trows.appendChild(doctor);
-                trows.appendChild(date);
-                trows.appendChild(dateTime);
-                trows.appendChild(status);
-
-                const act = document.createElement('td');
-                act.className = 'action-data';
-                trows.appendChild(act);
-
-                if (data.status == "created") {
-                    const reSchedule = document.createElement('img');
-                    reSchedule.src = "../../../assets/icons/reSchedule.png";
-
-                    const cancle = document.createElement('img');
-                    cancle.src = "../../../assets/icons/cancle.png";
-
-                    act.appendChild(reSchedule);
-                    act.appendChild(cancle);
-
-                    reSchedule.addEventListener('click', e => {
-                        localStorage.setItem('doctor-id', data.doctor.id);
-                        localStorage.setItem('reserv-id', data.id);
-                        localStorage.setItem('act', "reSch");
-                        document.getElementById('text-warn').innerText = "Reschedule jadwal dikenakan biaya 50% dari biaya pendaftaran. Apakah anda yakin ingin Reschedule jadwal?"
-                        document.getElementById("confirmModal").style.display = "block";
-                    })
-
-                    cancle.addEventListener('click', e => {
-                        localStorage.setItem('reserv-id', data.id);
-                        const today = new Date();
-                        const date = data.queueDate.split('T');
-                        const date2 = new Date(date[0]);
-                        date2.setHours(0, 0, 0, 0);
-                        if (today < date2) {
-                            console.log(data.id);
-                            localStorage.setItem('idUser', data.patient.id);
-                            localStorage.setItem('qDate', date[0]);
-                            localStorage.setItem('act', "cancelBeforeResrv");
-                            document.getElementById('text-warn').innerText = "jika anda mengcancel antrian maka biaya antrian akan di potong sebesar 10%. Apakah anda yakin ingin cancel antrian ini?";
-                            document.getElementById("confirmModal").style.display = "block";
-                        } else {
-                            localStorage.setItem('act', "cancel");
-                            document.getElementById('text-warn').innerText = "jika anda mengcancel antrian maka biaya tidak akan di kembalikan. Apakah anda yakin ingin cancel antrian ini?";
-                            document.getElementById("confirmModal").style.display = "block";
-                        }
-                    })
-
-                }
-
-                if (data.status == "reschedule") {
-                    const cancle = document.createElement('img');
-                    cancle.src = "../../../assets/icons/cancle.png";
-                    act.appendChild(cancle);
-
-                    cancle.addEventListener('click', e => {
-                        localStorage.setItem('reserv-id', data.id);
-                        const today = new Date();
-                        const date = data.queueDate.split('T');
-                        const date2 = new Date(date[0]);
-                        date2.setHours(0, 0, 0, 0);
-                        if (today < date2) {
-                            localStorage.setItem('idUser', data.patient.id);
-                            localStorage.setItem('qDate', date[0]);
-                            localStorage.setItem('act', "cancelBeforeResrv");
-                            document.getElementById('text-warn').innerText = "jika anda mengcancel antrian maka biaya antrian akan di potong sebesar 10%. Apakah anda yakin ingin cancel antrian ini?";
-                            document.getElementById("confirmModal").style.display = "block";
-                        } else {
-                            localStorage.setItem('act', "cancel");
-                            document.getElementById('text-warn').innerText = "jika anda mengcancel antrian maka biaya tidak akan di kembalikan. Apakah anda yakin ingin cancel antrian ini?";
-                            document.getElementById("confirmModal").style.display = "block";
-                        }
-                    })
-                }
-            })
-        })
-
+    DisplayMyQueue(e.target.value)
 })
 
 document.getElementById("confirmYes").addEventListener("click", async function () {
@@ -251,11 +260,58 @@ document.getElementById("confirmYes").addEventListener("click", async function (
 
     if (act == "reSch") {
         localStorage.removeItem('act');
+        const id = localStorage.getItem('doctor-id');
         const dateCard = document.getElementById("date-card");
-
-        dateCard.classList.add('add-date');
-
+        
+        
+        
         document.getElementById("confirmModal").style.display = "none";
+
+        // Disabled Start
+        let disabledDates = [];
+        const url = `http://localhost:8888/api-klinik-gigi-vony-nur-santy/days-off?docId=${id}`
+
+        try {
+            await fetch(url, {
+                headers: { "Authorization": "Bearer " + token }
+            })
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('error');
+                    } else {
+                        return res.json();
+                    }
+                })
+                .then(resData => {
+                    console.log(resData);
+                    if (resData.data != null) {
+                        resData.data.map(data => {
+                            const date = data.dayOff.split("T");
+                            disabledDates.push(date[0]);
+                        })
+                    }
+                })
+        } catch (err) {
+            console.log(url);
+            showAlert('mohon maaf sepertinya ada kesalahan dari sisi server');
+        }
+
+        flatpickr("#dateInput", {
+            disable: disabledDates.map(date => new Date(date)),
+            dateFormat: "Y-m-d",
+            minDate: "today",
+            maxDate: new Date().fp_incr(30), // Maksimal 60 hari ke depan
+            defaultDate: "today", // Tanggal default adalah hari ini
+            locale: {
+                firstDayOfWeek: 1 // Setel hari pertama dalam minggu sebagai Senin
+            },
+            theme: "material_blue", // Gunakan tema material green
+            onChange: function (selectedDates, dateStr, instance) {
+                console.log("Tanggal dipilih:", dateStr);
+            }
+        })
+        dateCard.classList.add('add-date');
+        // Disabled End
 
         document.getElementById('dateInput').addEventListener('change', e => {
             const dayString = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -366,6 +422,7 @@ document.getElementById("confirmYes").addEventListener("click", async function (
         localStorage.removeItem('act');
         document.getElementById("confirmModal").style.display = "none";
         document.getElementById('card-refund-pay').style.display = 'block';
+        DisplayMyQueue("")
     } else {
         localStorage.removeItem('act');
         const reqObj = {
@@ -389,8 +446,9 @@ document.getElementById("confirmYes").addEventListener("click", async function (
             .then(data => {
                 document.getElementById("confirmModal").style.display = "none";
                 localStorage.removeItem('reserv-id');
+                DisplayMyQueue("")
             })
-        }
+    }
 
 });
 
@@ -453,33 +511,33 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     submitButton.addEventListener('click', async function () {
-        const obj = { 
-            'userId': patId, 
-            'date': qdate, 
-            'bankName': bankNameInput.value, 
-            'bankNumber': accountNumberInput.value, 
-            'status':'Created'
+        const obj = {
+            'userId': patId,
+            'date': qdate,
+            'bankName': bankNameInput.value,
+            'bankNumber': accountNumberInput.value,
+            'status': 'Created'
         };
         console.log('Sending first request...');
         try {
             const response = await fetch('http://localhost:8081/api-klinik-gigi-vony-nur-santy/payment-refund', {
                 method: "POST",
-                headers: { 
-                    "Authorization": "Bearer "+token,
+                headers: {
+                    "Authorization": "Bearer " + token,
                 },
                 body: JSON.stringify(obj)
             });
-            
+
             console.log('First request completed.');
 
             if (!response.ok) { // Jika response status bukan 2xx
                 const errorData = await response.json();
                 throw new Error(`Error: ${response.status} - ${errorData.message}`);
             }
-    
+
             const result = await response.json();
             console.log('Payment Refund Result:', result);
-    
+
             const reqObj = { 'id': resrvId };
             console.log('Sending second request...');
             const cancelResponse = await fetch("http://localhost:8888/api-klinik-gigi-vony-nur-santy/queues/cancel", {
@@ -495,10 +553,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 const cancelErrorData = await cancelResponse.json();
                 throw new Error(`Error: ${cancelResponse.status} - ${cancelErrorData.message}`);
             }
-    
+
             const cancelData = await cancelResponse.json();
             console.log('Queue Cancel Result:', cancelData);
-    
+
             document.getElementById("card-refund-pay").style.display = "none";
             document.getElementById("confirmModal").style.display = "none";
             document.getElementById('icon-close').textContent = '✔';
@@ -507,15 +565,15 @@ document.addEventListener('DOMContentLoaded', function () {
             localStorage.removeItem('idUser');
             localStorage.removeItem('qDate');
             localStorage.removeItem('reserv-id');
-    
+            DisplayMyQueue("")
         } catch (error) {
             console.log(error);
             showAlert(`Terjadi kesalahan:${error.error}`);
         }
     });
-    
+
 });
 
-document.getElementById('cncl-btn').addEventListener('click',e=>{
-    document.getElementById('card-refund-pay').style.display='none';
+document.getElementById('cncl-btn').addEventListener('click', e => {
+    document.getElementById('card-refund-pay').style.display = 'none';
 })

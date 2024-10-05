@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Antrian Pasien</title>
     <link rel="stylesheet" href="myQue.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_green.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <style>
         button:disabled {
             background-color: #ccc;
@@ -26,7 +29,7 @@
             <select id="status-filter">
                 <option value="Created">Menunggu</option>
                 <option value="Process">Dalam Pemeriksaan</option>
-                <option value="Reschedule">Reschedule</option>
+                <option value="Reschedule">Ubah Jadwal</option>
                 <Option value="Cancel">Batal</Option>
                 <option value="Finish">Selesai</option>
             </select>
@@ -44,7 +47,7 @@
                         <th>No Antrian</th>
                         <th>Jam</th>
                         <th>Status</th>
-                        <th>Action</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody id="queue-table-body">
@@ -94,7 +97,7 @@
             </div>
         </form>
     </div>
-    <script>
+    <!-- <script>
         document.addEventListener("DOMContentLoaded", function () {
             const dateInput = document.getElementById('dateInput');
             const theDay = new Date();
@@ -114,7 +117,7 @@
             dateInput.setAttribute("min", today);
 
         });
-    </script>
+    </script> -->
     <script src="myQue.js"></script>
 </body>
 

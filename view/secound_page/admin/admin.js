@@ -14,14 +14,19 @@ function toggleSidebar() {
 }
 
 document.getElementById("patient-page").addEventListener("click", (e) => {
+    patientDisplay()
+}
+)
+
+function patientDisplay() {
     const token = localStorage.getItem("token");
     const appPage = document.getElementById('appointments');
     const doctrorPage = document.getElementById('doctors');
     const patientPage = document.getElementById('patients');
     const dashPage = document.getElementById('dashboard');
     const schedulePgae = document.getElementById('schedule');
-    dashPage.style.height='0';
-    schedulePgae.innerHTML="";
+    dashPage.style.height = '0';
+    schedulePgae.innerHTML = "";
     dashPage.innerHTML = "";
     patientPage.innerHTML = "";
     doctrorPage.innerHTML = "";
@@ -32,7 +37,7 @@ document.getElementById("patient-page").addEventListener("click", (e) => {
     const trowsH = document.createElement("tr");
 
     const th1 = document.createElement("th");
-    th1.innerText = "#Name";
+    th1.innerText = "Name";
 
     const th2 = document.createElement("th");
     th2.innerText = "Email";
@@ -44,13 +49,13 @@ document.getElementById("patient-page").addEventListener("click", (e) => {
     th4.innerText = "Role";
 
     const th5 = document.createElement("th");
-    th5.innerText = "Dibuat";
+    th5.innerText = "Created";
 
     const th6 = document.createElement("th");
-    th6.innerText = "Terakhir di update";
+    th6.innerText = "last updated";
 
     const th7 = document.createElement("th");
-    th7.innerText = "#";
+    th7.innerText = "Action";
 
     patientPage.appendChild(table);
     table.appendChild(thead);
@@ -103,12 +108,12 @@ document.getElementById("patient-page").addEventListener("click", (e) => {
                 const tdata5 = document.createElement("td");
                 const tanggal1 = e.createdAt.split("T");
                 const selisih = hitungSelisihHari(tanggal1[0], nDtae);
-                tdata5.innerText = selisih + " hari yang lalu";
+                tdata5.innerText = selisih + " days ago";
 
                 const tdata6 = document.createElement("td");
                 const tanggal2 = e.updateAt.split("T");
                 const selisih2 = hitungSelisihHari(tanggal2[0], nDtae);
-                tdata6.innerText = selisih2 + " hari yang lalu";
+                tdata6.innerText = selisih2 + " days ago";
 
                 const tdAcction = document.createElement("td");
                 tdAcction.style.display = 'flex';
@@ -170,17 +175,21 @@ document.getElementById("patient-page").addEventListener("click", (e) => {
             })
         })
 }
-)
 
 document.getElementById("doctors-page").addEventListener("click", (e) => {
+    doctorDisplay()
+}
+)
+
+function doctorDisplay(){
     const token = localStorage.getItem("token");
     const appPage = document.getElementById('appointments');
     const doctrorPage = document.getElementById('doctors');
     const patientPage = document.getElementById('patients');
     const dashPage = document.getElementById('dashboard');
     const schedulePgae = document.getElementById('schedule');
-    dashPage.style.height='0';
-    schedulePgae.innerHTML="";
+    dashPage.style.height = '0';
+    schedulePgae.innerHTML = "";
     dashPage.innerHTML = "";
     patientPage.innerHTML = "";
     doctrorPage.innerHTML = "";
@@ -194,14 +203,14 @@ document.getElementById("doctors-page").addEventListener("click", (e) => {
     addIcons.alt = "Add Icons";
 
     const textAdd = document.createElement("h4");
-    textAdd.innerText = "Tambah Dokter";
+    textAdd.innerText = "Add Doctor";
 
     const table = document.createElement("table");
     const thead = document.createElement("thead");
     const trowsH = document.createElement("tr");
 
     const th1 = document.createElement("th");
-    th1.innerText = "#Name";
+    th1.innerText = "Name";
 
     const th2 = document.createElement("th");
     th2.innerText = "Email";
@@ -213,13 +222,13 @@ document.getElementById("doctors-page").addEventListener("click", (e) => {
     th4.innerText = "Role";
 
     const th5 = document.createElement("th");
-    th5.innerText = "Dibuat";
+    th5.innerText = "Created";
 
     const th6 = document.createElement("th");
-    th6.innerText = "Terakhir di update";
+    th6.innerText = "Last Updated";
 
     const th7 = document.createElement("th");
-    th7.innerText = "#";
+    th7.innerText = "Action";
 
     doctors.appendChild(addCntr);
     addCntr.appendChild(addIcons);
@@ -276,12 +285,12 @@ document.getElementById("doctors-page").addEventListener("click", (e) => {
                 const tdata5 = document.createElement("td");
                 const tanggal1 = e.createdAt.split("T");
                 const selisih = hitungSelisihHari(tanggal1[0], nDtae);
-                tdata5.innerText = selisih + " hari yang lalu";
+                tdata5.innerText = selisih + " days ago";
 
                 const tdata6 = document.createElement("td");
                 const tanggal2 = e.updateAt.split("T");
                 const selisih2 = hitungSelisihHari(tanggal2[0], nDtae);
-                tdata6.innerText = selisih2 + " hari yang lalu";
+                tdata6.innerText = selisih2 + " days ago";
 
                 const tdAcction = document.createElement("td");
                 tdAcction.style.display = 'flex';
@@ -372,10 +381,7 @@ document.getElementById("doctors-page").addEventListener("click", (e) => {
             crdReg.classList.remove("sld-crd");
         }
     })
-
-
 }
-)
 
 document.getElementById("form-rgistri").addEventListener("submit", e => {
     e.preventDefault()
@@ -425,6 +431,7 @@ document.getElementById("form-rgistri").addEventListener("submit", e => {
                     const doc = document.getElementById('doctors');
                     doc.click();
                     crdReg.classList.remove("sld-crd");
+                    doctorDisplay()
                 })
         } catch (error) {
             console.log(error)
@@ -452,11 +459,13 @@ document.getElementById("form-rgistri").addEventListener("submit", e => {
                 if (identifikasi == 'doctor') {
                     const doc = document.getElementById('doctors');
                     if (doc) {
+                        doctorDisplay();
                         doc.click();
                     }
                 } else {
                     const pat = document.getElementById('patients');
                     if (pat) {
+                        patientDisplay();
                         pat.click();
                     }
                 }
@@ -465,62 +474,11 @@ document.getElementById("form-rgistri").addEventListener("submit", e => {
     }
 })
 
-document.getElementById('appoitments-page').addEventListener('click', e => {
-    const token = localStorage.getItem('token');
-    tokenVerify(token);
-
-    fetch("http://localhost:8888/api-klinik-gigi-vony-nur-santy/users/doctors", {
-        headers: {
-            "Authorization": "Bearer " + token
-        }
-    })
-        .then(res => {
-            if (!res.ok) {
-                return showAlert('mohon maaf sepertinya ada kesalahan dari sisi server');
-            } else {
-                return res.json()
-            }
-        })
-        .then(data => {
-            const appPage = document.getElementById('appointments');
-            const doctrorPage = document.getElementById('doctors');
-            const patientPage = document.getElementById('patients');
-            const dashPage = document.getElementById('dashboard');
-            const schedulePgae = document.getElementById('schedule');
-            dashPage.style.height='0';
-            dashPage.innerHTML = "";
-            schedulePgae.innerHTML="";
-            patientPage.innerHTML = "";
-            doctrorPage.innerHTML = "";
-            appPage.innerHTML = "";
-            data.Data.map(dataRes => {
-                console.log(dataRes);
-                const drCard = document.createElement('div');
-                drCard.className = 'card-dr';
-                appPage.appendChild(drCard);
-
-                const drPhoto = document.createElement('img');
-                drPhoto.src = "../../../"+dataRes.photos;
-                drPhoto.alt = 'doctor photos';
-                drCard.appendChild(drPhoto);
-
-                const drName = document.createElement('h2');
-                drName.innerText = dataRes.name;
-                drCard.appendChild(drName);
-
-                drCard.addEventListener('click', cardElement => {
-                    localStorage.setItem('doc-id', dataRes.id);
-                    location.href = './appoitment/appoitment.html';
-                })
-            })
-        })
-})
-
-document.getElementById('dashboard-page').addEventListener('click',e=>{
+document.getElementById('dashboard-page').addEventListener('click', e => {
     Main();
 })
 
-document.getElementById('schedule-page').addEventListener('click',e=>{
+document.getElementById('doctors-menu').addEventListener('click', e => {
     const token = localStorage.getItem('token');
     tokenVerify(token);
 
@@ -542,8 +500,8 @@ document.getElementById('schedule-page').addEventListener('click',e=>{
             const patientPage = document.getElementById('patients');
             const dashPage = document.getElementById('dashboard');
             const schedulePgae = document.getElementById('schedule');
-            dashPage.style.height='0';
-            schedulePgae.innerHTML="";
+            dashPage.style.height = '0';
+            schedulePgae.innerHTML = "";
             dashPage.innerHTML = "";
             patientPage.innerHTML = "";
             doctrorPage.innerHTML = "";
@@ -556,7 +514,7 @@ document.getElementById('schedule-page').addEventListener('click',e=>{
                 appPage.appendChild(drCard);
 
                 const drPhoto = document.createElement('img');
-                drPhoto.src = "../../../"+dataRes.photos;
+                drPhoto.src = "../../../" + dataRes.photos;
                 drPhoto.alt = 'doctor photos';
                 drCard.appendChild(drPhoto);
 
@@ -566,64 +524,16 @@ document.getElementById('schedule-page').addEventListener('click',e=>{
 
                 drCard.addEventListener('click', cardElement => {
                     localStorage.setItem('doc-id', dataRes.id);
-                    location.href='./doctor_schedule/doctor.html';
-                })
-            })
-        })
-    
-})
-
-document.getElementById('holidays-page').addEventListener('click',e=>{
-    const token = localStorage.getItem('token');
-    tokenVerify(token);
-
-    fetch("http://localhost:8888/api-klinik-gigi-vony-nur-santy/users/doctors", {
-        headers: {
-            "Authorization": "Bearer " + token
-        }
-    })
-        .then(res => {
-            if (!res.ok) {
-                return showAlert('mohon maaf sepertinya ada kesalahan dari sisi server');
-            } else {
-                return res.json()
-            }
-        })
-        .then(data => {
-            const appPage = document.getElementById('appointments');
-            const doctrorPage = document.getElementById('doctors');
-            const patientPage = document.getElementById('patients');
-            const dashPage = document.getElementById('dashboard');
-            const schedulePgae = document.getElementById('schedule');
-            dashPage.style.height='0';
-            schedulePgae.innerHTML="";
-            dashPage.innerHTML = "";
-            patientPage.innerHTML = "";
-            doctrorPage.innerHTML = "";
-            appPage.innerHTML = "";
-
-            data.Data.map(dataRes => {
-                console.log(dataRes);
-                const drCard = document.createElement('div');
-                drCard.className = 'card-dr';
-                appPage.appendChild(drCard);
-
-                const drPhoto = document.createElement('img');
-                drPhoto.src = "../../../"+dataRes.photos;
-                drPhoto.alt = 'doctor photos';
-                drCard.appendChild(drPhoto);
-
-                const drName = document.createElement('h2');
-                drName.innerText = dataRes.name;
-                drCard.appendChild(drName);
-
-                drCard.addEventListener('click', cardElement => {
-                    localStorage.setItem('docId', dataRes.id);
-                    location.href='../../day_off/day_off.html';
+                    console.log(dataRes.id);
+                    document.getElementById('card-doc').style.display = 'block';
                 })
             })
         })
 })
+
+function closeCard() {
+    document.getElementById('card-doc').style.display = 'none';
+}
 
 async function Main() {
     const token = localStorage.getItem('token');
@@ -633,11 +543,11 @@ async function Main() {
     const patientPage = document.getElementById('patients');
     const schedulePgae = document.getElementById('schedule');
     dash.innerHTML = "";
-    schedulePgae.innerHTML="";
+    schedulePgae.innerHTML = "";
     patientPage.innerHTML = "";
     doctrorPage.innerHTML = "";
     appPage.innerHTML = "";
-    dash.style.height ='100%';
+    dash.style.height = '100%';
 
     // Card Pasien
     const cardUser = document.createElement('div');
@@ -654,7 +564,7 @@ async function Main() {
     const countUser = document.createElement('h3');
     countUser.id = 'userCount';
     const desUser = document.createElement('p');
-    desUser.innerText = 'Jumlah Pasien';
+    desUser.innerText = 'Number of patients';
 
     detailsUser.appendChild(countUser);
     detailsUser.appendChild(desUser);
@@ -677,7 +587,7 @@ async function Main() {
     const countDoc = document.createElement('h3');
     countDoc.id = 'doctorCount';
     const desDoc = document.createElement('p');
-    desDoc.innerText = 'Jumlah Dokter';
+    desDoc.innerText = 'Number of doctors';
 
     detailsDoctor.appendChild(countDoc);
     detailsDoctor.appendChild(desDoc);
@@ -701,8 +611,8 @@ async function Main() {
     const countQue = document.createElement('h3');
     countQue.id = 'queueCount';
     const desQue = document.createElement('p');
-    desQue.style.width='100px';
-    desQue.innerText = 'Jumlah antrian bulan ini';
+    desQue.style.width = '100px';
+    desQue.innerText = 'Number of queues month';
 
     detailsQue.appendChild(countQue);
     detailsQue.appendChild(desQue);
@@ -714,18 +624,18 @@ async function Main() {
     dash.appendChild(cardDoctor);
     dash.appendChild(cardQueue);
 
-    cardUser.addEventListener('click',e=>{
+    cardUser.addEventListener('click', e => {
         document.getElementById('patient-page').click();
         location.href = '#patients';
     })
 
-    cardDoctor.addEventListener('click',e=>{
+    cardDoctor.addEventListener('click', e => {
         document.getElementById('doctors-page').click();
         location.href = '#doctors';
     })
 
-    cardQueue.addEventListener('click',e=>{
-        document.getElementById('appoitments-page').click();
+    cardQueue.addEventListener('click', e => {
+        document.getElementById('doctors-menu').click();
     })
 
     // Placeholder data, replace with real data fetching logic
@@ -740,75 +650,75 @@ async function Main() {
     countQue.textContent = data.queues;
 }
 
-async function CountDataPatient(token){
-    let totalData=0;
-    try{
-        await fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/users/count-data-user/Patient`,{
-            headers:{
-                "Authorization":"Bearer "+token
+async function CountDataPatient(token) {
+    let totalData = 0;
+    try {
+        await fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/users/count-data-user/Patient`, {
+            headers: {
+                "Authorization": "Bearer " + token
             }
         })
-        .then(res=>{
-            if(!res.ok){
-                throw new Error('error');
-            }else{
-                return res.json();
-            }
-        })
-        .then(resData=>{
-            totalData = resData.totalData;
-        })
-    }catch(error){
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('error');
+                } else {
+                    return res.json();
+                }
+            })
+            .then(resData => {
+                totalData = resData.totalData;
+            })
+    } catch (error) {
         showAlert('mohon maaf sepertinya ada kesalahan server');
     }
 
     return totalData;
 }
 
-async function CountDataDoctor(token){
-    let totalData=0;
-    try{
-        await fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/users/count-data-user/Doctor`,{
-            headers:{
-                "Authorization":"Bearer "+token
+async function CountDataDoctor(token) {
+    let totalData = 0;
+    try {
+        await fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/users/count-data-user/Doctor`, {
+            headers: {
+                "Authorization": "Bearer " + token
             }
         })
-        .then(res=>{
-            if(!res.ok){
-                throw new Error('error');
-            }else{
-                return res.json();
-            }
-        })
-        .then(resData=>{
-            totalData = resData.totalData;
-        })
-    }catch(error){
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('error');
+                } else {
+                    return res.json();
+                }
+            })
+            .then(resData => {
+                totalData = resData.totalData;
+            })
+    } catch (error) {
         showAlert('mohon maaf sepertinya ada kesalahan server');
     }
 
     return totalData;
 }
 
-async function CountDataQueue(token){
-    let totalData=0;
-    try{
-        await fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/queues/count-queues`,{
-            headers:{
-                "Authorization":"Bearer "+token
+async function CountDataQueue(token) {
+    let totalData = 0;
+    try {
+        await fetch(`http://localhost:8888/api-klinik-gigi-vony-nur-santy/queues/count-queues`, {
+            headers: {
+                "Authorization": "Bearer " + token
             }
         })
-        .then(res=>{
-            if(!res.ok){
-                throw new Error('error');
-            }else{
-                return res.json();
-            }
-        })
-        .then(resData=>{
-            totalData = resData.totalData;
-        })
-    }catch(error){
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('error');
+                } else {
+                    return res.json();
+                }
+            })
+            .then(resData => {
+                totalData = resData.totalData;
+            })
+    } catch (error) {
         showAlert('mohon maaf sepertinya ada kesalahan server');
     }
 
@@ -876,11 +786,12 @@ document.getElementById("confirmYes").addEventListener("click", async function (
             })
             .then(res => {
                 localStorage.removeItem('email');
-                alert("Data telah berhasil dihapus");
+                alert("data successfully deleted");
+                location.reload();
             })
     } catch (error) {
         document.getElementById("confirmModal").style.display = "none";
-        showAlert('mohon maaf sepertinya ada kesalahan dari sisi server');
+        showAlert('sorry there seems to be an error from the server side');
         return
     }
 
@@ -890,7 +801,7 @@ document.getElementById("confirmYes").addEventListener("click", async function (
 
 document.getElementById("confirmNo").addEventListener("click", function () {
     // Batalkan tindakan
-    alert("Penghapusan dibatalkan");
+    alert("deletion canceled");
     document.getElementById("confirmModal").style.display = "none";
 });
 
@@ -919,7 +830,7 @@ function tokenVerify(token) {
         })
 }
 
-document.getElementById('setting').addEventListener('click',e=>{
+document.getElementById('setting').addEventListener('click', e => {
     document.querySelector('.card-setting').style.display = 'block';
 })
 
@@ -930,16 +841,19 @@ function closeCardSetting() {
 
 function changePassword() {
     // Implementasi untuk mengubah kata sandi
-    location.href='../../auth/reset_password/reset_password.html';
-    localStorage.setItem('start-page','../../secound_page/doctor/doctor.html');
+    location.href = '../../auth/reset_password/reset_password.html';
+    localStorage.setItem('start-page', '../../secound_page/admin/admin.html');
 }
 
-function changeEmail(){
+function changeEmail() {
     location.href = '../../auth/change_email/email.html';
 }
 
 function logOut() {
-    // Implementasi untuk log out
     localStorage.removeItem('token');
-    location.href='../../index.html';
+    location.href = '../../index.html';
+}
+
+function navigateTo(page) {
+    window.location.href = page;
 }

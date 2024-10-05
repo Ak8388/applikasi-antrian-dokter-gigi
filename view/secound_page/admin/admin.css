@@ -423,3 +423,55 @@ tr:nth-child(even){
   margin-right: 10px;
 }
 
+/* Menu Doctor card */
+#card-doc {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  display: none;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.m-item{
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.m-item:hover {
+  background-color: #0056b3;
+}
+
+.m-item i {
+  margin-right: 15px; /* Mengatur gap antara icon dan tulisan */
+  font-size: 24px;
+}
+
+/* Style untuk tombol close */
+.close-btn {
+  position: absolute;
+  top: 5px;  /* Kurangi jarak dari bagian atas */
+  right: 5px;  /* Kurangi jarak dari bagian kanan */
+  background-color: transparent;
+  border: none;
+  color: #ff0000;
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.close-btn:hover {
+  color: #ff5555;
+}

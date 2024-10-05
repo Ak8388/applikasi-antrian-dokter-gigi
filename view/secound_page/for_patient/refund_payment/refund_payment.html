@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Refund Payment</title>
+    <title>Pengembalian dana pembayaran</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Refund Payment</h1>
-        <label for="statusFilter">Filter by Status:</label>
+        <h1>Pengembalian dana pembayaran</h1>
+        <label for="statusFilter">Filter berdasarkan status :</label>
         <select id="statusFilter">
-            <option value="all">All</option>
+            <option value="all">Semua</option>
             <option value="Created">Dibuat</option>
             <option value="Approved">Diproses</option>
             <option value="Finish">Selesai</option>
@@ -21,11 +21,11 @@
             <thead>
                 <tr>
                     <th>No.</th>
-                    <th>Bank Name</th>
-                    <th>Bank Number</th>
+                    <th>Nama Bank</th>
+                    <th>No Rekening</th>
                     <th>Nominal</th>
                     <th>Status</th>
-                    <th>Action</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,7 +34,7 @@
         </table>
     </div>
     <div id="card-refund-pay" class="card-refund">
-        <h2>Refund Payment</h2>
+        <h2>Pengembalian dana pembayaran</h2>
         <p>mohon masukan akun bank anda dengan benar untuk proses refund dana!</p>
         <form>
             <input type="text" id="bankName" placeholder="Masukan nama Bank" required>

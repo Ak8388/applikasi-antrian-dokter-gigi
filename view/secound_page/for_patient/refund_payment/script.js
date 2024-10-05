@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
+    displayDataRefund()
+});
+
+function displayDataRefund(){
     const tableBody = document.querySelector("#refundTable tbody");
     const statusFilter = document.getElementById("statusFilter");
     const token = localStorage.getItem('token');
@@ -78,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Initial data load with "all" status
     fetchRefundData("all");
-});
+}
 
 document.getElementById('submitButton').addEventListener('click', async e => {
     document.getElementById('text-warn').textContent='pastikan datanya sudah benar ya😊';
@@ -128,6 +132,7 @@ document.getElementById("confirmYes").addEventListener("click", async function (
                 ci.textContent = '✔';
                 ci.style.color='white';
                 showAlert('update data refund payment berhasil');
+                displayDataRefund()
             })
     } catch (error) {
         document.getElementById("confirmModal").style.display = "none";

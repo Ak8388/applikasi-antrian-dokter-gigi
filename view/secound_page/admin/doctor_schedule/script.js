@@ -184,6 +184,7 @@ document.getElementById('add-btn').addEventListener('click', async e => {
                     textCek.innerText = '✓';
                     textCek.style.color = 'white';
                     showAlert('data berhasil di di ubah');
+                    main()
                 })
         } catch (error) {
             showAlert("mohon maaf mohon masukan data dengan valid");
@@ -210,6 +211,7 @@ document.getElementById('add-btn').addEventListener('click', async e => {
                     textCek.innerText = '✓';
                     textCek.style.color = 'white';
                     showAlert('data berhasil di tambahkan');
+                    main()
                 })
         } catch (err) {
             console.log(err);
@@ -242,6 +244,7 @@ document.getElementById("confirmYes").addEventListener("click", async function (
                 document.getElementById('closeIcons').innerText = '✓';
                 showAlert("hapus data jadwal berhasil");
                 document.getElementById('confirmModal').style.display = 'none';
+                main()
             })
     } catch (error) {
         showAlert('mohon maaf sepertinya ada antrian di jadwal ini yang belum di selesaikan');

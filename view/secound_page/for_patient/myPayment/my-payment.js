@@ -70,6 +70,7 @@ function getDataPayment(status) {
                     act.className = 'action-data';
 
                     const pay = document.createElement('a');
+                    pay.target = '_blank';
                     const payImg = document.createElement('img');
 
                     payImg.src='../../../assets/icons/pay.png';
@@ -128,6 +129,7 @@ document.getElementById("confirmYes").addEventListener("click", function () {
         .then(dataRes => {
             alert("pembatalan pembayaran berhasil");
             document.getElementById("confirmModal").style.display = "none";
+            getDataPayment("");
         })
 
     localStorage.removeItem('obj');
